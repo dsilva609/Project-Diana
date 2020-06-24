@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using MediatR;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,7 +39,9 @@ namespace Project.Diana.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSimpleInjector(_container);
+            services
+                .AddMediatR(typeof(Startup))
+                .AddSimpleInjector(_container);
 
             //--TODO: pull out individual registrations
             InitializeContainer();
