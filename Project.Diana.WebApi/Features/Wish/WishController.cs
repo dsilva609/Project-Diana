@@ -13,6 +13,7 @@ namespace Project.Diana.WebApi.Features.Wish
         public WishController(IMediator mediator) => _mediator = mediator;
 
         [HttpGet]
+        [Route("GetWish")]
         public async Task<IActionResult> GetWish(int id) => Ok(await _mediator.Send(new WishGetByIDRequest(id)));
     }
 }

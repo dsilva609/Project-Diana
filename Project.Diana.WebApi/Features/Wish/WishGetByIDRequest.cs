@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Project.Diana.WebApi.Features.Wish
 {
-    public class WishGetByIDRequest : IRequest, IRequest<string>
+    public class WishGetByIDRequest : IRequest<string>
     {
         public int ID { get; }
 
