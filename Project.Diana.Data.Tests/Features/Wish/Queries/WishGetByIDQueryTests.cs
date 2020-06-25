@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoFixture.Xunit2;
 using FluentAssertions;
 using Project.Diana.Data.Features.Wish.Queries;
 using Xunit;
@@ -7,18 +8,18 @@ namespace Project.Diana.Data.Tests.Features.Wish.Queries
 {
     public class WishGetByIDQueryTests
     {
-        [Fact]
-        public void QueryThrowsWhenUserIDIsDefault()
+        [Theory, AutoData]
+        public void QueryThrowsWhenUserIDIsDefault(int wishID)
         {
-            Action createWithDefaultUserID = () => new WishGetByIDQuery(0, 1);
+            Action createWithDefaultUserID = () => new WishGetByIDQuery(0, wishID);
 
             createWithDefaultUserID.Should().Throw<ArgumentException>();
         }
 
-        [Fact]
-        public void QueryThrowsWhenWishIDIsDefault()
+        [Theory, AutoData]
+        public void QueryThrowsWhenWishIDIsDefault(int userID)
         {
-            Action createWithDefaultWishID = () => new WishGetByIDQuery(1, 0);
+            Action createWithDefaultWishID = () => new WishGetByIDQuery(userID, 0);
 
             createWithDefaultWishID.Should().Throw<ArgumentException>();
         }
