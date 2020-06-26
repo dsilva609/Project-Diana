@@ -12,6 +12,6 @@ namespace Project.Diana.WebApi.Features.Wish
 
         public WishGetByIdRequestHandler(IDispatcher dispatcher) => _dispatcher = dispatcher;
 
-        public async Task<string> Handle(WishGetByIDRequest request, CancellationToken cancellationToken) => await _dispatcher.GetResultAsync(new WishGetByIDQuery(1, 1));
+        public async Task<string> Handle(WishGetByIDRequest request, CancellationToken cancellationToken) => await _dispatcher.GetResultAsync(new WishGetByIDQuery());
     }
 }
