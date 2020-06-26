@@ -1,8 +1,9 @@
 ﻿using Ardalis.GuardClauses;
+using Kledex.Queries;
 
 namespace Project.Diana.Data.Features.Wish.Queries
 {
-    public class WishGetByIDQuery
+    public class WishGetByIDQuery : IQuery<string>
     {
         public int UserID { get; }
         public int WishId { get; }
