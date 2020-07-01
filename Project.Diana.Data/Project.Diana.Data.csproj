@@ -6,6 +6,5 @@
 
   <ItemGroup>
     <PackageReference Include="Ardalis.GuardClauses" Version="1.5.0" />
-    <PackageReference Include="Kledex" Version="2.5.1" />
   </ItemGroup>
 </Project>

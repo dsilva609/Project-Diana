@@ -4,9 +4,10 @@ using Project.Diana.Data.Features.Wish;
 
 namespace Project.Diana.Data.Sql.Context
 {
-    public class ProjectDianaContext : DbContext
+    public class ProjectDianaContext : DbContext, IProjectDianaContext
     {
-        public IQueryable<WishRecord> Wishes => Set<WishRecord>().AsNoTracking();
+        public IQueryable<WishRecord> Wishes => WishRecords.AsNoTracking();
+        public DbSet<WishRecord> WishRecords { get; set; }
 
         public ProjectDianaContext(DbContextOptions<ProjectDianaContext> options) : base(options)
         {
