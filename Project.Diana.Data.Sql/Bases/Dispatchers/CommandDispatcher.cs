@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using Project.Diana.Data.Bases.Commands;
 using Project.Diana.Data.Sql.Bases.Commands;
 
@@ -11,10 +12,13 @@ namespace Project.Diana.Data.Sql.Bases.Dispatchers
 
         public CommandDispatcher(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
 
-        public async Task Dispatch<T>(T command) where T : ICommand
+        public async Task Dispatch<TCommand>(TCommand command) where TCommand : ICommand
         {
-            //--TODO: needs validation
-            var service = _serviceProvider.GetService(typeof(ICommandHandler<T>)) as ICommandHandler<T>;
+            Guard.Against.Null(command, nameof(command));
+
+            var service = _serviceProvider.GetService(typeof(ICommandHandler<TCommand>)) as ICommandHandler<TCommand>;
+
+            Guard.Against.Null(service, nameof(service));
 
             await service.Handle(command);
         }

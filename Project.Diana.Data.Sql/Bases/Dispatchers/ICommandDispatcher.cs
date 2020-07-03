@@ -5,6 +5,6 @@ namespace Project.Diana.Data.Sql.Bases.Dispatchers
 {
     public interface ICommandDispatcher
     {
-        Task Dispatch<T>(T command) where T : ICommand;
+        Task Dispatch<TCommand>(TCommand command) where TCommand : ICommand;
     }
 }
