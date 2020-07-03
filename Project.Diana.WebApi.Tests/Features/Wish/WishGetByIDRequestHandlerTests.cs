@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
 using Moq;
+using Project.Diana.Data.Features.Wish;
 using Project.Diana.Data.Features.Wish.Queries;
 using Project.Diana.Data.Sql.Bases.Dispatchers;
 using Project.Diana.WebApi.Features.Wish;
@@ -31,7 +32,7 @@ namespace Project.Diana.WebApi.Tests.Features.Wish
         {
             await _handler.Handle(_testRequest, CancellationToken.None);
 
-            _queryDispatcher.Verify(x => x.Dispatch<WishGetByIDQuery, string>(It.Is<WishGetByIDQuery>(q => q != null)), Times.Once);
+            _queryDispatcher.Verify(x => x.Dispatch<WishGetByIDQuery, WishRecord>(It.Is<WishGetByIDQuery>(q => q != null)), Times.Once);
         }
 
         [Fact]
@@ -39,7 +40,7 @@ namespace Project.Diana.WebApi.Tests.Features.Wish
         {
             var result = await _handler.Handle(_testRequest, CancellationToken.None);
 
-            result.Should().NotBeNullOrWhiteSpace();
+            result.Should().NotBeNull();
         }
     }
 }

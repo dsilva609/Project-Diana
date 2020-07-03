@@ -1,9 +1,10 @@
 ﻿using Ardalis.GuardClauses;
 using MediatR;
+using Project.Diana.Data.Features.Wish;
 
 namespace Project.Diana.WebApi.Features.Wish
 {
-    public class WishGetByIDRequest : IRequest<string>
+    public class WishGetByIDRequest : IRequest<WishRecord>
     {
         public int ID { get; }
 

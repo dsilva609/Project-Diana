@@ -38,7 +38,7 @@ namespace Project.Diana.WebApi
         {
             services.AddControllers();
             services
-                .AddDbContext<ProjectDianaContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")))
+                .AddDbContext<IProjectDianaContext, ProjectDianaContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")))
                 .AddMediatR(typeof(Startup).Assembly)
                 .RegisterCommandAndQueryHandlers();
         }

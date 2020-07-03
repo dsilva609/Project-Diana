@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Project.Diana.Data.Features.Wish;
+using Project.Diana.Data.Sql.Features.Wish;
 
 namespace Project.Diana.Data.Sql.Context
 {
@@ -11,6 +12,13 @@ namespace Project.Diana.Data.Sql.Context
 
         public ProjectDianaContext(DbContextOptions<ProjectDianaContext> options) : base(options)
         {
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(WishRecordConfiguration).Assembly);
         }
     }
 }

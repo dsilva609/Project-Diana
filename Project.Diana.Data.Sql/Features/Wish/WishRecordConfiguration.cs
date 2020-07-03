@@ -8,7 +8,7 @@ namespace Project.Diana.Data.Sql.Features.Wish
     {
         public void Configure(EntityTypeBuilder<WishRecord> builder)
             => builder
-                .ToTable("Wish")
+                .ToTable("Wishes")
                 .HasKey(key => key.ID);
     }
 }

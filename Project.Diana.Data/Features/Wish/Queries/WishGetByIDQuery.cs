@@ -3,7 +3,7 @@ using Project.Diana.Data.Bases.Queries;
 
 namespace Project.Diana.Data.Features.Wish.Queries
 {
-    public class WishGetByIDQuery : IQuery<string>
+    public class WishGetByIDQuery : IQuery<WishRecord>
     {
         public int UserID { get; }
         public int WishId { get; }
@@ -13,8 +13,8 @@ namespace Project.Diana.Data.Features.Wish.Queries
             Guard.Against.Default(userID, nameof(userID));
             Guard.Against.Default(wishID, nameof(wishID));
 
-            UserID = 1;
-            WishId = 1;
+            UserID = userID;
+            WishId = wishID;
         }
     }
 }
