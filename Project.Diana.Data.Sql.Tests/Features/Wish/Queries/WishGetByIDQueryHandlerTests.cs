@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System.Threading.Tasks;
+using AutoFixture;
 using FluentAssertions;
 using Moq;
 using Project.Diana.Data.Features.Wish.Queries;
@@ -25,9 +26,9 @@ namespace Project.Diana.Data.Sql.Tests.Features.Wish.Queries
         }
 
         [Fact]
-        public void HandlerRetrievesWish()
+        public async Task HandlerRetrievesWish()
         {
-            var result = _handler.Handle(_testQuery);
+            var result = await _handler.Handle(_testQuery);
 
             result.Should().NotBeNull();
         }

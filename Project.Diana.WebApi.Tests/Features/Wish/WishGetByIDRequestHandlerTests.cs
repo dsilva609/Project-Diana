@@ -24,6 +24,8 @@ namespace Project.Diana.WebApi.Tests.Features.Wish
             _queryDispatcher = new Mock<IQueryDispatcher>();
             _testRequest = fixture.Create<WishGetByIDRequest>();
 
+            _queryDispatcher.Setup(x => x.Dispatch<WishGetByIDQuery, WishRecord>(It.Is<WishGetByIDQuery>(y => y != null))).ReturnsAsync(new WishRecord());
+
             _handler = new WishGetByIdRequestHandler(_queryDispatcher.Object);
         }
 
