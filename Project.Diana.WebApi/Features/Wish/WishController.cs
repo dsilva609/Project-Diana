@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Project.Diana.WebApi.Features.Wish
@@ -14,6 +15,7 @@ namespace Project.Diana.WebApi.Features.Wish
 
         [HttpGet]
         [Route("GetWish")]
+        [Authorize]
         public async Task<IActionResult> GetWish(int id) => Ok(await _mediator.Send(new WishGetByIDRequest(id)));
     }
 }

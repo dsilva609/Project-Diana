@@ -1,11 +1,13 @@
 ﻿using System.Linq;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Project.Diana.Data.Features.User;
 using Project.Diana.Data.Features.Wish;
 using Project.Diana.Data.Sql.Features.Wish;
 
 namespace Project.Diana.Data.Sql.Context
 {
-    public class ProjectDianaContext : DbContext, IProjectDianaContext
+    public class ProjectDianaContext : IdentityDbContext<ApplicationUser>, IProjectDianaContext
     {
         public IQueryable<WishRecord> Wishes => WishRecords.AsNoTracking();
         public DbSet<WishRecord> WishRecords { get; set; }
