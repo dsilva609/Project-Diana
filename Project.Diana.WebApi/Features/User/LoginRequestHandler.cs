@@ -33,7 +33,7 @@ namespace Project.Diana.WebApi.Features.User
             {
                 var token = GenerateToken();
 
-                return new OkObjectResult(token);
+                return new JsonResult(token);
             }
 
             return new UnauthorizedResult();

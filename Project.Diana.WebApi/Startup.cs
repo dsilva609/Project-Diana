@@ -31,7 +31,8 @@ namespace Project.Diana.WebApi
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection()
+            app.UseCors("CorsPolicy")
+                .UseHttpsRedirection()
                 .UseRouting()
                 .UseAuthentication()
                 .UseAuthorization()
@@ -45,6 +46,15 @@ namespace Project.Diana.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services
+                .AddCors(options =>
+                {
+                    options.AddPolicy("CorsPolicy",
+                        builder => builder
+                                                .AllowAnyOrigin()
+                                                .AllowAnyMethod()
+                                                .AllowAnyHeader()
+                                                .Build());
+                })
                 .AddDbContext<IProjectDianaContext, ProjectDianaContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")))
                 .AddDbContext<ProjectDianaContext>(options =>
