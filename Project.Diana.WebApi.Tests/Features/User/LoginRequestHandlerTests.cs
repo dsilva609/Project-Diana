@@ -1,21 +1,27 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
+using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using Project.Diana.Data.Features.Settings;
 using Project.Diana.Data.Features.User;
+using Project.Diana.Data.Features.User.Queries;
+using Project.Diana.Data.Sql.Bases.Dispatchers;
 using Project.Diana.WebApi.Features.User;
 using Xunit;
+using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace Project.Diana.WebApi.Tests.Features.User
 {
     public class LoginRequestHandlerTests
     {
         private readonly LoginRequestHandler _handler;
+        private readonly Mock<IQueryDispatcher> _queryDispatcher;
         private readonly Mock<SignInManager<ApplicationUser>> _signInManager;
         private readonly LoginRequest _testLoginRequest;
 
@@ -24,14 +30,27 @@ namespace Project.Diana.WebApi.Tests.Features.User
             var fixture = new Fixture();
 
             var settings = fixture.Create<GlobalSettings>();
+            _queryDispatcher = new Mock<IQueryDispatcher>();
             _signInManager = GetMockSignInManager();
             _testLoginRequest = fixture.Create<LoginRequest>();
+
+            _queryDispatcher
+                .Setup(x => x.Dispatch<UserGetByUsernameQuery, ApplicationUser>(It.IsNotNull<UserGetByUsernameQuery>()))
+                .ReturnsAsync(fixture.Create<ApplicationUser>());
 
             _signInManager
                 .Setup(x => x.PasswordSignInAsync(It.IsNotNull<string>(), It.IsNotNull<string>(), true, false))
                 .ReturnsAsync(SignInResult.Success);
 
-            _handler = new LoginRequestHandler(settings, _signInManager.Object);
+            _handler = new LoginRequestHandler(_queryDispatcher.Object, settings, _signInManager.Object);
+        }
+
+        [Fact]
+        public async Task Handler_Calls_Get_User_Query_When_Login_Succeeds()
+        {
+            await _handler.Handle(_testLoginRequest, CancellationToken.None);
+
+            _queryDispatcher.Verify(x => x.Dispatch<UserGetByUsernameQuery, ApplicationUser>(It.Is<UserGetByUsernameQuery>(q => q != null)), Times.Once);
         }
 
         [Fact]
@@ -40,6 +59,26 @@ namespace Project.Diana.WebApi.Tests.Features.User
             await _handler.Handle(_testLoginRequest, CancellationToken.None);
 
             _signInManager.Verify(x => x.PasswordSignInAsync(It.IsNotNull<string>(), It.IsNotNull<string>(), true, false), Times.Once);
+        }
+
+        [Fact]
+        public async Task Handler_Returns_Json_Result_When_Login_Succeeds()
+        {
+            var result = await _handler.Handle(_testLoginRequest, CancellationToken.None);
+
+            result.Should().BeOfType<JsonResult>();
+        }
+
+        [Fact]
+        public async Task Handler_Returns_Unauthorized_When_Login_Fails()
+        {
+            _signInManager
+                .Setup(x => x.PasswordSignInAsync(It.IsNotNull<string>(), It.IsNotNull<string>(), true, false))
+                .ReturnsAsync(SignInResult.Failed);
+
+            var result = await _handler.Handle(_testLoginRequest, CancellationToken.None);
+
+            result.Should().BeOfType<UnauthorizedResult>();
         }
 
         private Mock<SignInManager<ApplicationUser>> GetMockSignInManager()

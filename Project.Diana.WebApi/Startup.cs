@@ -95,8 +95,10 @@ namespace Project.Diana.WebApi
                 );
 
             services
+                .AddHttpContextAccessor()
                 .AddMediatR(typeof(Startup).Assembly)
                 .RegisterCommandAndQueryHandlers()
+                .RegisterHelperServices()
                 .RegisterSettings(Configuration);
 
             services.AddControllers();

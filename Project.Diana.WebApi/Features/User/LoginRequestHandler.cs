@@ -11,16 +11,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Project.Diana.Data.Features.Settings;
 using Project.Diana.Data.Features.User;
+using Project.Diana.Data.Features.User.Queries;
+using Project.Diana.Data.Sql.Bases.Dispatchers;
 
 namespace Project.Diana.WebApi.Features.User
 {
     public class LoginRequestHandler : IRequestHandler<LoginRequest, IActionResult>
     {
+        private readonly IQueryDispatcher _queryDispatcher;
         private readonly GlobalSettings _settings;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public LoginRequestHandler(GlobalSettings settings, SignInManager<ApplicationUser> signInManager)
+        public LoginRequestHandler(
+            IQueryDispatcher queryDispatcher,
+            GlobalSettings settings,
+            SignInManager<ApplicationUser> signInManager)
         {
+            _queryDispatcher = queryDispatcher;
             _settings = settings;
             _signInManager = signInManager;
         }
@@ -28,10 +35,12 @@ namespace Project.Diana.WebApi.Features.User
         public async Task<IActionResult> Handle(LoginRequest request, CancellationToken cancellationToken)
         {
             var result = await _signInManager.PasswordSignInAsync(request.Username, request.Password, true, false);
-            //--TODO: need to search for user
+
             if (result.Succeeded)
             {
-                var token = GenerateToken();
+                var user = await _queryDispatcher.Dispatch<UserGetByUsernameQuery, ApplicationUser>(new UserGetByUsernameQuery(request.Username));
+
+                var token = GenerateToken(user);
 
                 return new JsonResult(token);
             }
@@ -39,16 +48,21 @@ namespace Project.Diana.WebApi.Features.User
             return new UnauthorizedResult();
         }
 
-        private string GenerateToken()
+        private string GenerateToken(ApplicationUser user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.JwtKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, "user"),
-                new Claim(JwtRegisteredClaimNames.Email, "email"),
+                new Claim(ClaimTypes.Name, user.Email),
+
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.NameId, user.Id),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+
+                new Claim("UserNum", user.UserNum.ToString()),
             };
 
             var token = new JwtSecurityToken(
