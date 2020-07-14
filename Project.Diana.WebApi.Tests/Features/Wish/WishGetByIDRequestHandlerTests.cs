@@ -30,7 +30,7 @@ namespace Project.Diana.WebApi.Tests.Features.Wish
         }
 
         [Fact]
-        public async Task HandlerCallsDispatcher()
+        public async Task Handler_Calls_Dispatcher()
         {
             await _handler.Handle(_testRequest, CancellationToken.None);
 
@@ -38,7 +38,7 @@ namespace Project.Diana.WebApi.Tests.Features.Wish
         }
 
         [Fact]
-        public async Task HandlerReturnsWish()
+        public async Task Handler_Returns_Wish()
         {
             var result = await _handler.Handle(_testRequest, CancellationToken.None);
 

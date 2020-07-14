@@ -14,6 +14,8 @@ namespace Project.Diana.Data.Sql.Features.Wish.Queries
         public WishGetByIDQueryHandler(IProjectDianaContext projectDianaContext) => _projectDianaContext = projectDianaContext;
 
         public async Task<WishRecord> Handle(WishGetByIDQuery query)
-            => await _projectDianaContext.Wishes.FirstOrDefaultAsync(wish => wish.ID == query.WishId);
+            => await _projectDianaContext.Wishes.FirstOrDefaultAsync(wish =>
+                wish.UserID == query.UserID
+                && wish.ID == query.WishId);
     }
 }

@@ -13,7 +13,6 @@ namespace Project.Diana.WebApi.Tests.Helpers
 {
     public class CurrentUserServiceTests
     {
-        private readonly Mock<IHttpContextAccessor> _httpContextAccessor;
         private readonly ICurrentUserService _service;
         private readonly Mock<UserManager<ApplicationUser>> _userManager;
 
@@ -21,7 +20,7 @@ namespace Project.Diana.WebApi.Tests.Helpers
         {
             var fixture = new Fixture();
 
-            _httpContextAccessor = new Mock<IHttpContextAccessor>();
+            var httpContextAccessor = new Mock<IHttpContextAccessor>();
             _userManager = GetMockUserManager();
 
             var context = new DefaultHttpContext
@@ -29,11 +28,11 @@ namespace Project.Diana.WebApi.Tests.Helpers
                 User = fixture.Create<ClaimsPrincipal>()
             };
 
-            _httpContextAccessor.Setup(x => x.HttpContext).Returns(context);
+            httpContextAccessor.Setup(x => x.HttpContext).Returns(context);
 
             _userManager.Setup(x => x.GetUserAsync(It.IsNotNull<ClaimsPrincipal>())).ReturnsAsync(fixture.Create<ApplicationUser>());
 
-            _service = new CurrentUserService(_httpContextAccessor.Object, _userManager.Object);
+            _service = new CurrentUserService(httpContextAccessor.Object, _userManager.Object);
         }
 
         [Fact]

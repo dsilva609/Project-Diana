@@ -1,18 +1,23 @@
 ﻿using Ardalis.GuardClauses;
 using MediatR;
+using Project.Diana.Data.Features.User;
 using Project.Diana.Data.Features.Wish;
 
 namespace Project.Diana.WebApi.Features.Wish
 {
     public class WishGetByIDRequest : IRequest<WishRecord>
     {
-        public int ID { get; }
+        public ApplicationUser User { get; }
+        public int WishID { get; }
 
-        public WishGetByIDRequest(int id)
+        public WishGetByIDRequest(ApplicationUser user, int wishID)
         {
-            Guard.Against.Default(id, nameof(id));
+            Guard.Against.Null(user, nameof(user));
+            Guard.Against.NullOrWhiteSpace(user.Id, nameof(user.Id));
+            Guard.Against.Default(wishID, nameof(wishID));
 
-            ID = id;
+            User = user;
+            WishID = wishID;
         }
     }
 }

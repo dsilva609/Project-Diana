@@ -5,12 +5,12 @@ namespace Project.Diana.Data.Features.Wish.Queries
 {
     public class WishGetByIDQuery : IQuery<WishRecord>
     {
-        public int UserID { get; }
+        public string UserID { get; }
         public int WishId { get; }
 
-        public WishGetByIDQuery(int userID, int wishID)
+        public WishGetByIDQuery(string userID, int wishID)
         {
-            Guard.Against.Default(userID, nameof(userID));
+            Guard.Against.NullOrWhiteSpace(userID, nameof(userID));
             Guard.Against.Default(wishID, nameof(wishID));
 
             UserID = userID;

@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Project.Diana.WebApi.Helpers;
 
@@ -11,24 +10,18 @@ namespace Project.Diana.WebApi.Features.Wish
     [ApiController]
     public class WishController : ControllerBase
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMediator _mediator;
         private readonly ICurrentUserService _userService;
 
-        public WishController(ICurrentUserService userService, IMediator mediator)
+        public WishController(IMediator mediator, ICurrentUserService userService)
         {
-            _userService = userService;
             _mediator = mediator;
+            _userService = userService;
         }
 
         [HttpGet]
         [Route("GetWish")]
         [Authorize]
-        public async Task<IActionResult> GetWish(int id)
-        {
-            var user = await _userService.GetCurrentUser();
-
-            return Ok(await _mediator.Send(new WishGetByIDRequest(id)));
-        }
+        public async Task<IActionResult> GetWish(int id) => Ok(await _mediator.Send(new WishGetByIDRequest(await _userService.GetCurrentUser(), id)));
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
+using Project.Diana.Data.Features.User;
 using Project.Diana.Data.Features.Wish;
 using Project.Diana.Data.Features.Wish.Queries;
 using Project.Diana.Data.Sql.Context;
@@ -15,6 +16,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Wish.Queries
         private readonly WishGetByIDQueryHandler _handler;
         private readonly ProjectDianaContext _projectDianaContext;
         private readonly WishGetByIDQuery _testQuery;
+        private readonly ApplicationUser _testUser;
         private readonly WishRecord _testWishRecord;
 
         public WishGetByIDQueryHandlerTests()
@@ -22,8 +24,12 @@ namespace Project.Diana.Data.Sql.Tests.Features.Wish.Queries
             var fixture = new Fixture();
 
             _projectDianaContext = base.InitializeDatabase();
+            _testUser = fixture.Create<ApplicationUser>();
+
             _testWishRecord = fixture.Create<WishRecord>();
-            _testQuery = new WishGetByIDQuery(1, _testWishRecord.ID);
+            _testWishRecord.UserID = _testUser.Id;
+
+            _testQuery = new WishGetByIDQuery(_testUser.Id, _testWishRecord.ID);
 
             InitializeDatabase();
 
@@ -31,13 +37,23 @@ namespace Project.Diana.Data.Sql.Tests.Features.Wish.Queries
         }
 
         [Fact]
-        public async Task HandlerRetrievesWish()
+        public async Task Handler_Retrieves_Wish()
         {
             await InitializeRecords();
 
             var result = await _handler.Handle(_testQuery);
 
             result.Should().NotBeNull();
+        }
+
+        [Fact]
+        public async Task Handler_Returns_Wish_With_Matching_UserID()
+        {
+            await InitializeRecords();
+
+            var result = await _handler.Handle(_testQuery);
+
+            result.UserID.Should().Be(_testQuery.UserID);
         }
 
         private async Task InitializeRecords()

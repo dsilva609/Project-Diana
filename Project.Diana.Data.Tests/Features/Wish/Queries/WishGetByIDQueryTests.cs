@@ -9,15 +9,15 @@ namespace Project.Diana.Data.Tests.Features.Wish.Queries
     public class WishGetByIDQueryTests
     {
         [Theory, AutoData]
-        public void QueryThrowsWhenUserIDIsDefault(int wishID)
+        public void Query_Throws_When_UserID_Is_Missing(int wishID)
         {
-            Action createWithDefaultUserID = () => new WishGetByIDQuery(0, wishID);
+            Action createWithDefaultUserID = () => new WishGetByIDQuery(string.Empty, wishID);
 
             createWithDefaultUserID.Should().Throw<ArgumentException>();
         }
 
         [Theory, AutoData]
-        public void QueryThrowsWhenWishIDIsDefault(int userID)
+        public void Query_Throws_When_WishID_Is_Default(string userID)
         {
             Action createWithDefaultWishID = () => new WishGetByIDQuery(userID, 0);
 
