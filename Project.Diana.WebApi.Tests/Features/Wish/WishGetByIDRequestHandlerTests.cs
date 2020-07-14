@@ -13,7 +13,7 @@ namespace Project.Diana.WebApi.Tests.Features.Wish
 {
     public class WishGetByIDRequestHandlerTests
     {
-        private readonly WishGetByIdRequestHandler _handler;
+        private readonly WishGetByIDRequestHandler _handler;
         private readonly Mock<IQueryDispatcher> _queryDispatcher;
         private readonly WishGetByIDRequest _testRequest;
 
@@ -26,7 +26,7 @@ namespace Project.Diana.WebApi.Tests.Features.Wish
 
             _queryDispatcher.Setup(x => x.Dispatch<WishGetByIDQuery, WishRecord>(It.Is<WishGetByIDQuery>(y => y != null))).ReturnsAsync(new WishRecord());
 
-            _handler = new WishGetByIdRequestHandler(_queryDispatcher.Object);
+            _handler = new WishGetByIDRequestHandler(_queryDispatcher.Object);
         }
 
         [Fact]

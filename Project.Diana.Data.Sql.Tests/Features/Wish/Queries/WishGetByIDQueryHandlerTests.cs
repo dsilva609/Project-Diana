@@ -23,7 +23,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Wish.Queries
         {
             var fixture = new Fixture();
 
-            _projectDianaContext = base.InitializeDatabase();
+            _projectDianaContext = InitializeDatabase();
             _testUser = fixture.Create<ApplicationUser>();
 
             _testWishRecord = fixture.Create<WishRecord>();

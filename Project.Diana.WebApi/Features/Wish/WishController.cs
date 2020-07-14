@@ -23,5 +23,11 @@ namespace Project.Diana.WebApi.Features.Wish
         [Route("GetWish")]
         [Authorize]
         public async Task<IActionResult> GetWish(int id) => Ok(await _mediator.Send(new WishGetByIDRequest(await _userService.GetCurrentUser(), id)));
+
+        [HttpGet]
+        [Route("GetWishList")]
+        [Authorize]
+        public async Task<IActionResult> GetWishList() =>
+            Ok(await _mediator.Send(new WishGetListByUserIDRequest(await _userService.GetCurrentUser())));
     }
 }
