@@ -9,13 +9,13 @@ namespace Project.Diana.Data.Sql.Features.Wish.Queries
 {
     public class WishGetByIDQueryHandler : IQueryHandler<WishGetByIDQuery, WishRecord>
     {
-        private readonly IProjectDianaContext _projectDianaContext;
+        private readonly IProjectDianaReadonlyContext _projectDianaContext;
 
-        public WishGetByIDQueryHandler(IProjectDianaContext projectDianaContext) => _projectDianaContext = projectDianaContext;
+        public WishGetByIDQueryHandler(IProjectDianaReadonlyContext projectDianaContext) => _projectDianaContext = projectDianaContext;
 
         public async Task<WishRecord> Handle(WishGetByIDQuery query)
             => await _projectDianaContext.Wishes.FirstOrDefaultAsync(wish =>
                 wish.UserID == query.UserID
-                && wish.ID == query.WishId);
+                && wish.ID == query.WishID);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
+using MediatR;
 using Project.Diana.Data.Bases.Commands;
 using Project.Diana.Data.Sql.Bases.Commands;
 
@@ -12,7 +13,7 @@ namespace Project.Diana.Data.Sql.Bases.Dispatchers
 
         public CommandDispatcher(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
 
-        public async Task Dispatch<TCommand>(TCommand command) where TCommand : ICommand
+        public async Task<Unit> Dispatch<TCommand>(TCommand command) where TCommand : ICommand
         {
             Guard.Against.Null(command, nameof(command));
 
@@ -21,6 +22,8 @@ namespace Project.Diana.Data.Sql.Bases.Dispatchers
             Guard.Against.Null(service, nameof(service));
 
             await service.Handle(command);
+
+            return Unit.Value;
         }
     }
 }

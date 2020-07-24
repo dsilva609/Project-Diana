@@ -11,9 +11,9 @@ namespace Project.Diana.Data.Sql.Features.Wish.Queries
 {
     public class WishGetListByUserIDQueryHandler : IQueryHandler<WishGetListByUserIDQuery, IEnumerable<WishRecord>>
     {
-        private readonly IProjectDianaContext _projectDianaContext;
+        private readonly IProjectDianaReadonlyContext _projectDianaContext;
 
-        public WishGetListByUserIDQueryHandler(IProjectDianaContext projectDianaContext) => _projectDianaContext = projectDianaContext;
+        public WishGetListByUserIDQueryHandler(IProjectDianaReadonlyContext projectDianaContext) => _projectDianaContext = projectDianaContext;
 
         public async Task<IEnumerable<WishRecord>> Handle(WishGetListByUserIDQuery query) =>
             await _projectDianaContext.Wishes.Where(w => w.UserID == query.UserID).ToListAsync();

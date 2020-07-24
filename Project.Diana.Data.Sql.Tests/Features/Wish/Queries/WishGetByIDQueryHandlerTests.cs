@@ -11,10 +11,10 @@ using Xunit;
 
 namespace Project.Diana.Data.Sql.Tests.Features.Wish.Queries
 {
-    public class WishGetByIDQueryHandlerTests : DbContextTestBase<ProjectDianaContext>
+    public class WishGetByIDQueryHandlerTests : DbContextTestBase<ProjectDianaReadonlyContext>
     {
         private readonly WishGetByIDQueryHandler _handler;
-        private readonly ProjectDianaContext _projectDianaContext;
+        private readonly ProjectDianaReadonlyContext _projectDianaContext;
         private readonly WishGetByIDQuery _testQuery;
         private readonly ApplicationUser _testUser;
         private readonly WishRecord _testWishRecord;

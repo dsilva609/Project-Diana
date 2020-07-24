@@ -12,11 +12,11 @@ using Xunit;
 
 namespace Project.Diana.Data.Sql.Tests.Features.Wish.Queries
 {
-    public class WishGetListByUserIDQueryHandlerTests : DbContextTestBase<ProjectDianaContext>
+    public class WishGetListByUserIDQueryHandlerTests : DbContextTestBase<ProjectDianaReadonlyContext>
     {
         private readonly IFixture _fixture;
         private readonly WishGetListByUserIDQueryHandler _handler;
-        private readonly ProjectDianaContext _projectDianaContext;
+        private readonly ProjectDianaReadonlyContext _projectDianaContext;
         private readonly WishGetListByUserIDQuery _testQuery;
         private readonly IEnumerable<WishRecord> _wishRecords;
 

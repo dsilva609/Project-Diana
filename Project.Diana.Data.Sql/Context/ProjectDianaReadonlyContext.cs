@@ -7,12 +7,12 @@ using Project.Diana.Data.Sql.Features.Wish;
 
 namespace Project.Diana.Data.Sql.Context
 {
-    public class ProjectDianaContext : IdentityDbContext<ApplicationUser>, IProjectDianaContext
+    public class ProjectDianaReadonlyContext : IdentityDbContext<ApplicationUser>, IProjectDianaReadonlyContext
     {
         public IQueryable<WishRecord> Wishes => WishRecords.AsNoTracking();
         public DbSet<WishRecord> WishRecords { get; set; }
 
-        public ProjectDianaContext(DbContextOptions<ProjectDianaContext> options) : base(options)
+        public ProjectDianaReadonlyContext(DbContextOptions<ProjectDianaReadonlyContext> options) : base(options)
         {
         }
 

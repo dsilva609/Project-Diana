@@ -3,7 +3,7 @@ using Project.Diana.Data.Features.Wish;
 
 namespace Project.Diana.Data.Sql.Context
 {
-    public interface IProjectDianaContext
+    public interface IProjectDianaReadonlyContext
     {
         IQueryable<WishRecord> Wishes { get; }
     }
