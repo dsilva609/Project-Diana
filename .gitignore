@@ -349,3 +349,4 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 /Project.Diana.WebApi/appsettings.Development.json
+/Project.Diana.WebApi/appsettings.Production.json
