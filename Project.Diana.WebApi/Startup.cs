@@ -58,11 +58,14 @@ namespace Project.Diana.WebApi
                 .AddDbContext<IProjectDianaReadonlyContext, ProjectDianaReadonlyContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")))
                 .AddDbContext<ProjectDianaReadonlyContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")))
+                .AddDbContext<IProjectDianaWriteContext, ProjectDianaWriteContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services
                 .AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ProjectDianaReadonlyContext>()
+                .AddEntityFrameworkStores<ProjectDianaWriteContext>()
                 .AddDefaultTokenProviders();
 
             services.AddAuthentication(options =>
