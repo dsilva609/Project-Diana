@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Project.Diana.Data.Features.Wish.Commands;
 using Project.Diana.Data.Sql.Bases.Commands;
 using Project.Diana.Data.Sql.Context;
@@ -12,6 +13,19 @@ namespace Project.Diana.Data.Sql.Features.Wish.Commands
 
         public WishCompleteItemCommandHandler(IProjectDianaWriteContext context) => _context = context;
 
-        public Task Handle(WishCompleteItemCommand command) => throw new NotImplementedException();
+        public async Task Handle(WishCompleteItemCommand command)
+        {
+            var existingRecord = await _context.Wishes.FirstOrDefaultAsync(w => w.ID == command.WishID && w.UserID == command.UserID);
+
+            if (existingRecord is null)
+            {
+                throw new InvalidOperationException("Unable to find wish record for user");
+            }
+
+            existingRecord.Owned = true;
+            existingRecord.DateModified = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

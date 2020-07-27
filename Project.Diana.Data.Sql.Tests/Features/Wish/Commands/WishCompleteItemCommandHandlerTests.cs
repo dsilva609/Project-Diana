@@ -1,36 +1,79 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
-using Moq;
+using Microsoft.EntityFrameworkCore;
+using Project.Diana.Data.Features.Wish;
 using Project.Diana.Data.Features.Wish.Commands;
 using Project.Diana.Data.Sql.Context;
 using Project.Diana.Data.Sql.Features.Wish.Commands;
+using Project.Diana.Tests.Common.TestBases;
 using Xunit;
 
 namespace Project.Diana.Data.Sql.Tests.Features.Wish.Commands
 {
-    public class WishCompleteItemCommandHandlerTests
+    public class WishCompleteItemCommandHandlerTests : DbContextTestBase<ProjectDianaWriteContext>
     {
         private readonly WishCompleteItemCommandHandler _handler;
         private readonly WishCompleteItemCommand _testCommand;
-        private readonly Mock<IProjectDianaWriteContext> _writeContext;
+        private readonly WishRecord _testRecord;
+        private readonly IProjectDianaWriteContext _writeContext;
 
         public WishCompleteItemCommandHandlerTests()
         {
             var fixture = new Fixture();
 
-            _testCommand = fixture.Create<WishCompleteItemCommand>();
-            _writeContext = new Mock<IProjectDianaWriteContext>();
+            _testRecord = fixture.Create<WishRecord>();
+            _testCommand = new WishCompleteItemCommand(_testRecord.UserID, _testRecord.ID);
 
-            _handler = new WishCompleteItemCommandHandler(_writeContext.Object);
+            _writeContext = InitializeDatabase();
+
+            _handler = new WishCompleteItemCommandHandler(_writeContext);
+        }
+
+        [Fact]
+        public async Task Handler_Throws_If_Unable_To_Find_Wish_For_ID()
+        {
+            await InitializeRecords();
+
+            var command = new WishCompleteItemCommand(_testRecord.UserID, _testRecord.ID + 1);
+
+            Func<Task> callWithNonMatchingWishID = async () => await _handler.Handle(command);
+
+            await callWithNonMatchingWishID.Should().ThrowAsync<InvalidOperationException>();
+        }
+
+        [Fact]
+        public async Task Handler_Throws_If_Unable_To_Find_Wish_For_UserID()
+        {
+            await InitializeRecords();
+
+            var command = new WishCompleteItemCommand($"{_testRecord.UserID}1", _testRecord.ID);
+
+            Func<Task> callWithNonMatchingWishID = async () => await _handler.Handle(command);
+
+            await callWithNonMatchingWishID.Should().ThrowAsync<InvalidOperationException>();
         }
 
         [Fact]
         public async Task Handler_Updates_Wish()
         {
+            _testRecord.Owned = false;
+
+            await InitializeRecords();
+
             await _handler.Handle(_testCommand);
 
-            1.Should().Be(2);
+            var updatedRecord = await _writeContext.Wishes.FirstOrDefaultAsync(w => w.ID == _testRecord.ID && w.UserID == _testCommand.UserID);
+
+            updatedRecord.Owned.Should().BeTrue();
+        }
+
+        private async Task InitializeRecords()
+        {
+            await _writeContext.Wishes.AddAsync(_testRecord);
+
+            await _writeContext.SaveChangesAsync();
         }
     }
 }
