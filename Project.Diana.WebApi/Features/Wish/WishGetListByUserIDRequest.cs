@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using Ardalis.GuardClauses;
+﻿using Ardalis.GuardClauses;
 using MediatR;
 using Project.Diana.Data.Features.User;
-using Project.Diana.Data.Features.Wish;
 
 namespace Project.Diana.WebApi.Features.Wish
 {
-    public class WishGetListByUserIDRequest : IRequest<IEnumerable<WishRecord>>
+    public class WishGetListByUserIDRequest : IRequest<WishListResponse>
     {
         public ApplicationUser User { get; }
 
