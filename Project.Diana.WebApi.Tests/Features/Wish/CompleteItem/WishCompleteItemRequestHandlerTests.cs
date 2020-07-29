@@ -5,9 +5,10 @@ using Moq;
 using Project.Diana.Data.Features.Wish.Commands;
 using Project.Diana.Data.Sql.Bases.Dispatchers;
 using Project.Diana.WebApi.Features.Wish;
+using Project.Diana.WebApi.Features.Wish.CompleteItem;
 using Xunit;
 
-namespace Project.Diana.WebApi.Tests.Features.Wish
+namespace Project.Diana.WebApi.Tests.Features.Wish.CompleteItem
 {
     public class WishCompleteItemRequestHandlerTests
     {

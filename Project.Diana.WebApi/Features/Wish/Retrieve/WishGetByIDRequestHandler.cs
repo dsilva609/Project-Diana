@@ -5,7 +5,7 @@ using Project.Diana.Data.Features.Wish;
 using Project.Diana.Data.Features.Wish.Queries;
 using Project.Diana.Data.Sql.Bases.Dispatchers;
 
-namespace Project.Diana.WebApi.Features.Wish
+namespace Project.Diana.WebApi.Features.Wish.Retrieve
 {
     public class WishGetByIDRequestHandler : IRequestHandler<WishGetByIDRequest, WishRecord>
     {

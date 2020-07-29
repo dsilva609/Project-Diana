@@ -2,9 +2,10 @@
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Project.Diana.WebApi.Features.User;
+using Project.Diana.WebApi.Features.User.Login;
 using Xunit;
 
-namespace Project.Diana.WebApi.Tests.Features.User
+namespace Project.Diana.WebApi.Tests.Features.User.Login
 {
     public class LoginRequestTests
     {

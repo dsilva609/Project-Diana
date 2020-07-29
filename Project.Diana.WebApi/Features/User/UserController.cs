@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Project.Diana.WebApi.Features.User.Login;
 
 namespace Project.Diana.WebApi.Features.User
 {

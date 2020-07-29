@@ -2,10 +2,10 @@
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Project.Diana.Data.Features.User;
-using Project.Diana.WebApi.Features.Wish;
+using Project.Diana.WebApi.Features.Wish.Retrieve;
 using Xunit;
 
-namespace Project.Diana.WebApi.Tests.Features.Wish
+namespace Project.Diana.WebApi.Tests.Features.Wish.Retrieve
 {
     public class WishGetByIDRequestTests
     {

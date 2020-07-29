@@ -4,7 +4,7 @@ using MediatR;
 using Project.Diana.Data.Features.Wish.Commands;
 using Project.Diana.Data.Sql.Bases.Dispatchers;
 
-namespace Project.Diana.WebApi.Features.Wish
+namespace Project.Diana.WebApi.Features.Wish.CompleteItem
 {
     public class WishCompleteItemRequestHandler : IRequestHandler<WishCompleteItemRequest>
     {

@@ -3,7 +3,7 @@ using MediatR;
 using Project.Diana.Data.Features.User;
 using Project.Diana.Data.Features.Wish;
 
-namespace Project.Diana.WebApi.Features.Wish
+namespace Project.Diana.WebApi.Features.Wish.Retrieve
 {
     public class WishGetByIDRequest : IRequest<WishRecord>
     {

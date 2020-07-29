@@ -2,6 +2,10 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Project.Diana.WebApi.Features.Wish.CompleteItem;
+using Project.Diana.WebApi.Features.Wish.Retrieve;
+using Project.Diana.WebApi.Features.Wish.Update;
+using Project.Diana.WebApi.Features.Wish.WishList;
 using Project.Diana.WebApi.Helpers;
 
 namespace Project.Diana.WebApi.Features.Wish
@@ -33,5 +37,20 @@ namespace Project.Diana.WebApi.Features.Wish
         [Route("GetWishList")]
         [Authorize]
         public async Task<IActionResult> GetWishList() => Ok(await _mediator.Send(new WishGetListByUserIDRequest(await _userService.GetCurrentUser())));
+
+        [HttpPost]
+        [Route("UpdateWish")]
+        [Authorize]
+        public async Task<IActionResult> UpdateWish(WishUpdate update) =>
+            Ok(await _mediator.Send(new WishUpdateRequest(
+                update.ApiID,
+                update.Category,
+                update.ImageUrl,
+                update.ItemType,
+                update.Notes,
+                update.Owned,
+                update.Title,
+                await _userService.GetCurrentUser(),
+                update.WishID)));
     }
 }

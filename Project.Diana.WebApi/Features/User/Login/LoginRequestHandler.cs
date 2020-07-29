@@ -14,7 +14,7 @@ using Project.Diana.Data.Features.User;
 using Project.Diana.Data.Features.User.Queries;
 using Project.Diana.Data.Sql.Bases.Dispatchers;
 
-namespace Project.Diana.WebApi.Features.User
+namespace Project.Diana.WebApi.Features.User.Login
 {
     public class LoginRequestHandler : IRequestHandler<LoginRequest, IActionResult>
     {

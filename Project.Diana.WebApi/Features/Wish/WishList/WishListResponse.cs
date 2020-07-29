@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Project.Diana.Data.Features.Wish;
 
-namespace Project.Diana.WebApi.Features.Wish
+namespace Project.Diana.WebApi.Features.Wish.WishList
 {
     public class WishList
     {

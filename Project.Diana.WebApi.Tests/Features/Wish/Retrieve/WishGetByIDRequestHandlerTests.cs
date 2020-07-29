@@ -6,10 +6,10 @@ using Moq;
 using Project.Diana.Data.Features.Wish;
 using Project.Diana.Data.Features.Wish.Queries;
 using Project.Diana.Data.Sql.Bases.Dispatchers;
-using Project.Diana.WebApi.Features.Wish;
+using Project.Diana.WebApi.Features.Wish.Retrieve;
 using Xunit;
 
-namespace Project.Diana.WebApi.Tests.Features.Wish
+namespace Project.Diana.WebApi.Tests.Features.Wish.Retrieve
 {
     public class WishGetByIDRequestHandlerTests
     {

@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Project.Diana.WebApi.Features.User
+namespace Project.Diana.WebApi.Features.User.Login
 {
     public class LoginRequest : IRequest<IActionResult>
     {

@@ -13,10 +13,11 @@ using Project.Diana.Data.Features.User;
 using Project.Diana.Data.Features.User.Queries;
 using Project.Diana.Data.Sql.Bases.Dispatchers;
 using Project.Diana.WebApi.Features.User;
+using Project.Diana.WebApi.Features.User.Login;
 using Xunit;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
-namespace Project.Diana.WebApi.Tests.Features.User
+namespace Project.Diana.WebApi.Tests.Features.User.Login
 {
     public class LoginRequestHandlerTests
     {
