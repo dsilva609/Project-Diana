@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Project.Diana.WebApi.Features.Wish.CompleteItem;
 using Project.Diana.WebApi.Features.Wish.Retrieve;
+using Project.Diana.WebApi.Features.Wish.Submission;
 using Project.Diana.WebApi.Features.Wish.Update;
 using Project.Diana.WebApi.Features.Wish.WishList;
 using Project.Diana.WebApi.Helpers;
@@ -28,6 +29,20 @@ namespace Project.Diana.WebApi.Features.Wish
         [Authorize]
         public async Task<IActionResult> CompleteWish(int id) => Ok(await _mediator.Send(new WishCompleteItemRequest(await _userService.GetCurrentUser(), id)));
 
+        [HttpPost]
+        [Route("CreateWish")]
+        [Authorize]
+        public async Task<IActionResult> CreateWish(WishSubmission wishSubmission)
+            => Ok(await _mediator.Send(new WishSubmissionRequest(
+                wishSubmission.ApiID,
+                wishSubmission.Category,
+                wishSubmission.ImageUrl,
+                wishSubmission.ItemType,
+                wishSubmission.Notes,
+                wishSubmission.Owned,
+                wishSubmission.Title,
+                await _userService.GetCurrentUser())));
+
         [HttpGet]
         [Route("GetWish")]
         [Authorize]
@@ -41,8 +56,8 @@ namespace Project.Diana.WebApi.Features.Wish
         [HttpPost]
         [Route("UpdateWish")]
         [Authorize]
-        public async Task<IActionResult> UpdateWish(WishUpdate update) =>
-            Ok(await _mediator.Send(new WishUpdateRequest(
+        public async Task<IActionResult> UpdateWish(WishUpdate update)
+            => Ok(await _mediator.Send(new WishUpdateRequest(
                 update.ApiID,
                 update.Category,
                 update.ImageUrl,

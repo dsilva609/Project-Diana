@@ -1,11 +1,10 @@
 ﻿using Ardalis.GuardClauses;
-using MediatR;
+using Project.Diana.Data.Bases.Commands;
 using Project.Diana.Data.Features.Item;
-using Project.Diana.Data.Features.User;
 
-namespace Project.Diana.WebApi.Features.Wish.Update
+namespace Project.Diana.Data.Features.Wish.Commands
 {
-    public class WishUpdateRequest : IRequest
+    public class WishCreateCommand : ICommand
     {
         public string ApiID { get; }
         public string Category { get; }
@@ -14,10 +13,9 @@ namespace Project.Diana.WebApi.Features.Wish.Update
         public string Notes { get; }
         public bool Owned { get; }
         public string Title { get; }
-        public ApplicationUser User { get; }
-        public int WishID { get; }
+        public string UserID { get; }
 
-        public WishUpdateRequest(
+        public WishCreateCommand(
             string apiID,
             string category,
             string imageUrl,
@@ -25,13 +23,10 @@ namespace Project.Diana.WebApi.Features.Wish.Update
             string notes,
             bool owned,
             string title,
-            ApplicationUser user,
-            int wishID)
+            string userID)
         {
             Guard.Against.NullOrWhiteSpace(title, nameof(title));
-            Guard.Against.Null(user, nameof(user));
-            Guard.Against.NullOrWhiteSpace(user.Id, nameof(user.Id));
-            Guard.Against.Default(wishID, nameof(wishID));
+            Guard.Against.NullOrWhiteSpace(userID, nameof(userID));
 
             ApiID = apiID;
             Category = category;
@@ -40,8 +35,7 @@ namespace Project.Diana.WebApi.Features.Wish.Update
             Notes = notes;
             Owned = owned;
             Title = title;
-            User = user;
-            WishID = wishID;
+            UserID = userID;
         }
     }
 }

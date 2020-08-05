@@ -3,9 +3,9 @@ using MediatR;
 using Project.Diana.Data.Features.Item;
 using Project.Diana.Data.Features.User;
 
-namespace Project.Diana.WebApi.Features.Wish.Update
+namespace Project.Diana.WebApi.Features.Wish.Submission
 {
-    public class WishUpdateRequest : IRequest
+    public class WishSubmissionRequest : IRequest, IRequest<bool>
     {
         public string ApiID { get; }
         public string Category { get; }
@@ -15,9 +15,8 @@ namespace Project.Diana.WebApi.Features.Wish.Update
         public bool Owned { get; }
         public string Title { get; }
         public ApplicationUser User { get; }
-        public int WishID { get; }
 
-        public WishUpdateRequest(
+        public WishSubmissionRequest(
             string apiID,
             string category,
             string imageUrl,
@@ -25,13 +24,11 @@ namespace Project.Diana.WebApi.Features.Wish.Update
             string notes,
             bool owned,
             string title,
-            ApplicationUser user,
-            int wishID)
+            ApplicationUser user)
         {
             Guard.Against.NullOrWhiteSpace(title, nameof(title));
             Guard.Against.Null(user, nameof(user));
             Guard.Against.NullOrWhiteSpace(user.Id, nameof(user.Id));
-            Guard.Against.Default(wishID, nameof(wishID));
 
             ApiID = apiID;
             Category = category;
@@ -41,7 +38,6 @@ namespace Project.Diana.WebApi.Features.Wish.Update
             Owned = owned;
             Title = title;
             User = user;
-            WishID = wishID;
         }
     }
 }
