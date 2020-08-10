@@ -11,7 +11,7 @@ namespace Project.Diana.Data.Sql.Context
     public class ProjectDianaReadonlyContext : IdentityDbContext<ApplicationUser>, IProjectDianaReadonlyContext
     {
         public DbSet<AlbumRecord> AlbumRecords { get; set; }
-        public IQueryable<AlbumRecord> Albums { get; }
+        public IQueryable<AlbumRecord> Albums => AlbumRecords.AsNoTracking();
         public IQueryable<WishRecord> Wishes => WishRecords.AsNoTracking();
         public DbSet<WishRecord> WishRecords { get; set; }
 
