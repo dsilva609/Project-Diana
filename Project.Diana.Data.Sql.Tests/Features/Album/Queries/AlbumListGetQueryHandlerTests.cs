@@ -61,6 +61,19 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
             result.Should().NotBeNullOrEmpty();
         }
 
+        [Fact]
+        public async Task Handler_Returns_Records_When_There_Is_No_UserID()
+        {
+            _testQuery.User.Id = string.Empty;
+
+            await InitializeRecords();
+
+            var result = await _handler.Handle(_testQuery);
+
+            result.Should().NotBeNullOrEmpty();
+            result.Should().Contain(x => x.UserID != _testQuery.User.Id);
+        }
+
         private async Task InitializeRecords()
         {
             await _context.AlbumRecords.AddRangeAsync(_albumRecords);
