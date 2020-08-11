@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Project.Diana.Data.Features.Album;
@@ -14,6 +15,16 @@ namespace Project.Diana.Data.Sql.Features.Album.Queries
 
         public AlbumListGetQueryHandler(IProjectDianaReadonlyContext context) => _context = context;
 
-        public async Task<IEnumerable<AlbumRecord>> Handle(AlbumListGetQuery query) => await _context.Albums.ToListAsync();
+        public async Task<IEnumerable<AlbumRecord>> Handle(AlbumListGetQuery query)
+        {
+            var albumQuery = _context.Albums;
+
+            if (string.IsNullOrWhiteSpace(query.User.Id))
+            {
+                return await albumQuery.ToListAsync();
+            }
+
+            return await albumQuery.Where(a => a.UserID == query.User.Id).ToListAsync();
+        }
     }
 }
