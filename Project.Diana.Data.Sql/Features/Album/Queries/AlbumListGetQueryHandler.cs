@@ -19,7 +19,7 @@ namespace Project.Diana.Data.Sql.Features.Album.Queries
         {
             var albumQuery = _context.Albums;
 
-            if (string.IsNullOrWhiteSpace(query.User.Id))
+            if (string.IsNullOrWhiteSpace(query.User?.Id))
             {
                 return await albumQuery.ToListAsync();
             }
