@@ -21,6 +21,6 @@ namespace Project.Diana.WebApi.Features.Album.AlbumList
         }
 
         public async Task<IEnumerable<AlbumRecord>> Handle(AlbumListGetRequest request, CancellationToken cancellationToken)
-            => await _queryDispatcher.Dispatch<AlbumListGetQuery, IEnumerable<AlbumRecord>>(new AlbumListGetQuery(await _userService.GetCurrentUser()));
+            => await _queryDispatcher.Dispatch<AlbumListGetQuery, IEnumerable<AlbumRecord>>(new AlbumListGetQuery(request.ItemCount, await _userService.GetCurrentUser()));
     }
 }

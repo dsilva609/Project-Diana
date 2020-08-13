@@ -17,14 +17,14 @@ namespace Project.Diana.Data.Sql.Features.Album.Queries
 
         public async Task<IEnumerable<AlbumRecord>> Handle(AlbumListGetQuery query)
         {
-            var albumQuery = _context.Albums;
+            var albumQuery = _context.Albums.OrderBy(album => album.Artist).ThenBy(album => album.Title);
 
             if (string.IsNullOrWhiteSpace(query.User?.Id))
             {
-                return await albumQuery.ToListAsync();
+                return await albumQuery.Take(query.ItemCount).ToListAsync();
             }
 
-            return await albumQuery.Where(a => a.UserID == query.User.Id).ToListAsync();
+            return await albumQuery.Where(a => a.UserID == query.User.Id).Take(query.ItemCount).ToListAsync();
         }
     }
 }
