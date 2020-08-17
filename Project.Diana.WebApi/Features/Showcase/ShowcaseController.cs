@@ -2,7 +2,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Diana.WebApi.Features.Showcase.ShowcaseList;
-using Project.Diana.WebApi.Helpers;
 
 namespace Project.Diana.WebApi.Features.Showcase
 {
@@ -11,17 +10,12 @@ namespace Project.Diana.WebApi.Features.Showcase
     public class ShowcaseController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly ICurrentUserService _userService;
 
-        public ShowcaseController(IMediator mediator, ICurrentUserService userService)
-        {
-            _mediator = mediator;
-            _userService = userService;
-        }
+        public ShowcaseController(IMediator mediator) => _mediator = mediator;
 
         [HttpGet]
         [Route("GetShowcase")]
-        public async Task<IActionResult> GetShowcase()
-            => Ok(await _mediator.Send(new ShowcaseGetListRequest(await _userService.GetCurrentUser())));
+        public async Task<IActionResult> GetShowcase(int userID)
+            => Ok(await _mediator.Send(new ShowcaseGetListRequest(userID)));
     }
 }
