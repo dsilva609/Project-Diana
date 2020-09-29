@@ -87,7 +87,6 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
 
             var result = await _handler.Handle(request);
 
-            result.Should().NotBeNullOrEmpty();
             result.Should().HaveCount(1);
         }
 
