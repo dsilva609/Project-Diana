@@ -74,6 +74,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
             var album = _fixture
                 .Build<AlbumRecord>()
                 .With(a => a.ID, _testQuery.Id)
+                .With(a => a.UserID, _testQuery.User.Id)
                 .Create();
 
             await _context.AlbumRecords.AddAsync(album);
