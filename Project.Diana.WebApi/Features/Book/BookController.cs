@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Project.Diana.WebApi.Features.Book.BookById;
 using Project.Diana.WebApi.Features.Book.BookList;
 using Project.Diana.WebApi.Helpers;
 
@@ -18,6 +19,10 @@ namespace Project.Diana.WebApi.Features.Book
             _mediator = mediator;
             _userService = userService;
         }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetBookById(int id) => Ok(await _mediator.Send(new BookGetByIdRequest(id, await _userService.GetCurrentUser())));
 
         [HttpGet]
         [Route("GetBookList")]

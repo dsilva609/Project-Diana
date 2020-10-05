@@ -8,7 +8,6 @@ using Project.Diana.Data.Features.Album;
 using Project.Diana.Data.Features.Album.Queries;
 using Project.Diana.Data.Sql.Bases.Dispatchers;
 using Project.Diana.WebApi.Features.Album.AlbumList;
-using Project.Diana.WebApi.Helpers;
 using Xunit;
 
 namespace Project.Diana.WebApi.Tests.Features.Album.AlbumList
@@ -18,7 +17,6 @@ namespace Project.Diana.WebApi.Tests.Features.Album.AlbumList
         private readonly AlbumListGetRequestHandler _handler;
         private readonly Mock<IQueryDispatcher> _queryDispatcher;
         private readonly AlbumListGetRequest _testRequest;
-        private readonly Mock<ICurrentUserService> _userService;
 
         public AlbumListGetRequestHandlerTests()
         {
@@ -26,13 +24,12 @@ namespace Project.Diana.WebApi.Tests.Features.Album.AlbumList
 
             _queryDispatcher = new Mock<IQueryDispatcher>();
             _testRequest = fixture.Create<AlbumListGetRequest>();
-            _userService = new Mock<ICurrentUserService>();
 
             _queryDispatcher
                 .Setup(x => x.Dispatch<AlbumListGetQuery, IEnumerable<AlbumRecord>>(It.IsNotNull<AlbumListGetQuery>()))
                 .ReturnsAsync(fixture.Create<IEnumerable<AlbumRecord>>());
 
-            _handler = new AlbumListGetRequestHandler(_userService.Object, _queryDispatcher.Object);
+            _handler = new AlbumListGetRequestHandler(_queryDispatcher.Object);
         }
 
         [Fact]
@@ -41,14 +38,6 @@ namespace Project.Diana.WebApi.Tests.Features.Album.AlbumList
             await _handler.Handle(_testRequest, CancellationToken.None);
 
             _queryDispatcher.Verify(x => x.Dispatch<AlbumListGetQuery, IEnumerable<AlbumRecord>>(It.IsNotNull<AlbumListGetQuery>()), Times.Once);
-        }
-
-        [Fact]
-        public async Task Handler_Calls_UserService()
-        {
-            await _handler.Handle(_testRequest, CancellationToken.None);
-
-            _userService.Verify(x => x.GetCurrentUser(), Times.Once());
         }
 
         [Fact]
