@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Project.Diana.WebApi.Features.Album.AlbumById;
 using Project.Diana.WebApi.Features.Album.AlbumList;
 using Project.Diana.WebApi.Helpers;
 
@@ -18,6 +19,10 @@ namespace Project.Diana.WebApi.Features.Album
             _mediator = mediator;
             _userService = userService;
         }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetAlbumById(int id) => Ok(await _mediator.Send(new AlbumGetByIdRequest(id, await _userService.GetCurrentUser())));
 
         [HttpGet]
         [Route("GetAlbumList")]
