@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
 using Moq;
-using Project.Diana.Data.Features.Book;
 using Project.Diana.Data.Features.Book.Queries;
 using Project.Diana.Data.Sql.Bases.Dispatchers;
 using Project.Diana.WebApi.Features.Book.BookList;
@@ -26,8 +24,8 @@ namespace Project.Diana.WebApi.Tests.Features.Book.BookList
             _testRequest = fixture.Create<BookListGetRequest>();
 
             _queryDispatcher
-                .Setup(x => x.Dispatch<BookListGetQuery, IEnumerable<BookRecord>>(It.IsNotNull<BookListGetQuery>()))
-                .ReturnsAsync(fixture.Create<IEnumerable<BookRecord>>());
+                .Setup(x => x.Dispatch<BookListGetQuery, BookListResponse>(It.IsNotNull<BookListGetQuery>()))
+                .ReturnsAsync(fixture.Create<BookListResponse>());
 
             _handler = new BookListGetRequestHandler(_queryDispatcher.Object);
         }
@@ -37,7 +35,7 @@ namespace Project.Diana.WebApi.Tests.Features.Book.BookList
         {
             await _handler.Handle(_testRequest, CancellationToken.None);
 
-            _queryDispatcher.Verify(x => x.Dispatch<BookListGetQuery, IEnumerable<BookRecord>>(It.IsNotNull<BookListGetQuery>()), Times.Once);
+            _queryDispatcher.Verify(x => x.Dispatch<BookListGetQuery, BookListResponse>(It.IsNotNull<BookListGetQuery>()), Times.Once);
         }
 
         [Fact]
@@ -45,7 +43,7 @@ namespace Project.Diana.WebApi.Tests.Features.Book.BookList
         {
             var result = await _handler.Handle(_testRequest, CancellationToken.None);
 
-            result.Should().NotBeNullOrEmpty();
+            result.Books.Should().NotBeNullOrEmpty();
         }
     }
 }

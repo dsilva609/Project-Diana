@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Project.Diana.Data.Features.Book;
 using Project.Diana.Data.Features.Book.Queries;
 using Project.Diana.Data.Features.User;
@@ -29,13 +30,41 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
             _context = InitializeDatabase();
 
             _bookRecords = _fixture.Create<IEnumerable<BookRecord>>();
-            _testQuery = new BookListGetQuery(69, _fixture.Create<ApplicationUser>());
+            _testQuery = new BookListGetQuery(69, 0, _fixture.Create<ApplicationUser>());
             _testRecord = _fixture
                 .Build<BookRecord>()
                 .With(book => book.UserID, _testQuery.User.Id)
                 .Create();
 
             _handler = new BookListGetQueryHandler(_context);
+        }
+
+        [Fact]
+        public async Task Handler_Gets_Next_Page_Of_Books()
+        {
+            var expectedBook = _fixture
+                .Build<BookRecord>()
+                .With(book => book.Author, "Rucka")
+                .With(book => book.Title, "Wonder Woman")
+                .With(book => book.UserID, _testQuery.User.Id)
+                .Create();
+
+            var unexpectedBook = _fixture
+                .Build<BookRecord>()
+                .With(book => book.Author, "Rucka")
+                .With(book => book.Title, "Old Guard")
+                .With(book => book.UserID, _testQuery.User.Id)
+                .Create();
+
+            await _context.BookRecords.AddAsync(unexpectedBook);
+            await _context.BookRecords.AddAsync(expectedBook);
+            await _context.SaveChangesAsync();
+
+            var query = new BookListGetQuery(1, 1, _testQuery.User);
+
+            var result = await _handler.Handle(query);
+
+            result.Books.First().Title.Should().Be(expectedBook.Title);
         }
 
         [Fact]
@@ -47,8 +76,8 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
 
             var result = await _handler.Handle(_testQuery);
 
-            result.Should().NotBeNullOrEmpty();
-            result.All(b => b.UserID == _testQuery.User.Id).Should().BeTrue();
+            result.Books.Should().NotBeNullOrEmpty();
+            result.Books.All(b => b.UserID == _testQuery.User.Id).Should().BeTrue();
         }
 
         [Fact]
@@ -60,7 +89,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
 
             var result = await _handler.Handle(_testQuery);
 
-            result.Should().NotBeNullOrEmpty();
+            result.Books.Should().NotBeNullOrEmpty();
         }
 
         [Fact]
@@ -72,8 +101,8 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
 
             var result = await _handler.Handle(_testQuery);
 
-            result.Should().NotBeNullOrEmpty();
-            result.Should().Contain(x => x.UserID != _testQuery.User.Id);
+            result.Books.Should().NotBeNullOrEmpty();
+            result.Books.Should().Contain(x => x.UserID != _testQuery.User.Id);
         }
 
         [Fact]
@@ -83,11 +112,42 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
 
             await InitializeRecords();
 
-            var request = new BookListGetQuery(1, _testQuery.User);
+            var request = new BookListGetQuery(1, 0, _testQuery.User);
 
             var result = await _handler.Handle(request);
 
-            result.Should().HaveCount(1);
+            result.Books.Should().HaveCount(1);
+        }
+
+        [Fact]
+        public async Task Handler_Returns_Total_Books()
+        {
+            await InitializeRecords();
+
+            var count = await _context.Books.CountAsync();
+
+            var query = new BookListGetQuery(10, 0, null);
+
+            var result = await _handler.Handle(query);
+
+            result.TotalCount.Should().Be(count);
+        }
+
+        [Fact]
+        public async Task Handler_Returns_Total_Books_For_User()
+        {
+            var unexpectedBook = _fixture
+                .Build<BookRecord>()
+                .With(b => b.UserID, "not this user")
+                .Create();
+
+            await InitializeRecords();
+
+            var count = await _context.Books.CountAsync(b => b.UserID == _testQuery.User.Id);
+
+            var result = await _handler.Handle(_testQuery);
+
+            result.TotalCount.Should().Be(count);
         }
 
         [Fact]
@@ -111,7 +171,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
 
             var result = await _handler.Handle(_testQuery);
 
-            result.First().Author.Should().Be(expectedBook.Author);
+            result.Books.First().Author.Should().Be(expectedBook.Author);
         }
 
         [Fact]
@@ -137,7 +197,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
 
             var result = await _handler.Handle(_testQuery);
 
-            result.First().Author.Should().Be(expectedBook.Author);
+            result.Books.First().Author.Should().Be(expectedBook.Author);
         }
 
         private async Task InitializeRecords()

@@ -1,30 +1,35 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Project.Diana.Data.Features.Album;
 using Project.Diana.Data.Features.Album.Queries;
 using Project.Diana.Data.Sql.Bases.Queries;
 using Project.Diana.Data.Sql.Context;
 
 namespace Project.Diana.Data.Sql.Features.Album.Queries
 {
-    public class AlbumListGetQueryHandler : IQueryHandler<AlbumListGetQuery, IEnumerable<AlbumRecord>>
+    public class AlbumListGetQueryHandler : IQueryHandler<AlbumListGetQuery, AlbumListResponse>
     {
         private readonly IProjectDianaReadonlyContext _context;
 
         public AlbumListGetQueryHandler(IProjectDianaReadonlyContext context) => _context = context;
 
-        public async Task<IEnumerable<AlbumRecord>> Handle(AlbumListGetQuery query)
+        public async Task<AlbumListResponse> Handle(AlbumListGetQuery query)
         {
-            var albumQuery = _context.Albums.OrderBy(album => album.Artist).ThenBy(album => album.Title);
+            var totalCount = string.IsNullOrWhiteSpace(query.User?.Id)
+                ? await _context.Albums.CountAsync()
+                : await _context.Albums.CountAsync(album => album.UserID == query.User.Id);
 
-            if (string.IsNullOrWhiteSpace(query.User?.Id))
+            var albumQuery = _context.Albums.OrderBy(album => album.Artist).ThenBy(album => album.Title).Skip(query.ItemCount * query.Page);
+
+            var albums = string.IsNullOrWhiteSpace(query.User?.Id)
+                ? await albumQuery.Take(query.ItemCount).ToListAsync()
+                : await albumQuery.Where(a => a.UserID == query.User.Id).Take(query.ItemCount).ToListAsync();
+
+            return new AlbumListResponse
             {
-                return await albumQuery.Take(query.ItemCount).ToListAsync();
-            }
-
-            return await albumQuery.Where(a => a.UserID == query.User.Id).Take(query.ItemCount).ToListAsync();
+                Albums = albums,
+                TotalCount = totalCount
+            };
         }
     }
 }

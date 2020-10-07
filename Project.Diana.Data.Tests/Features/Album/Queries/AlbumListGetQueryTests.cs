@@ -12,7 +12,7 @@ namespace Project.Diana.Data.Tests.Features.Album.Queries
         [Theory, AutoData]
         public void Query_Sets_Default_Item_Count_For_Zero(ApplicationUser user)
         {
-            var query = new AlbumListGetQuery(0, user);
+            var query = new AlbumListGetQuery(0, 1, user);
 
             query.ItemCount.Should().BeGreaterThan(0);
         }
@@ -20,9 +20,17 @@ namespace Project.Diana.Data.Tests.Features.Album.Queries
         [Theory, AutoData]
         public void Query_Throws_When_Item_Count_Is_Negative(ApplicationUser user)
         {
-            Action createWithNegativeItemCount = () => new AlbumListGetQuery(-1, user);
+            Action createWithNegativeItemCount = () => new AlbumListGetQuery(-1, 1, user);
 
             createWithNegativeItemCount.Should().Throw<ArgumentException>();
+        }
+
+        [Theory, AutoData]
+        public void Query_Throws_When_Page_Is_Negative(int itemCount, ApplicationUser user)
+        {
+            Action createWithNegativePage = () => new AlbumListGetQuery(itemCount, -1, user);
+
+            createWithNegativePage.Should().Throw<ArgumentException>();
         }
     }
 }

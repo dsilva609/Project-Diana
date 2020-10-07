@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Project.Diana.Data.Features.Album;
 using Project.Diana.Data.Features.Album.Queries;
 using Project.Diana.Data.Features.User;
@@ -29,7 +30,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
             _context = InitializeDatabase();
 
             _albumRecords = _fixture.Create<IEnumerable<AlbumRecord>>();
-            _testQuery = new AlbumListGetQuery(13, _fixture.Create<ApplicationUser>());
+            _testQuery = new AlbumListGetQuery(13, 0, _fixture.Create<ApplicationUser>());
             _testRecord = _fixture
                 .Build<AlbumRecord>()
                 .With(album => album.UserID, _testQuery.User.Id)
@@ -47,8 +48,8 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
 
             var result = await _handler.Handle(_testQuery);
 
-            result.Should().NotBeNullOrEmpty();
-            result.All(a => a.UserID == _testQuery.User.Id).Should().BeTrue();
+            result.Albums.Should().NotBeNullOrEmpty();
+            result.Albums.All(a => a.UserID == _testQuery.User.Id).Should().BeTrue();
         }
 
         [Fact]
@@ -60,7 +61,35 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
 
             var result = await _handler.Handle(_testQuery);
 
-            result.Should().NotBeNullOrEmpty();
+            result.Albums.Should().NotBeNullOrEmpty();
+        }
+
+        [Fact]
+        public async Task Handler_Returns_Next_Page_Of_Albums()
+        {
+            var expectedAlbum = _fixture
+                .Build<AlbumRecord>()
+                .With(album => album.Artist, "Black Sabbath")
+                .With(album => album.Title, "Mob Rules")
+                .With(album => album.UserID, _testQuery.User.Id)
+                .Create();
+
+            var unexpectedAlbum = _fixture
+                .Build<AlbumRecord>()
+                .With(album => album.Artist, "Black Sabbath")
+                .With(album => album.Title, "Heaven and Hell")
+                .With(album => album.UserID, _testQuery.User.Id)
+                .Create();
+
+            await _context.AlbumRecords.AddAsync(unexpectedAlbum);
+            await _context.AlbumRecords.AddAsync(expectedAlbum);
+            await _context.SaveChangesAsync();
+
+            var query = new AlbumListGetQuery(1, 1, _testQuery.User);
+
+            var result = await _handler.Handle(query);
+
+            result.Albums.First().Title.Should().Be(expectedAlbum.Title);
         }
 
         [Fact]
@@ -72,8 +101,8 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
 
             var result = await _handler.Handle(_testQuery);
 
-            result.Should().NotBeNullOrEmpty();
-            result.Should().Contain(x => x.UserID != _testQuery.User.Id);
+            result.Albums.Should().NotBeNullOrEmpty();
+            result.Albums.Should().Contain(x => x.UserID != _testQuery.User.Id);
         }
 
         [Fact]
@@ -83,11 +112,45 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
 
             await InitializeRecords();
 
-            var request = new AlbumListGetQuery(1, _testQuery.User);
+            var request = new AlbumListGetQuery(1, 0, _testQuery.User);
 
             var result = await _handler.Handle(request);
 
-            result.Should().HaveCount(1);
+            result.Albums.Should().HaveCount(1);
+        }
+
+        [Fact]
+        public async Task Handler_Returns_Total_Count()
+        {
+            await InitializeRecords();
+
+            var count = await _context.Albums.CountAsync();
+
+            var query = new AlbumListGetQuery(10, 0, null);
+
+            var result = await _handler.Handle(query);
+
+            result.TotalCount.Should().Be(count);
+        }
+
+        [Fact]
+        public async Task Handler_Returns_Total_Count_For_User()
+        {
+            var unexpectedAlbum = _fixture
+                .Build<AlbumRecord>()
+                .With(a => a.UserID, "not this user")
+                .Create();
+
+            await _context.AlbumRecords.AddAsync(unexpectedAlbum);
+
+            await InitializeRecords();
+
+            var count = await _context.Albums.CountAsync(album => album.UserID == _testQuery.User.Id);
+
+            var result = await _handler.Handle(_testQuery);
+
+            result.TotalCount.Should().Be(count);
+            result.Albums.Any(a => a.Title == unexpectedAlbum.Title).Should().BeFalse();
         }
 
         [Fact]
@@ -111,7 +174,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
 
             var result = await _handler.Handle(_testQuery);
 
-            result.First().Artist.Should().Be(expectedAlbum.Artist);
+            result.Albums.First().Artist.Should().Be(expectedAlbum.Artist);
         }
 
         [Fact]
@@ -137,7 +200,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
 
             var result = await _handler.Handle(_testQuery);
 
-            result.First().Artist.Should().Be(expectedAlbum.Artist);
+            result.Albums.First().Artist.Should().Be(expectedAlbum.Artist);
         }
 
         private async Task InitializeRecords()

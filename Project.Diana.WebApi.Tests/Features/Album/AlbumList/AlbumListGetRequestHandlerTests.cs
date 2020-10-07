@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
 using Moq;
-using Project.Diana.Data.Features.Album;
 using Project.Diana.Data.Features.Album.Queries;
 using Project.Diana.Data.Sql.Bases.Dispatchers;
 using Project.Diana.WebApi.Features.Album.AlbumList;
@@ -26,8 +24,8 @@ namespace Project.Diana.WebApi.Tests.Features.Album.AlbumList
             _testRequest = fixture.Create<AlbumListGetRequest>();
 
             _queryDispatcher
-                .Setup(x => x.Dispatch<AlbumListGetQuery, IEnumerable<AlbumRecord>>(It.IsNotNull<AlbumListGetQuery>()))
-                .ReturnsAsync(fixture.Create<IEnumerable<AlbumRecord>>());
+                .Setup(x => x.Dispatch<AlbumListGetQuery, AlbumListResponse>(It.IsNotNull<AlbumListGetQuery>()))
+                .ReturnsAsync(fixture.Create<AlbumListResponse>());
 
             _handler = new AlbumListGetRequestHandler(_queryDispatcher.Object);
         }
@@ -37,7 +35,7 @@ namespace Project.Diana.WebApi.Tests.Features.Album.AlbumList
         {
             await _handler.Handle(_testRequest, CancellationToken.None);
 
-            _queryDispatcher.Verify(x => x.Dispatch<AlbumListGetQuery, IEnumerable<AlbumRecord>>(It.IsNotNull<AlbumListGetQuery>()), Times.Once);
+            _queryDispatcher.Verify(x => x.Dispatch<AlbumListGetQuery, AlbumListResponse>(It.IsNotNull<AlbumListGetQuery>()), Times.Once);
         }
 
         [Fact]
@@ -45,7 +43,7 @@ namespace Project.Diana.WebApi.Tests.Features.Album.AlbumList
         {
             var result = await _handler.Handle(_testRequest, CancellationToken.None);
 
-            result.Should().NotBeNullOrEmpty();
+            result.Albums.Should().NotBeNullOrEmpty();
         }
     }
 }
