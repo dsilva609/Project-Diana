@@ -42,7 +42,14 @@ namespace Project.Diana.WebApi.Features.User.Login
 
                 var token = GenerateToken(user);
 
-                return new JsonResult(token);
+                var loginResponse = new LoginResponse
+                {
+                    DisplayName = user.DisplayName,
+                    Token = token,
+                    UserId = user.Id
+                };
+
+                return new OkObjectResult(loginResponse);
             }
 
             return new UnauthorizedResult();

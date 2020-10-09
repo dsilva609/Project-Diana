@@ -12,7 +12,6 @@ using Project.Diana.Data.Features.Settings;
 using Project.Diana.Data.Features.User;
 using Project.Diana.Data.Features.User.Queries;
 using Project.Diana.Data.Sql.Bases.Dispatchers;
-using Project.Diana.WebApi.Features.User;
 using Project.Diana.WebApi.Features.User.Login;
 using Xunit;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
@@ -25,6 +24,7 @@ namespace Project.Diana.WebApi.Tests.Features.User.Login
         private readonly Mock<IQueryDispatcher> _queryDispatcher;
         private readonly Mock<SignInManager<ApplicationUser>> _signInManager;
         private readonly LoginRequest _testLoginRequest;
+        private readonly ApplicationUser _testUser;
 
         public LoginRequestHandlerTests()
         {
@@ -34,10 +34,11 @@ namespace Project.Diana.WebApi.Tests.Features.User.Login
             _queryDispatcher = new Mock<IQueryDispatcher>();
             _signInManager = GetMockSignInManager();
             _testLoginRequest = fixture.Create<LoginRequest>();
+            _testUser = fixture.Create<ApplicationUser>();
 
             _queryDispatcher
                 .Setup(x => x.Dispatch<UserGetByUsernameQuery, ApplicationUser>(It.IsNotNull<UserGetByUsernameQuery>()))
-                .ReturnsAsync(fixture.Create<ApplicationUser>());
+                .ReturnsAsync(_testUser);
 
             _signInManager
                 .Setup(x => x.PasswordSignInAsync(It.IsNotNull<string>(), It.IsNotNull<string>(), true, false))
@@ -63,14 +64,6 @@ namespace Project.Diana.WebApi.Tests.Features.User.Login
         }
 
         [Fact]
-        public async Task Handler_Returns_Json_Result_When_Login_Succeeds()
-        {
-            var result = await _handler.Handle(_testLoginRequest, CancellationToken.None);
-
-            result.Should().BeOfType<JsonResult>();
-        }
-
-        [Fact]
         public async Task Handler_Returns_Unauthorized_When_Login_Fails()
         {
             _signInManager
@@ -80,6 +73,18 @@ namespace Project.Diana.WebApi.Tests.Features.User.Login
             var result = await _handler.Handle(_testLoginRequest, CancellationToken.None);
 
             result.Should().BeOfType<UnauthorizedResult>();
+        }
+
+        [Fact]
+        public async Task Handler_Returns_User_Result_When_Login_Succeeds()
+        {
+            var result = await _handler.Handle(_testLoginRequest, CancellationToken.None) as OkObjectResult;
+
+            result.Should().NotBeNull();
+            var userResponse = (LoginResponse)result.Value;
+            userResponse.DisplayName.Should().Be(_testUser.DisplayName);
+            userResponse.Token.Should().NotBeNullOrWhiteSpace();
+            userResponse.UserId.Should().Be(_testUser.Id);
         }
 
         private Mock<SignInManager<ApplicationUser>> GetMockSignInManager()
