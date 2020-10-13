@@ -15,11 +15,20 @@ namespace Project.Diana.Data.Sql.Features.Album.Queries
 
         public async Task<AlbumListResponse> Handle(AlbumListGetQuery query)
         {
-            var totalCount = string.IsNullOrWhiteSpace(query.User?.Id)
-                ? await _context.Albums.CountAsync()
-                : await _context.Albums.CountAsync(album => album.UserID == query.User.Id);
+            var albumQuery = _context.Albums;
 
-            var albumQuery = _context.Albums.OrderBy(album => album.Artist).ThenBy(album => album.Title).Skip(query.ItemCount * query.Page);
+            if (!string.IsNullOrWhiteSpace(query.SearchQuery))
+            {
+                albumQuery = albumQuery.Where(q
+                      => q.Artist.ToLower().Contains(query.SearchQuery.ToLower())
+                         || q.Title.ToLower().Contains(query.SearchQuery.ToLower()));
+            }
+
+            var totalCount = string.IsNullOrWhiteSpace(query.User?.Id)
+                ? await albumQuery.CountAsync()
+                : await albumQuery.CountAsync(album => album.UserID == query.User.Id);
+
+            albumQuery = albumQuery.OrderBy(album => album.Artist).ThenBy(album => album.Title).Skip(query.ItemCount * query.Page);
 
             var albums = string.IsNullOrWhiteSpace(query.User?.Id)
                 ? await albumQuery.Take(query.ItemCount).ToListAsync()

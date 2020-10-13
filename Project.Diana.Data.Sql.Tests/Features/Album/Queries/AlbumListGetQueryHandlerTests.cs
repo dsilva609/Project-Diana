@@ -30,7 +30,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
             _context = InitializeDatabase();
 
             _albumRecords = _fixture.Create<IEnumerable<AlbumRecord>>();
-            _testQuery = new AlbumListGetQuery(13, 0, _fixture.Create<ApplicationUser>());
+            _testQuery = new AlbumListGetQuery(13, 0, string.Empty, _fixture.Create<ApplicationUser>());
             _testRecord = _fixture
                 .Build<AlbumRecord>()
                 .With(album => album.UserID, _testQuery.User.Id)
@@ -85,11 +85,65 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
             await _context.AlbumRecords.AddAsync(expectedAlbum);
             await _context.SaveChangesAsync();
 
-            var query = new AlbumListGetQuery(1, 1, _testQuery.User);
+            var query = new AlbumListGetQuery(1, 1, _testQuery.SearchQuery, _testQuery.User);
 
             var result = await _handler.Handle(query);
 
             result.Albums.First().Title.Should().Be(expectedAlbum.Title);
+        }
+
+        [Fact]
+        public async Task Handler_Returns_Record_With_Search_Query_For_Artist()
+        {
+            var record = _fixture
+                .Build<AlbumRecord>()
+                .With(a => a.Artist, "Sayanoe")
+                .Create();
+
+            await _context.AlbumRecords.AddAsync(record);
+
+            await InitializeRecords();
+
+            var request = new AlbumListGetQuery(1, 0, record.Artist, null);
+
+            var result = await _handler.Handle(request);
+
+            result.Albums.Should().Contain(a => a.Artist == record.Artist);
+            result.TotalCount.Should().Be(request.ItemCount);
+        }
+
+        [Fact]
+        public async Task Handler_Returns_Record_With_Search_Query_For_Title()
+        {
+            var record = _fixture
+                .Build<AlbumRecord>()
+                .With(a => a.Title, "Heaven and Hell")
+                .Create();
+
+            await _context.AlbumRecords.AddAsync(record);
+
+            await InitializeRecords();
+
+            var request = new AlbumListGetQuery(1, 0, record.Title, null);
+
+            var result = await _handler.Handle(request);
+
+            result.Albums.Should().Contain(a => a.Title == record.Title);
+            result.TotalCount.Should().Be(request.ItemCount);
+        }
+
+        [Fact]
+        public async Task Handler_Returns_Records_When_Search_Query_Is_Empty()
+        {
+            await _context.AlbumRecords.AddAsync(_testRecord);
+
+            await InitializeRecords();
+
+            var request = new AlbumListGetQuery(1, 0, string.Empty, _testQuery.User);
+
+            var result = await _handler.Handle(request);
+
+            result.Albums.Should().NotBeEmpty();
         }
 
         [Fact]
@@ -112,7 +166,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
 
             await InitializeRecords();
 
-            var request = new AlbumListGetQuery(1, 0, _testQuery.User);
+            var request = new AlbumListGetQuery(1, 0, _testQuery.SearchQuery, _testQuery.User);
 
             var result = await _handler.Handle(request);
 
@@ -126,7 +180,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
 
             var count = await _context.Albums.CountAsync();
 
-            var query = new AlbumListGetQuery(10, 0, null);
+            var query = new AlbumListGetQuery(10, 0, _testQuery.SearchQuery, null);
 
             var result = await _handler.Handle(query);
 

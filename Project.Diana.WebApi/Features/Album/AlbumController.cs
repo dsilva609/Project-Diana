@@ -26,6 +26,6 @@ namespace Project.Diana.WebApi.Features.Album
 
         [HttpGet]
         [Route("GetAlbumList")]
-        public async Task<IActionResult> GetAlbumList(int itemCount, int page) => Ok(await _mediator.Send(new AlbumListGetRequest(itemCount, page, await _userService.GetCurrentUser())));
+        public async Task<IActionResult> GetAlbumList(int itemCount, int page, string searchQuery) => Ok(await _mediator.Send(new AlbumListGetRequest(itemCount, page, searchQuery, await _userService.GetCurrentUser())));
     }
 }

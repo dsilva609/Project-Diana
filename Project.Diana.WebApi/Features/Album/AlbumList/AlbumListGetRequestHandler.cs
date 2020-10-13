@@ -13,6 +13,6 @@ namespace Project.Diana.WebApi.Features.Album.AlbumList
         public AlbumListGetRequestHandler(IQueryDispatcher queryDispatcher) => _queryDispatcher = queryDispatcher;
 
         public async Task<AlbumListResponse> Handle(AlbumListGetRequest request, CancellationToken cancellationToken)
-            => await _queryDispatcher.Dispatch<AlbumListGetQuery, AlbumListResponse>(new AlbumListGetQuery(request.ItemCount, request.Page, request.User));
+            => await _queryDispatcher.Dispatch<AlbumListGetQuery, AlbumListResponse>(new AlbumListGetQuery(request.ItemCount, request.Page, request.SearchQuery, request.User));
     }
 }
