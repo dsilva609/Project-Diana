@@ -46,7 +46,8 @@ namespace Project.Diana.WebApi.Features.User.Login
                 {
                     DisplayName = user.DisplayName,
                     Token = token,
-                    UserId = user.Id
+                    UserId = user.Id,
+                    UserNum = user.UserNum
                 };
 
                 return new OkObjectResult(loginResponse);

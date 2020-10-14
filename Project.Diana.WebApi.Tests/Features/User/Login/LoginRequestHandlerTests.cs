@@ -85,6 +85,7 @@ namespace Project.Diana.WebApi.Tests.Features.User.Login
             userResponse.DisplayName.Should().Be(_testUser.DisplayName);
             userResponse.Token.Should().NotBeNullOrWhiteSpace();
             userResponse.UserId.Should().Be(_testUser.Id);
+            userResponse.UserNum.Should().Be(_testUser.UserNum);
         }
 
         private Mock<SignInManager<ApplicationUser>> GetMockSignInManager()
