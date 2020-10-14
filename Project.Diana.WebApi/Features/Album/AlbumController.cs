@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Project.Diana.WebApi.Features.Album.AlbumAddToShowcase;
 using Project.Diana.WebApi.Features.Album.AlbumById;
 using Project.Diana.WebApi.Features.Album.AlbumList;
 using Project.Diana.WebApi.Helpers;
@@ -19,6 +21,11 @@ namespace Project.Diana.WebApi.Features.Album
             _mediator = mediator;
             _userService = userService;
         }
+
+        [HttpGet]
+        [Route("AddToShowcae")]
+        [Authorize]
+        public async Task<IActionResult> AddToShowcase(int id) => Ok(new AlbumAddToShowcaseRequest(id, await _userService.GetCurrentUser()));
 
         [HttpGet]
         [Route("{id}")]
