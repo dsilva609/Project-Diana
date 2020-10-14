@@ -133,6 +133,25 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
         }
 
         [Fact]
+        public async Task Handler_Returns_Records_For_Search_Query_And_User_Id()
+        {
+            var records = _fixture
+                .Build<AlbumRecord>()
+                .With(a => a.Title, _testQuery.SearchQuery)
+                .With(a => a.UserID, _testQuery.User.Id)
+                .CreateMany();
+
+            await _context.AlbumRecords.AddRangeAsync(records);
+
+            await InitializeRecords();
+
+            var result = await _handler.Handle(_testQuery);
+
+            result.Albums.Should().NotBeEmpty();
+            result.Albums.All(a => a.UserID == _testQuery.User.Id).Should().BeTrue();
+        }
+
+        [Fact]
         public async Task Handler_Returns_Records_When_Search_Query_Is_Empty()
         {
             await _context.AlbumRecords.AddAsync(_testRecord);

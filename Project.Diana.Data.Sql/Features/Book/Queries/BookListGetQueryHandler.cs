@@ -15,11 +15,20 @@ namespace Project.Diana.Data.Sql.Features.Book.Queries
 
         public async Task<BookListResponse> Handle(BookListGetQuery query)
         {
-            var totalCount = string.IsNullOrWhiteSpace(query.User?.Id)
-                ? await _context.Books.CountAsync()
-                : await _context.Books.CountAsync(book => book.UserID == query.User.Id);
+            var bookQuery = _context.Books;
 
-            var bookQuery = _context.Books.OrderBy(book => book.Author).ThenBy(book => book.Title).Skip(query.ItemCount * query.Page);
+            if (!string.IsNullOrWhiteSpace(query.SearchQuery))
+            {
+                bookQuery = bookQuery.Where(q
+                    => q.Author.ToLower().Contains(query.SearchQuery.ToLower())
+                       || q.Title.ToLower().Contains(query.SearchQuery.ToLower()));
+            }
+
+            var totalCount = string.IsNullOrWhiteSpace(query.User?.Id)
+                ? await bookQuery.CountAsync()
+                : await bookQuery.CountAsync(book => book.UserID == query.User.Id);
+
+            bookQuery = bookQuery.OrderBy(book => book.Author).ThenBy(book => book.Title).Skip(query.ItemCount * query.Page);
 
             var books = string.IsNullOrWhiteSpace(query.User?.Id)
                 ? await bookQuery.Take(query.ItemCount).ToListAsync()

@@ -30,7 +30,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
             _context = InitializeDatabase();
 
             _bookRecords = _fixture.Create<IEnumerable<BookRecord>>();
-            _testQuery = new BookListGetQuery(69, 0, _fixture.Create<ApplicationUser>());
+            _testQuery = new BookListGetQuery(69, 0, string.Empty, _fixture.Create<ApplicationUser>());
             _testRecord = _fixture
                 .Build<BookRecord>()
                 .With(book => book.UserID, _testQuery.User.Id)
@@ -60,7 +60,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
             await _context.BookRecords.AddAsync(expectedBook);
             await _context.SaveChangesAsync();
 
-            var query = new BookListGetQuery(1, 1, _testQuery.User);
+            var query = new BookListGetQuery(1, 1, _testQuery.SearchQuery, _testQuery.User);
 
             var result = await _handler.Handle(query);
 
@@ -93,6 +93,79 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
         }
 
         [Fact]
+        public async Task Handler_Returns_Record_With_Query_For_Author()
+        {
+            var record = _fixture
+                .Build<BookRecord>()
+                .With(b => b.Author, "Rucka")
+                .Create();
+
+            await _context.BookRecords.AddAsync(record);
+
+            await InitializeRecords();
+
+            var request = new BookListGetQuery(1, 0, record.Author, null);
+
+            var result = await _handler.Handle(request);
+
+            result.Books.Should().Contain(b => b.Author == record.Author);
+            result.TotalCount.Should().Be(request.ItemCount);
+        }
+
+        [Fact]
+        public async Task Handler_Returns_Record_With_Query_For_Title()
+        {
+            var record = _fixture
+                .Build<BookRecord>()
+                .With(b => b.Title, "Wonder Woman")
+                .Create();
+
+            await _context.BookRecords.AddAsync(record);
+
+            await InitializeRecords();
+
+            var request = new BookListGetQuery(1, 0, record.Title, null);
+
+            var result = await _handler.Handle(request);
+
+            result.Books.Should().Contain(b => b.Title == record.Title);
+            result.TotalCount.Should().Be(request.ItemCount);
+        }
+
+        [Fact]
+        public async Task Handler_Returns_Records_For_Search_Query_And_User_Id()
+        {
+            var records = _fixture
+                .Build<BookRecord>()
+                .With(b => b.Title, _testQuery.SearchQuery)
+                .With(b => b.UserID, _testQuery.User.Id)
+                .CreateMany();
+
+            await _context.BookRecords.AddRangeAsync(records);
+
+            await InitializeRecords();
+
+            var result = await _handler.Handle(_testQuery);
+
+            result.Books.Should().NotBeEmpty();
+            result.Books.All(b => b.UserID == _testQuery.User.Id).Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task Handler_Returns_Records_When_Search_Query_Is_Empty()
+        {
+            await _context.BookRecords.AddAsync(_testRecord);
+
+            await InitializeRecords();
+
+            var request = new BookListGetQuery(1, 0, string.Empty, _testQuery.User);
+
+            var result = await _handler.Handle(request);
+
+            result.Books.Should().NotBeEmpty();
+        }
+
+        [Fact]
         public async Task Handler_Returns_Records_When_There_Is_No_UserID()
         {
             _testQuery.User.Id = string.Empty;
@@ -112,7 +185,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
 
             await InitializeRecords();
 
-            var request = new BookListGetQuery(1, 0, _testQuery.User);
+            var request = new BookListGetQuery(1, 0, _testQuery.SearchQuery, _testQuery.User);
 
             var result = await _handler.Handle(request);
 
@@ -126,7 +199,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
 
             var count = await _context.Books.CountAsync();
 
-            var query = new BookListGetQuery(10, 0, null);
+            var query = new BookListGetQuery(10, 0, _testQuery.SearchQuery, null);
 
             var result = await _handler.Handle(query);
 

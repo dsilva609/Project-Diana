@@ -26,6 +26,6 @@ namespace Project.Diana.WebApi.Features.Book
 
         [HttpGet]
         [Route("GetBookList")]
-        public async Task<IActionResult> GetBookList(int itemCount, int page) => Ok(await _mediator.Send(new BookListGetRequest(itemCount, page, await _userService.GetCurrentUser())));
+        public async Task<IActionResult> GetBookList(int itemCount, int page, string searchQuery) => Ok(await _mediator.Send(new BookListGetRequest(itemCount, page, searchQuery, await _userService.GetCurrentUser())));
     }
 }

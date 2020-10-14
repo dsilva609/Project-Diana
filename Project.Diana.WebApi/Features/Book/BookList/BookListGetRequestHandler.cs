@@ -13,6 +13,6 @@ namespace Project.Diana.WebApi.Features.Book.BookList
         public BookListGetRequestHandler(IQueryDispatcher queryDispatcher) => _queryDispatcher = queryDispatcher;
 
         public async Task<BookListResponse> Handle(BookListGetRequest request, CancellationToken cancellationToken)
-            => await _queryDispatcher.Dispatch<BookListGetQuery, BookListResponse>(new BookListGetQuery(request.ItemCount, request.Page, request.User));
+            => await _queryDispatcher.Dispatch<BookListGetQuery, BookListResponse>(new BookListGetQuery(request.ItemCount, request.Page, request.SearchQuery, request.User));
     }
 }
