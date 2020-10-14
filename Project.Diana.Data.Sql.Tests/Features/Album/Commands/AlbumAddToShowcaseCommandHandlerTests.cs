@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Commands
             _testAlbum = fixture
                 .Build<AlbumRecord>()
                 .With(a => a.ID, _testCommand.AlbumId)
+                .With(a => a.DateUpdated, DateTime.UtcNow)
                 .With(a => a.IsShowcased, false)
                 .With(a => a.UserID, _testCommand.User.Id)
                 .Create();

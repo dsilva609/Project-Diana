@@ -22,10 +22,10 @@ namespace Project.Diana.WebApi.Features.Album
             _userService = userService;
         }
 
-        [HttpGet]
-        [Route("AddToShowcae")]
+        [HttpPut]
+        [Route("AddToShowcase/{id}")]
         [Authorize]
-        public async Task<IActionResult> AddToShowcase(int id) => Ok(new AlbumAddToShowcaseRequest(id, await _userService.GetCurrentUser()));
+        public async Task<IActionResult> AddToShowcase(int id) => Ok(await _mediator.Send(new AlbumAddToShowcaseRequest(id, await _userService.GetCurrentUser())));
 
         [HttpGet]
         [Route("{id}")]
