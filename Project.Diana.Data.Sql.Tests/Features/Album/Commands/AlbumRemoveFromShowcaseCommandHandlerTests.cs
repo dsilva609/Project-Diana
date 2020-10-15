@@ -12,42 +12,29 @@ using Xunit;
 
 namespace Project.Diana.Data.Sql.Tests.Features.Album.Commands
 {
-    public class AlbumAddToShowcaseCommandHandlerTests : DbContextTestBase<ProjectDianaWriteContext>
+    public class AlbumRemoveFromShowcaseCommandHandlerTests : DbContextTestBase<ProjectDianaWriteContext>
     {
         private readonly ProjectDianaWriteContext _context;
-        private readonly AlbumAddToShowcaseCommandHandler _handler;
+        private readonly AlbumRemoveFromShowcaseCommandHandler _handler;
         private readonly AlbumRecord _testAlbum;
-        private readonly AlbumAddToShowcaseCommand _testCommand;
+        private readonly AlbumRemoveFromShowcaseCommand _testCommand;
 
-        public AlbumAddToShowcaseCommandHandlerTests()
+        public AlbumRemoveFromShowcaseCommandHandlerTests()
         {
             var fixture = new Fixture();
 
             _context = InitializeDatabase();
 
-            _testCommand = fixture.Create<AlbumAddToShowcaseCommand>();
+            _testCommand = fixture.Create<AlbumRemoveFromShowcaseCommand>();
             _testAlbum = fixture
                 .Build<AlbumRecord>()
                 .With(a => a.ID, _testCommand.AlbumId)
                 .With(a => a.DateUpdated, DateTime.UtcNow)
-                .With(a => a.IsShowcased, false)
+                .With(a => a.IsShowcased, true)
                 .With(a => a.UserID, _testCommand.User.Id)
                 .Create();
 
-            _handler = new AlbumAddToShowcaseCommandHandler(_context);
-        }
-
-        [Fact]
-        public async Task Handler_Does_Not_Update_Album_Already_In_Showcase()
-        {
-            var lastModifiedTime = _testAlbum.DateUpdated;
-            _testAlbum.IsShowcased = true;
-
-            await InitializeRecords();
-
-            await _handler.Handle(_testCommand);
-
-            _testAlbum.DateUpdated.Should().Be(lastModifiedTime);
+            _handler = new AlbumRemoveFromShowcaseCommandHandler(_context);
         }
 
         [Fact]
@@ -64,7 +51,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Commands
         }
 
         [Fact]
-        public async Task Handler_Does_Not_Update_Album_With_Not_Matching_AlbumId()
+        public async Task Handler_Does_Not_Update_Album_With_Non_Matching_AlbumId()
         {
             var lastModifiedTime = _testAlbum.DateUpdated;
             _testAlbum.ID = _testCommand.AlbumId + 1;
@@ -77,13 +64,26 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Commands
         }
 
         [Fact]
-        public async Task Handler_Sets_Album_To_Showcased()
+        public async Task Handler_Does_Not_Update_When_Album_Is_Already_Not_Showcased()
+        {
+            var lastModifiedTime = _testAlbum.DateUpdated;
+            _testAlbum.IsShowcased = false;
+
+            await InitializeRecords();
+
+            await _handler.Handle(_testCommand);
+
+            _testAlbum.DateUpdated.Should().Be(lastModifiedTime);
+        }
+
+        [Fact]
+        public async Task Handler_Sets_Album_To_Not_Showcased()
         {
             await InitializeRecords();
 
             await _handler.Handle(_testCommand);
 
-            _testAlbum.IsShowcased.Should().BeTrue();
+            _testAlbum.IsShowcased.Should().BeFalse();
         }
 
         [Fact]

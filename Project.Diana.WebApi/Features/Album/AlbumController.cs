@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Project.Diana.WebApi.Features.Album.AlbumAddToShowcase;
 using Project.Diana.WebApi.Features.Album.AlbumById;
 using Project.Diana.WebApi.Features.Album.AlbumList;
+using Project.Diana.WebApi.Features.Album.AlbumRemoveFromShowcase;
 using Project.Diana.WebApi.Helpers;
 
 namespace Project.Diana.WebApi.Features.Album
@@ -34,5 +35,10 @@ namespace Project.Diana.WebApi.Features.Album
         [HttpGet]
         [Route("GetAlbumList")]
         public async Task<IActionResult> GetAlbumList(int itemCount, int page, string searchQuery) => Ok(await _mediator.Send(new AlbumListGetRequest(itemCount, page, searchQuery, await _userService.GetCurrentUser())));
+
+        [HttpPut]
+        [Route("RemoveFromShowcase/{id}")]
+        [Authorize]
+        public async Task<IActionResult> RemoveFromShowcase(int id) => Ok(await _mediator.Send(new AlbumRemoveFromShowcaseRequest(id, await _userService.GetCurrentUser())));
     }
 }

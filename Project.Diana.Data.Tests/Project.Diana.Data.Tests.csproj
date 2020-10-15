@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Project.Diana.Data.Sql\Project.Diana.Data.Sql.csproj" />
     <ProjectReference Include="..\Project.Diana.Data\Project.Diana.Data.csproj" />
   </ItemGroup>
 </Project>
