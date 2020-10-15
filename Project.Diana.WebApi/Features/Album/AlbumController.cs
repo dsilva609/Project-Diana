@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Project.Diana.WebApi.Features.Album.AlbumAddToShowcase;
 using Project.Diana.WebApi.Features.Album.AlbumById;
+using Project.Diana.WebApi.Features.Album.AlbumClearShowcase;
 using Project.Diana.WebApi.Features.Album.AlbumList;
 using Project.Diana.WebApi.Features.Album.AlbumRemoveFromShowcase;
 using Project.Diana.WebApi.Helpers;
@@ -27,6 +28,11 @@ namespace Project.Diana.WebApi.Features.Album
         [Route("AddToShowcase/{id}")]
         [Authorize]
         public async Task<IActionResult> AddToShowcase(int id) => Ok(await _mediator.Send(new AlbumAddToShowcaseRequest(id, await _userService.GetCurrentUser())));
+
+        [HttpGet]
+        [Route("ClearShowcase")]
+        [Authorize]
+        public async Task<IActionResult> ClearShowcase() => Ok(await _mediator.Send(new AlbumClearShowcaseRequest(await _userService.GetCurrentUser())));
 
         [HttpGet]
         [Route("{id}")]
