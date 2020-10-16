@@ -39,7 +39,10 @@ namespace Project.Diana.WebApi
                 .UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllers();
+                    endpoints.MapHealthChecks(string.Empty);
                 });
+
+
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -96,6 +99,8 @@ namespace Project.Diana.WebApi
                         fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
                     }
                 );
+
+            services.AddHealthChecks();
 
             services
                 .AddHttpContextAccessor()
