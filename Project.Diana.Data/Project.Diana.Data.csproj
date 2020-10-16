@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ardalis.GuardClauses" Version="3.0.0" />
+    <PackageReference Include="Ardalis.GuardClauses" Version="3.0.1" />
     <PackageReference Include="FluentValidation" Version="9.3.0-preview2" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.0-rc.1.20451.17" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="5.0.0-rc.1.20451.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.0-rc.2.20475.17" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="5.0.0-rc.2.20475.17" />
   </ItemGroup>
 </Project>
