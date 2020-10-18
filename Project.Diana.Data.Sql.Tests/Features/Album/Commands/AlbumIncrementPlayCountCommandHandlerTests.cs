@@ -4,6 +4,7 @@ using AutoFixture;
 using FluentAssertions;
 using Project.Diana.Data.Features.Album;
 using Project.Diana.Data.Features.Album.Commands;
+using Project.Diana.Data.Features.Item;
 using Project.Diana.Data.Sql.Context;
 using Project.Diana.Data.Sql.Features.Album.Commands;
 using Project.Diana.Tests.Common.TestBases;
@@ -71,6 +72,18 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Commands
             await _handler.Handle(_testCommand);
 
             _testRecord.TimesCompleted.Should().Be(previousPlayCount + 1);
+        }
+
+        [Fact]
+        public async Task Handler_Sets_Item_Status_To_Completed()
+        {
+            _testRecord.CompletionStatus = CompletionStatusReference.NotStarted;
+
+            await InitializeRecords();
+
+            await _handler.Handle(_testCommand);
+
+            _testRecord.CompletionStatus.Should().Be(CompletionStatusReference.Completed);
         }
 
         [Fact]

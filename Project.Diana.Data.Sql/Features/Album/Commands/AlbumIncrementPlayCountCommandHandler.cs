@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Project.Diana.Data.Features.Album.Commands;
+using Project.Diana.Data.Features.Item;
 using Project.Diana.Data.Sql.Bases.Commands;
 using Project.Diana.Data.Sql.Context;
 
@@ -25,6 +26,12 @@ namespace Project.Diana.Data.Sql.Features.Album.Commands
             }
 
             album.TimesCompleted++;
+
+            if (album.CompletionStatus != CompletionStatusReference.Completed)
+            {
+                album.CompletionStatus = CompletionStatusReference.Completed;
+            }
+
             album.DateUpdated = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
