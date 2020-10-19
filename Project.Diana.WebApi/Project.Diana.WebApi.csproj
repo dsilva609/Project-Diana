@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Ardalis.GuardClauses" Version="3.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
     <PackageReference Include="FluentValidation" Version="9.3.0-preview2" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="9.3.0-preview2" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="9.3.0-preview2" />
