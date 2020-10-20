@@ -32,7 +32,10 @@ namespace Project.Diana.Data.Sql.Features.Album.Commands
                 album.CompletionStatus = CompletionStatusReference.Completed;
             }
 
-            album.DateUpdated = DateTime.UtcNow;
+            var dateUpdated = DateTime.UtcNow;
+
+            album.LastCompleted = dateUpdated;
+            album.DateUpdated = dateUpdated;
 
             await _context.SaveChangesAsync();
         }

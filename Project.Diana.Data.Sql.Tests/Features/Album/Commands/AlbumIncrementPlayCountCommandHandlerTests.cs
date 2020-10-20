@@ -87,6 +87,28 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Commands
         }
 
         [Fact]
+        public async Task Handler_Sets_Last_Completed_And_Modified_Time_To_Same_Date()
+        {
+            await InitializeRecords();
+
+            await _handler.Handle(_testCommand);
+
+            _testRecord.DateUpdated.Should().BeSameDateAs(_testRecord.LastCompleted);
+        }
+
+        [Fact]
+        public async Task Handler_Update_Last_Completed_Time()
+        {
+            var lastModifiedTime = _testRecord.DateUpdated;
+
+            await InitializeRecords();
+
+            await _handler.Handle(_testCommand);
+
+            _testRecord.LastCompleted.Should().BeAfter(lastModifiedTime);
+        }
+
+        [Fact]
         public async Task Handler_Updates_Modified_Time()
         {
             var lastModifiedTime = _testRecord.DateUpdated;
