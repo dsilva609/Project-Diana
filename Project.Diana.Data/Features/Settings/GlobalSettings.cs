@@ -4,10 +4,9 @@ namespace Project.Diana.Data.Features.Settings
 {
     public class GlobalSettings
     {
-        //--TODO: add validation
         public string Issuer { get; set; }
-
         public string JwtKey { get; set; }
+        public int TokenExpirationMinutes { get; set; }
     }
 
     public class GlobalSettingsValidator : AbstractValidator<GlobalSettings>
@@ -16,6 +15,7 @@ namespace Project.Diana.Data.Features.Settings
         {
             RuleFor(s => s.Issuer).NotEmpty();
             RuleFor(s => s.JwtKey).NotEmpty();
+            RuleFor(s => s.TokenExpirationMinutes).GreaterThan(0);
         }
     }
 }

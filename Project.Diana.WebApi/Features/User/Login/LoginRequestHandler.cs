@@ -77,7 +77,7 @@ namespace Project.Diana.WebApi.Features.User.Login
                 issuer: _settings.Issuer,
                 audience: _settings.Issuer,
                 claims,
-                expires: DateTime.UtcNow.AddMinutes(10),
+                expires: DateTime.UtcNow.AddMinutes(_settings.TokenExpirationMinutes),
                 signingCredentials: credentials);
 
             var encodedToken = new JwtSecurityTokenHandler().WriteToken(token);
