@@ -17,7 +17,7 @@ namespace Project.Diana.Data.Features.Album.Commands
         public int DiscogsId { get; }
         public string Genre { get; }
         public string ImageUrl { get; }
-        public bool IsNewPurchase { get; }
+        public bool IsNew { get; }
         public bool IsPhysical { get; }
         public string LocationPurchased { get; }
         public MediaTypeReference MediaType { get; }
@@ -41,7 +41,7 @@ namespace Project.Diana.Data.Features.Album.Commands
             int discogsId,
             string genre,
             string imageUrl,
-            bool isNewPurchase,
+            bool isNew,
             bool isPhysical,
             string locationPurchased,
             MediaTypeReference mediaType,
@@ -70,7 +70,7 @@ namespace Project.Diana.Data.Features.Album.Commands
             DiscogsId = discogsId;
             Genre = genre;
             ImageUrl = imageUrl;
-            IsNewPurchase = isNewPurchase;
+            IsNew = isNew;
             IsPhysical = isPhysical;
             LocationPurchased = locationPurchased;
             MediaType = mediaType;

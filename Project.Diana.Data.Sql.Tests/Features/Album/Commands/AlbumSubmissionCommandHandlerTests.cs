@@ -92,7 +92,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Commands
                 _testCommand.DiscogsId,
                 _testCommand.Genre,
                 _testCommand.ImageUrl,
-                _testCommand.IsNewPurchase,
+                _testCommand.IsNew,
                 _testCommand.IsPhysical,
                 _testCommand.LocationPurchased,
                 _testCommand.MediaType,
