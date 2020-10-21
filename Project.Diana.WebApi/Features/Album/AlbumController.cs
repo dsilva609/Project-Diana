@@ -8,6 +8,7 @@ using Project.Diana.WebApi.Features.Album.AlbumClearShowcase;
 using Project.Diana.WebApi.Features.Album.AlbumIncrementPlayCount;
 using Project.Diana.WebApi.Features.Album.AlbumList;
 using Project.Diana.WebApi.Features.Album.AlbumRemoveFromShowcase;
+using Project.Diana.WebApi.Features.Album.AlbumUpdate;
 using Project.Diana.WebApi.Features.Album.Submission;
 using Project.Diana.WebApi.Helpers;
 
@@ -81,5 +82,34 @@ namespace Project.Diana.WebApi.Features.Album
         [Route("RemoveFromShowcase/{id}")]
         [Authorize]
         public async Task<IActionResult> RemoveFromShowcase(int id) => Ok(await _mediator.Send(new AlbumRemoveFromShowcaseRequest(id, await _userService.GetCurrentUser())));
+
+        [HttpPut]
+        [Route("UpdateAlbum")]
+        [Authorize]
+        public async Task<IActionResult> UpdateAlbum(AlbumUpdate.AlbumUpdate update)
+            => Ok(await _mediator.Send(new AlbumUpdateRequest(
+                update.AlbumId,
+                update.Artist,
+                update.Category,
+                update.CompletionStatus,
+                update.CountryOfOrigin,
+                update.CountryPurchased,
+                update.DatePurchased,
+                update.DiscogsId,
+                update.Genre,
+                update.ImageUrl,
+                update.IsNewPurchase,
+                update.IsPhysical,
+                update.LocationPurchased,
+                update.MediaType,
+                update.Notes,
+                update.RecordLabel,
+                update.Size,
+                update.Speed,
+                update.Style,
+                update.PlayCount,
+                update.Title,
+                update.YearReleased,
+                await _userService.GetCurrentUser())));
     }
 }
