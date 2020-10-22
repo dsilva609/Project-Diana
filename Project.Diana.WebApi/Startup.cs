@@ -16,6 +16,7 @@ using Project.Diana.Data.Features.Settings;
 using Project.Diana.Data.Features.User;
 using Project.Diana.Data.Sql.Context;
 using Project.Diana.WebApi.Configuration;
+using Project.Diana.WebApi.Configuration.Providers;
 
 namespace Project.Diana.WebApi
 {
@@ -104,8 +105,10 @@ namespace Project.Diana.WebApi
 
             services
                 .AddAutoMapper(typeof(AlbumMappingProfile))
+                .AddDiscogsProvider(Configuration)
                 .AddHttpContextAccessor()
                 .AddMediatR(typeof(Startup).Assembly)
+                .RegisterCoreServices()
                 .RegisterCommandAndQueryHandlers()
                 .RegisterHelperServices()
                 .RegisterSettings(Configuration);
