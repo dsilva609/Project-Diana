@@ -1,6 +1,7 @@
 ﻿using System;
-using AutoFixture.Xunit2;
+using AutoFixture;
 using FluentAssertions;
+using FluentValidation;
 using Project.Diana.ApiClient.Features.Discogs;
 using Xunit;
 
@@ -8,28 +9,46 @@ namespace Project.Diana.ApiClient.Tests.Features.Discogs
 {
     public class DiscogsApiClientConfigurationTests
     {
-        [Theory, AutoData]
-        public void Configuration_Throws_If_Base_Url_Is_Missing(string discogsToken, string userAgent)
-        {
-            Action createWithMissingBaseUrl = () => new DiscogsApiClientConfiguration(string.Empty, discogsToken, userAgent);
+        private readonly DiscogsApiClientConfiguration _configuration;
+        private readonly DiscogsApiClientConfigurationValidator _validator;
 
-            createWithMissingBaseUrl.Should().Throw<ArgumentException>();
+        public DiscogsApiClientConfigurationTests()
+        {
+            var fixture = new Fixture();
+
+            _configuration = fixture.Create<DiscogsApiClientConfiguration>();
+
+            _validator = new DiscogsApiClientConfigurationValidator();
         }
 
-        [Theory, AutoData]
-        public void Configuration_Throws_If_Discogs_Token_Is_Missing(string baseUrl, string userAgent)
+        [Fact]
+        public void Configuration_Throws_If_Base_Url_Is_Missing()
         {
-            Action createWithMissingDiscogsToken = () => new DiscogsApiClientConfiguration(baseUrl, string.Empty, userAgent);
+            _configuration.BaseUrl = string.Empty;
 
-            createWithMissingDiscogsToken.Should().Throw<ArgumentException>();
+            Action createWithMissingBaseUrl = () => _validator.ValidateAndThrow(_configuration);
+
+            createWithMissingBaseUrl.Should().Throw<ValidationException>();
         }
 
-        [Theory, AutoData]
-        public void Configuration_Throws_If_User_Agent_Is_Missing(string baseUrl, string discogsToken)
+        [Fact]
+        public void Configuration_Throws_If_Discogs_Token_Is_Missing()
         {
-            Action createWithMissingUserAgent = () => new DiscogsApiClientConfiguration(baseUrl, discogsToken, string.Empty);
+            _configuration.DiscogsToken = string.Empty;
 
-            createWithMissingUserAgent.Should().Throw<ArgumentException>();
+            Action createWithMissingDiscogsToken = () => _validator.ValidateAndThrow(_configuration);
+
+            createWithMissingDiscogsToken.Should().Throw<ValidationException>();
+        }
+
+        [Fact]
+        public void Configuration_Throws_If_User_Agent_Is_Missing()
+        {
+            _configuration.UserAgent = string.Empty;
+
+            Action createWithMissingUserAgent = () => _validator.ValidateAndThrow(_configuration);
+
+            createWithMissingUserAgent.Should().Throw<ValidationException>();
         }
     }
 }

@@ -1,25 +1,22 @@
-﻿using Ardalis.GuardClauses;
+﻿using FluentValidation;
 
 namespace Project.Diana.ApiClient.Features.Discogs
 {
     public class DiscogsApiClientConfiguration : IDiscogsApiClientConfiguration
     {
-        public string BaseUrl { get; }
-        public string DiscogsToken { get; }
-        public string UserAgent { get; }
+        public string BaseUrl { get; set; }
+        public string DiscogsToken { get; set; }
+        public string UserAgent { get; set; }
 
-        public DiscogsApiClientConfiguration(
-            string baseUrl,
-            string discogsToken,
-            string userAgent)
+    }
+
+    public class DiscogsApiClientConfigurationValidator : AbstractValidator<DiscogsApiClientConfiguration>
+    {
+        public DiscogsApiClientConfigurationValidator()
         {
-            Guard.Against.NullOrWhiteSpace(baseUrl, nameof(baseUrl));
-            Guard.Against.NullOrWhiteSpace(discogsToken, nameof(discogsToken));
-            Guard.Against.NullOrWhiteSpace(userAgent, nameof(userAgent));
-
-            BaseUrl = baseUrl;
-            DiscogsToken = discogsToken;
-            UserAgent = userAgent;
+            RuleFor(r => r.BaseUrl).NotEmpty();
+            RuleFor(r => r.DiscogsToken).NotEmpty();
+            RuleFor(r => r.UserAgent).NotEmpty();
         }
     }
 }
