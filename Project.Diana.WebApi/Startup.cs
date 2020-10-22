@@ -1,20 +1,11 @@
-﻿using System.Text;
-using AutoMapper;
-using FluentValidation.AspNetCore;
+﻿using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Project.Diana.Data.Features.Album;
-using Project.Diana.Data.Features.Settings;
-using Project.Diana.Data.Features.User;
-using Project.Diana.Data.Sql.Context;
 using Project.Diana.WebApi.Configuration;
 using Project.Diana.WebApi.Configuration.Providers;
 
@@ -48,72 +39,17 @@ namespace Project.Diana.WebApi
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            services
-                .AddCors(options =>
-                {
-                    options.AddPolicy("CorsPolicy",
-                        builder => builder
-                                                .AllowAnyOrigin()
-                                                .AllowAnyMethod()
-                                                .AllowAnyHeader()
-                                                .Build());
-                })
-                .AddDbContext<IProjectDianaReadonlyContext, ProjectDianaReadonlyContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")))
-                .AddDbContext<ProjectDianaReadonlyContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")))
-                .AddDbContext<IProjectDianaWriteContext, ProjectDianaWriteContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            services
-                .AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ProjectDianaReadonlyContext>()
-                .AddEntityFrameworkStores<ProjectDianaWriteContext>()
-                .AddDefaultTokenProviders();
-
-            services.AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(options =>
-                {
-                    options.Audience = Configuration["GlobalSettings:Issuer"];
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = Configuration["GlobalSettings:Issuer"],
-                        ValidAudience = Configuration["GlobalSettings:Issuer"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["GlobalSettings:JwtKey"]))
-                    };
-                });
-
-            services
-                .AddMvc()
-                .AddFluentValidation(fv =>
-                    {
-                        fv.RegisterValidatorsFromAssemblyContaining<GlobalSettings>();
-                        fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
-                    }
-                );
-
-            services.AddHealthChecks();
-
-            services
+            => services
                 .AddAutoMapper(typeof(AlbumMappingProfile))
                 .AddDiscogsProvider(Configuration)
                 .AddHttpContextAccessor()
                 .AddMediatR(typeof(Startup).Assembly)
+                .RegisterAuthorization(Configuration)
                 .RegisterCoreServices()
+                .RegisterCors()
                 .RegisterCommandAndQueryHandlers()
+                .RegisterDBContext(Configuration)
                 .RegisterHelperServices()
                 .RegisterSettings(Configuration);
-
-            services.AddControllers();
-        }
     }
 }
