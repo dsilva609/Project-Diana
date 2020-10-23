@@ -24,7 +24,7 @@ namespace Project.Diana.ApiClient.Features.Discogs
         {
             var request = new RestRequest(_configuration.SearchResource, Method.GET);
 
-            request.AddHeader("Authorization", $"Discogs token {_configuration.DiscogsToken}");
+            request.AddHeader("Authorization", $"Discogs token={_configuration.DiscogsToken}");
             request.AddQueryParameter("type", "release");
             request.AddQueryParameter("q", $"{artist}+{album}");
 
