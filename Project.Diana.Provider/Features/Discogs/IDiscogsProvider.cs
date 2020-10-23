@@ -1,9 +1,14 @@
-﻿namespace Project.Diana.Provider.Features.Discogs
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using CSharpFunctionalExtensions;
+using Project.Diana.ApiClient.Features.Discogs;
+
+namespace Project.Diana.Provider.Features.Discogs
 {
     public interface IDiscogsProvider
     {
         void GetReleaseFromId(int releaseId);
 
-        void SearchForAlbum(string artist, string album);
+        Task<Result<IEnumerable<SearchResult>>> SearchForAlbum(string artist, string album);
     }
 }

@@ -42,6 +42,16 @@ namespace Project.Diana.ApiClient.Tests.Features.Discogs
         }
 
         [Fact]
+        public void Configuration_Throws_If_Search_Resource_Is_Missing()
+        {
+            _configuration.SearchResource = string.Empty;
+
+            Action createWithMissingSearchResource = () => _validator.ValidateAndThrow(_configuration);
+
+            createWithMissingSearchResource.Should().Throw<ValidationException>();
+        }
+
+        [Fact]
         public void Configuration_Throws_If_User_Agent_Is_Missing()
         {
             _configuration.UserAgent = string.Empty;
