@@ -20,7 +20,7 @@ namespace Project.Diana.ApiClient.Features.Discogs
 
         public void SendGetReleaseRequest(int releaseId) => throw new NotImplementedException();
 
-        public async Task<Result<DiscogsSearchResult>> SendSearchRequest(string artist, string album)
+        public async Task<Result<DiscogsSearchResult>> SendSearchRequest(string album, string artist)
         {
             var request = new RestRequest(_configuration.SearchResource, Method.GET);
 

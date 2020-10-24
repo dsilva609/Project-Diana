@@ -9,6 +9,6 @@ namespace Project.Diana.Provider.Features.Discogs
     {
         void GetReleaseFromId(int releaseId);
 
-        Task<Result<IEnumerable<SearchResult>>> SearchForAlbum(string artist, string album);
+        Task<Result<IEnumerable<SearchResult>>> SearchForAlbum(string album, string artist);
     }
 }

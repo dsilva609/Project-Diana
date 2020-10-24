@@ -7,6 +7,6 @@ namespace Project.Diana.ApiClient.Features.Discogs
     {
         void SendGetReleaseRequest(int releaseId);
 
-        Task<Result<DiscogsSearchResult>> SendSearchRequest(string artist, string album);
+        Task<Result<DiscogsSearchResult>> SendSearchRequest(string album, string artist);
     }
 }

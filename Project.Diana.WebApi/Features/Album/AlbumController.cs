@@ -9,6 +9,7 @@ using Project.Diana.WebApi.Features.Album.AlbumIncrementPlayCount;
 using Project.Diana.WebApi.Features.Album.AlbumList;
 using Project.Diana.WebApi.Features.Album.AlbumRemoveFromShowcase;
 using Project.Diana.WebApi.Features.Album.AlbumUpdate;
+using Project.Diana.WebApi.Features.Album.SearchDiscogs;
 using Project.Diana.WebApi.Features.Album.Submission;
 using Project.Diana.WebApi.Helpers;
 
@@ -82,6 +83,11 @@ namespace Project.Diana.WebApi.Features.Album
         [Route("RemoveFromShowcase/{id}")]
         [Authorize]
         public async Task<IActionResult> RemoveFromShowcase(int id) => Ok(await _mediator.Send(new AlbumRemoveFromShowcaseRequest(id, await _userService.GetCurrentUser())));
+
+        [HttpGet]
+        [Route("SearchForAlbum")]
+        [Authorize]
+        public async Task<IActionResult> SearchForAlbum(string album, string artist) => Ok(await _mediator.Send(new SearchDiscogsRequest(album, artist)));
 
         [HttpPut]
         [Route("UpdateAlbum")]

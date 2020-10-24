@@ -14,14 +14,14 @@ namespace Project.Diana.Provider.Features.Discogs
 
         public void GetReleaseFromId(int releaseId) => throw new System.NotImplementedException();
 
-        public async Task<Result<IEnumerable<SearchResult>>> SearchForAlbum(string artist, string album)
+        public async Task<Result<IEnumerable<SearchResult>>> SearchForAlbum(string album, string artist)
         {
-            if (string.IsNullOrWhiteSpace(album) && string.IsNullOrWhiteSpace(album))
+            if (string.IsNullOrWhiteSpace(album) && string.IsNullOrWhiteSpace(artist))
             {
                 return Result.Failure<IEnumerable<SearchResult>>("Artist and album are missing.");
             }
 
-            var result = await _apiClient.SendSearchRequest(artist, album);
+            var result = await _apiClient.SendSearchRequest(album, artist);
 
             if (result.IsFailure)
             {
