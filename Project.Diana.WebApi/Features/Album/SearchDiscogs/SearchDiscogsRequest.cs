@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using MediatR;
-using Project.Diana.ApiClient.Features.Discogs;
+using Project.Diana.Provider.Features.Discogs;
 
 namespace Project.Diana.WebApi.Features.Album.SearchDiscogs
 {
-    public class SearchDiscogsRequest : IRequest<IEnumerable<SearchResult>>
+    public class SearchDiscogsRequest : IRequest<IEnumerable<AlbumSearchResponse>>
     {
         public string Album { get; }
         public string Artist { get; }

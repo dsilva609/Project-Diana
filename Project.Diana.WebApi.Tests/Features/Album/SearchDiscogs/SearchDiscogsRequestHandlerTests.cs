@@ -6,7 +6,6 @@ using AutoFixture;
 using CSharpFunctionalExtensions;
 using FluentAssertions;
 using Moq;
-using Project.Diana.ApiClient.Features.Discogs;
 using Project.Diana.Provider.Features.Discogs;
 using Project.Diana.WebApi.Features.Album.SearchDiscogs;
 using Xunit;
@@ -41,7 +40,7 @@ namespace Project.Diana.WebApi.Tests.Features.Album.SearchDiscogs
         public async Task Handler_Throws_If_Provider_Returns_Failure()
         {
             _discogsProvider.Setup(x => x.SearchForAlbum(It.IsAny<string>(), It.IsAny<string>()))
-                .ReturnsAsync(Result.Failure<IEnumerable<SearchResult>>("failure"));
+                .ReturnsAsync(Result.Failure<IEnumerable<AlbumSearchResponse>>("failure"));
 
             Func<Task> callForProviderFailure = async () => await _handler.Handle(_testRequest, CancellationToken.None);
 

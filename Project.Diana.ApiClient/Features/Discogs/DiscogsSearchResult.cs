@@ -53,7 +53,7 @@ namespace Project.Diana.ApiClient.Features.Discogs
         public string type { get; set; }
         public string uri { get; set; }
         public User_Data user_data { get; set; }
-        public string year { get; set; }
+        public int year { get; set; }
     }
 
     public class Urls

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
-using Project.Diana.ApiClient.Features.Discogs;
 
 namespace Project.Diana.Provider.Features.Discogs
 {
@@ -9,6 +8,6 @@ namespace Project.Diana.Provider.Features.Discogs
     {
         void GetReleaseFromId(int releaseId);
 
-        Task<Result<IEnumerable<SearchResult>>> SearchForAlbum(string album, string artist);
+        Task<Result<IEnumerable<AlbumSearchResponse>>> SearchForAlbum(string album, string artist);
     }
 }
