@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Project.Diana.WebApi.Features.Book.BookAddToShowcase;
 using Project.Diana.WebApi.Features.Book.BookById;
 using Project.Diana.WebApi.Features.Book.BookList;
 using Project.Diana.WebApi.Helpers;
@@ -19,6 +21,11 @@ namespace Project.Diana.WebApi.Features.Book
             _mediator = mediator;
             _userService = userService;
         }
+
+        [HttpPut]
+        [Route("AddToShowcase/{id}")]
+        [Authorize]
+        public async Task<IActionResult> AddToShowcase(int id) => Ok(await _mediator.Send(new BookAddToShowcaseRequest(id, await _userService.GetCurrentUser())));
 
         [HttpGet]
         [Route("{id}")]
