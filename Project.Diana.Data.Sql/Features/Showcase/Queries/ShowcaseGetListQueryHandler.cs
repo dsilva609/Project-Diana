@@ -21,6 +21,9 @@ namespace Project.Diana.Data.Sql.Features.Showcase.Queries
             var showcasedAlbums = await _context.Albums.Where(album => album.IsShowcased && album.UserNum == query.UserID).ToListAsync();
             response.ShowcasedAlbums = showcasedAlbums;
 
+            var showcasedBooks = await _context.Books.Where(book => book.IsShowcased && book.UserNum == query.UserID).ToListAsync();
+            response.ShowcasedBooks = showcasedBooks;
+
             return response;
         }
     }
