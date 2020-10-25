@@ -8,6 +8,7 @@ using Project.Diana.WebApi.Features.Book.BookIncrementReadCount;
 using Project.Diana.WebApi.Features.Book.BookList;
 using Project.Diana.WebApi.Features.Book.BookRemoveFromShowcase;
 using Project.Diana.WebApi.Features.Book.BookSubmission;
+using Project.Diana.WebApi.Features.Book.BookUpdate;
 using Project.Diana.WebApi.Helpers;
 
 namespace Project.Diana.WebApi.Features.Book
@@ -78,5 +79,38 @@ namespace Project.Diana.WebApi.Features.Book
         [Route("RemoveFromShowcase/{id}")]
         [Authorize]
         public async Task<IActionResult> RemoveFromShowcase(int id) => Ok(await _mediator.Send(new BookRemoveFromShowcaseRequest(id, await _userService.GetCurrentUser())));
+
+        [HttpPut]
+        [Route("UpdateBook")]
+        [Authorize]
+        public async Task<IActionResult> UpdateBook(BookUpdate.BookUpdate update)
+            => Ok(await _mediator.Send(new BookUpdateRequest(
+                update.Author,
+                update.BookId,
+                update.Category,
+                update.CompletionStatus,
+                update.CountryOfOrigin,
+                update.CountryPurchased,
+                update.DatePurchased,
+                update.Genre,
+                update.ImageUrl,
+                update.ISBN10,
+                update.ISBN13,
+                update.IsFirstEdition,
+                update.IsHardcover,
+                update.IsNewPurchase,
+                update.IsPhysical,
+                update.IsReissue,
+                update.Language,
+                update.LocationPurchased,
+                update.Notes,
+                update.PageCount,
+                update.Publisher,
+                update.ReadCount,
+                update.Title,
+                update.Type,
+                update.YearReleased,
+                await _userService.GetCurrentUser()
+                )));
     }
 }
