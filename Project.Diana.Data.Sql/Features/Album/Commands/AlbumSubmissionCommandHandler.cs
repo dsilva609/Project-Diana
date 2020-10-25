@@ -23,11 +23,11 @@ namespace Project.Diana.Data.Sql.Features.Album.Commands
 
         public async Task Handle(AlbumSubmissionCommand command)
         {
-            var albumExists = _context.Albums.Any(a =>
-                a.Artist.ToUpper() == command.Artist.ToUpper()
-                && a.MediaType == command.MediaType
-                && a.Title.ToUpper() == command.Title.ToUpper()
-                && a.UserID.ToUpper() == command.User.Id.ToUpper());
+            var albumExists = _context.Albums.Any(a
+                => a.Artist.ToUpper() == command.Artist.ToUpper()
+                   && a.MediaType == command.MediaType
+                   && a.Title.ToUpper() == command.Title.ToUpper()
+                   && a.UserID.ToUpper() == command.User.Id.ToUpper());
 
             if (albumExists)
             {

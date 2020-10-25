@@ -7,6 +7,7 @@ using Project.Diana.WebApi.Features.Book.BookById;
 using Project.Diana.WebApi.Features.Book.BookIncrementReadCount;
 using Project.Diana.WebApi.Features.Book.BookList;
 using Project.Diana.WebApi.Features.Book.BookRemoveFromShowcase;
+using Project.Diana.WebApi.Features.Book.Submission;
 using Project.Diana.WebApi.Helpers;
 
 namespace Project.Diana.WebApi.Features.Book
@@ -28,6 +29,37 @@ namespace Project.Diana.WebApi.Features.Book
         [Route("AddToShowcase/{id}")]
         [Authorize]
         public async Task<IActionResult> AddToShowcase(int id) => Ok(await _mediator.Send(new BookAddToShowcaseRequest(id, await _userService.GetCurrentUser())));
+
+        [HttpPost]
+        [Route("CreateBook")]
+        [Authorize]
+        public async Task<IActionResult> CreateBook(BookSubmission submission)
+            => Ok(await _mediator.Send(new BookSubmissionRequest(
+                submission.Author,
+                submission.Category,
+                submission.CompletionStatus,
+                submission.CountryOfOrigin,
+                submission.CountryPurchased,
+                submission.DatePurchased,
+                submission.Genre,
+                submission.ImageUrl,
+                submission.ISBN10,
+                submission.ISBN13,
+                submission.IsFirstEdition,
+                submission.IsHardcover,
+                submission.IsNewPurchase,
+                submission.IsPhysical,
+                submission.IsReissue,
+                submission.Language,
+                submission.LocationPurchased,
+                submission.Notes,
+                submission.PageCount,
+                submission.Publisher,
+                submission.ReadCount,
+                submission.Title,
+                submission.Type,
+                    submission.YearReleased,
+                await _userService.GetCurrentUser())));
 
         [HttpGet]
         [Route("{id}")]
