@@ -4,7 +4,7 @@ using MediatR;
 using Project.Diana.Data.Features.Album.Commands;
 using Project.Diana.Data.Sql.Bases.Dispatchers;
 
-namespace Project.Diana.WebApi.Features.Album.Submission
+namespace Project.Diana.WebApi.Features.Album.AlbumSubmission
 {
     public class AlbumSubmissionRequestHandler : IRequestHandler<AlbumSubmissionRequest>
     {

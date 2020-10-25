@@ -2,7 +2,7 @@
 using Project.Diana.Data.Features.Album;
 using Project.Diana.Data.Features.Item;
 
-namespace Project.Diana.WebApi.Features.Album.Submission
+namespace Project.Diana.WebApi.Features.Album.AlbumSubmission
 {
     public class AlbumSubmission
     {

@@ -7,7 +7,7 @@ using Project.Diana.WebApi.Features.Book.BookById;
 using Project.Diana.WebApi.Features.Book.BookIncrementReadCount;
 using Project.Diana.WebApi.Features.Book.BookList;
 using Project.Diana.WebApi.Features.Book.BookRemoveFromShowcase;
-using Project.Diana.WebApi.Features.Book.Submission;
+using Project.Diana.WebApi.Features.Book.BookSubmission;
 using Project.Diana.WebApi.Helpers;
 
 namespace Project.Diana.WebApi.Features.Book
@@ -33,7 +33,7 @@ namespace Project.Diana.WebApi.Features.Book
         [HttpPost]
         [Route("CreateBook")]
         [Authorize]
-        public async Task<IActionResult> CreateBook(BookSubmission submission)
+        public async Task<IActionResult> CreateBook(BookSubmission.BookSubmission submission)
             => Ok(await _mediator.Send(new BookSubmissionRequest(
                 submission.Author,
                 submission.Category,

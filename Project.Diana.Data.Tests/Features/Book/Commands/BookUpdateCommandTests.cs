@@ -2,44 +2,46 @@
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Project.Diana.Data.Features.Book;
+using Project.Diana.Data.Features.Book.Commands;
 using Project.Diana.Data.Features.Item;
 using Project.Diana.Data.Features.User;
-using Project.Diana.WebApi.Features.Book.Submission;
 using Xunit;
 
-namespace Project.Diana.WebApi.Tests.Features.Book.Submission
+namespace Project.Diana.Data.Tests.Features.Book.Commands
 {
-    public class BookSubmissionRequestTests
+    public class BookUpdateCommandTests
     {
         [Theory, AutoData]
-        public void Request_Throws_If_Author_Is_Missing(
-            string category,
-            CompletionStatusReference completionStatus,
-            string countryOfOrigin,
-            string countryPurchased,
-            DateTime datePurchased,
-            string genre,
-            string imageUrl,
-            string isbn10,
-            string isbn13,
-            bool isFirstEdition,
-            bool isHardcover,
-            bool isNewPurchase,
-            bool isPhysical,
-            bool isReissue,
-            string language,
-            string locationPurchased,
-            string notes,
-            int pageCount,
-            string publisher,
-            int timesCompleted,
-            string title,
-            BookTypeReference type,
-            int yearReleased,
-            ApplicationUser user)
+        public void Command_Throws_If_Author_Is_Missing(
+               int bookId,
+               string category,
+               CompletionStatusReference completionStatus,
+               string countryOfOrigin,
+               string countryPurchased,
+               DateTime datePurchased,
+               string genre,
+               string imageUrl,
+               string isbn10,
+               string isbn13,
+               bool isFirstEdition,
+               bool isHardcover,
+               bool isNewPurchase,
+               bool isPhysical,
+               bool isReissue,
+               string language,
+               string locationPurchased,
+               string notes,
+               int pageCount,
+               string publisher,
+               int timesCompleted,
+               string title,
+               BookTypeReference type,
+               int yearReleased,
+               ApplicationUser user)
         {
-            Action createWithMissingAuthor = () => new BookSubmissionRequest(
+            Action createWithMissingAuthor = () => new BookUpdateCommand(
                 string.Empty,
+                bookId,
                 category,
                 completionStatus,
                 countryOfOrigin,
@@ -69,8 +71,127 @@ namespace Project.Diana.WebApi.Tests.Features.Book.Submission
         }
 
         [Theory, AutoData]
-        public void Request_Throws_If_Title_Is_Missing(
+        public void Command_Throws_If_Id_Is_Default(
             string author,
+            string category,
+            CompletionStatusReference completionStatus,
+            string countryOfOrigin,
+            string countryPurchased,
+            DateTime datePurchased,
+            string genre,
+            string imageUrl,
+            string isbn10,
+            string isbn13,
+            bool isFirstEdition,
+            bool isHardcover,
+            bool isNewPurchase,
+            bool isPhysical,
+            bool isReissue,
+            string language,
+            string locationPurchased,
+            string notes,
+            int pageCount,
+            string publisher,
+            int timesCompleted,
+            string title,
+            BookTypeReference type,
+            int yearReleased,
+            ApplicationUser user)
+        {
+            Action createWithMissingAuthor = () => new BookUpdateCommand(
+                author,
+                0,
+                category,
+                completionStatus,
+                countryOfOrigin,
+                countryPurchased,
+                datePurchased,
+                genre,
+                imageUrl,
+                isbn10,
+                isbn13,
+                isFirstEdition,
+                isHardcover,
+                isNewPurchase,
+                isPhysical,
+                isReissue,
+                language,
+                locationPurchased,
+                notes,
+                pageCount,
+                publisher,
+                timesCompleted,
+                title,
+                type,
+                yearReleased,
+                user);
+
+            createWithMissingAuthor.Should().Throw<ArgumentException>();
+        }
+
+        [Theory, AutoData]
+        public void Command_Throws_If_Id_Is_Negative(
+            string author,
+            string category,
+            CompletionStatusReference completionStatus,
+            string countryOfOrigin,
+            string countryPurchased,
+            DateTime datePurchased,
+            string genre,
+            string imageUrl,
+            string isbn10,
+            string isbn13,
+            bool isFirstEdition,
+            bool isHardcover,
+            bool isNewPurchase,
+            bool isPhysical,
+            bool isReissue,
+            string language,
+            string locationPurchased,
+            string notes,
+            int pageCount,
+            string publisher,
+            int timesCompleted,
+            string title,
+            BookTypeReference type,
+            int yearReleased,
+            ApplicationUser user)
+        {
+            Action createWithMissingAuthor = () => new BookUpdateCommand(
+                author,
+                -1,
+                category,
+                completionStatus,
+                countryOfOrigin,
+                countryPurchased,
+                datePurchased,
+                genre,
+                imageUrl,
+                isbn10,
+                isbn13,
+                isFirstEdition,
+                isHardcover,
+                isNewPurchase,
+                isPhysical,
+                isReissue,
+                language,
+                locationPurchased,
+                notes,
+                pageCount,
+                publisher,
+                timesCompleted,
+                title,
+                type,
+                yearReleased,
+                user);
+
+            createWithMissingAuthor.Should().Throw<ArgumentException>();
+        }
+
+        [Theory, AutoData]
+        public void Command_Throws_If_Title_Is_Missing(
+            string author,
+            int bookId,
             string category,
             CompletionStatusReference completionStatus,
             string countryOfOrigin,
@@ -96,8 +217,9 @@ namespace Project.Diana.WebApi.Tests.Features.Book.Submission
             ApplicationUser user
             )
         {
-            Action createWithMissingTitle = () => new BookSubmissionRequest(
+            Action createWithMissingTitle = () => new BookUpdateCommand(
                 author,
+                bookId,
                 category,
                 completionStatus,
                 countryOfOrigin,
@@ -128,8 +250,9 @@ namespace Project.Diana.WebApi.Tests.Features.Book.Submission
         }
 
         [Theory, AutoData]
-        public void Request_Throws_If_User_Id_Is_Missing(
+        public void Command_Throws_If_User_Id_Is_Missing(
             string author,
+            int bookId,
             string category,
             CompletionStatusReference completionStatus,
             string countryOfOrigin,
@@ -154,8 +277,9 @@ namespace Project.Diana.WebApi.Tests.Features.Book.Submission
             BookTypeReference type,
             int yearReleased)
         {
-            Action createWithMissingUserId = () => new BookSubmissionRequest(
+            Action createWithMissingUserId = () => new BookUpdateCommand(
                 author,
+                bookId,
                 category,
                 completionStatus,
                 countryOfOrigin,
@@ -185,8 +309,9 @@ namespace Project.Diana.WebApi.Tests.Features.Book.Submission
         }
 
         [Theory, AutoData]
-        public void Request_Throws_If_User_Is_Null(
+        public void Command_Throws_If_User_Is_Null(
             string author,
+            int bookId,
             string category,
             CompletionStatusReference completionStatus,
             string countryOfOrigin,
@@ -211,8 +336,9 @@ namespace Project.Diana.WebApi.Tests.Features.Book.Submission
             BookTypeReference type,
             int yearReleased)
         {
-            Action createWithNullUser = () => new BookSubmissionRequest(
+            Action createWithNullUser = () => new BookUpdateCommand(
                 author,
+                bookId,
                 category,
                 completionStatus,
                 countryOfOrigin,

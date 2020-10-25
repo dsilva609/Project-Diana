@@ -1,13 +1,13 @@
 ﻿using System;
 using Project.Diana.Data.Features.Book;
 using Project.Diana.Data.Features.Item;
-using Project.Diana.Data.Features.User;
 
-namespace Project.Diana.WebApi.Features.Book.Submission
+namespace Project.Diana.WebApi.Features.Book.BookUpdate
 {
-    public class BookSubmission
+    public class BookUpdate
     {
         public string Author { get; set; }
+        public int BookId { get; set; }
         public string Category { get; set; }
         public CompletionStatusReference CompletionStatus { get; set; }
         public string CountryOfOrigin { get; set; }
@@ -30,7 +30,6 @@ namespace Project.Diana.WebApi.Features.Book.Submission
         public int ReadCount { get; set; }
         public string Title { get; set; }
         public BookTypeReference Type { get; set; }
-        public ApplicationUser User { get; set; }
         public int YearReleased { get; set; }
     }
 }

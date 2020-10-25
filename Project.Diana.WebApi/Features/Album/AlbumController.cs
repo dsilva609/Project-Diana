@@ -8,9 +8,9 @@ using Project.Diana.WebApi.Features.Album.AlbumClearShowcase;
 using Project.Diana.WebApi.Features.Album.AlbumIncrementPlayCount;
 using Project.Diana.WebApi.Features.Album.AlbumList;
 using Project.Diana.WebApi.Features.Album.AlbumRemoveFromShowcase;
+using Project.Diana.WebApi.Features.Album.AlbumSubmission;
 using Project.Diana.WebApi.Features.Album.AlbumUpdate;
 using Project.Diana.WebApi.Features.Album.SearchDiscogs;
-using Project.Diana.WebApi.Features.Album.Submission;
 using Project.Diana.WebApi.Helpers;
 
 namespace Project.Diana.WebApi.Features.Album
@@ -41,7 +41,7 @@ namespace Project.Diana.WebApi.Features.Album
         [HttpPost]
         [Route("CreateAlbum")]
         [Authorize]
-        public async Task<IActionResult> CreateAlbum(AlbumSubmission submission)
+        public async Task<IActionResult> CreateAlbum(AlbumSubmission.AlbumSubmission submission)
             => Ok(await _mediator.Send(new AlbumSubmissionRequest(
                 submission.Artist,
                 submission.Category,

@@ -4,7 +4,7 @@ using AutoFixture;
 using Moq;
 using Project.Diana.Data.Features.Album.Commands;
 using Project.Diana.Data.Sql.Bases.Dispatchers;
-using Project.Diana.WebApi.Features.Album.Submission;
+using Project.Diana.WebApi.Features.Album.AlbumSubmission;
 using Xunit;
 
 namespace Project.Diana.WebApi.Tests.Features.Album.Submission

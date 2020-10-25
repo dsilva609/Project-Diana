@@ -16,12 +16,12 @@ namespace Project.Diana.Data.Sql.Features.Album.Commands
 
         public async Task Handle(AlbumUpdateCommand command)
         {
-            var sameAlbumExists = await _context.Albums.AnyAsync(a =>
-                a.ID != command.AlbumId
-                && a.Artist.ToUpper() == command.Artist.ToUpper()
-                && a.MediaType == command.MediaType
-                && a.Title.ToUpper() == command.Title.ToUpper()
-                && a.UserID.ToUpper() == command.User.Id.ToUpper());
+            var sameAlbumExists = await _context.Albums.AnyAsync(a
+                => a.ID != command.AlbumId
+                   && a.Artist.ToUpper() == command.Artist.ToUpper()
+                   && a.MediaType == command.MediaType
+                   && a.Title.ToUpper() == command.Title.ToUpper()
+                   && a.UserID.ToUpper() == command.User.Id.ToUpper());
 
             if (sameAlbumExists)
             {

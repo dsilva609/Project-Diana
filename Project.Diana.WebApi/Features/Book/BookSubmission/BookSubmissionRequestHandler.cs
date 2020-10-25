@@ -4,7 +4,7 @@ using MediatR;
 using Project.Diana.Data.Features.Book.Commands;
 using Project.Diana.Data.Sql.Bases.Dispatchers;
 
-namespace Project.Diana.WebApi.Features.Book.Submission
+namespace Project.Diana.WebApi.Features.Book.BookSubmission
 {
     public class BookSubmissionRequestHandler : IRequestHandler<BookSubmissionRequest>
     {

@@ -4,10 +4,10 @@ using AutoFixture;
 using Moq;
 using Project.Diana.Data.Features.Book.Commands;
 using Project.Diana.Data.Sql.Bases.Dispatchers;
-using Project.Diana.WebApi.Features.Book.Submission;
+using Project.Diana.WebApi.Features.Book.BookSubmission;
 using Xunit;
 
-namespace Project.Diana.WebApi.Tests.Features.Book.Submission
+namespace Project.Diana.WebApi.Tests.Features.Book.BookSubmission
 {
     public class BookSubmissionRequestHandlerTests
     {
