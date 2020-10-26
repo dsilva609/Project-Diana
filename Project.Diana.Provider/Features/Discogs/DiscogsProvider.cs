@@ -30,11 +30,6 @@ namespace Project.Diana.Provider.Features.Discogs
 
             var searchResults = result.Value;
 
-            if (!searchResults.results.Any())
-            {
-                return Result.Failure<IEnumerable<AlbumSearchResponse>>("Response returned no results");
-            }
-
             var results = searchResults.results.Select(r => new AlbumSearchResponse
             {
                 Id = r.id,

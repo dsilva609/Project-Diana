@@ -23,6 +23,20 @@ namespace Project.Diana.Provider.Tests.Features.Discogs
             _provider = new DiscogsProvider(_apiClient.Object);
         }
 
+        [Theory, AutoData]
+        public async Task Provider_Returns_Empty_List_If_Client_Returns_No_Results(string artist, string album)
+        {
+            _apiClient.Setup(x => x.SendSearchRequest(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(
+                Result.Success(new DiscogsSearchResult
+                {
+                    results = new List<SearchResult>()
+                }));
+
+            var result = await _provider.SearchForAlbum(artist, album);
+
+            result.Value.Should().BeEmpty();
+        }
+
         [Fact]
         public async Task Provider_Returns_Failure_If_Artist_And_Album_Are_Null()
         {
@@ -35,20 +49,6 @@ namespace Project.Diana.Provider.Tests.Features.Discogs
         public async Task Provider_Returns_Failure_If_Client_Returns_Failure(string artist, string album)
         {
             _apiClient.Setup(x => x.SendSearchRequest(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(Result.Failure<DiscogsSearchResult>("failure"));
-
-            var result = await _provider.SearchForAlbum(artist, album);
-
-            result.IsFailure.Should().BeTrue();
-        }
-
-        [Theory, AutoData]
-        public async Task Provider_Returns_Failure_If_Client_Returns_No_Results(string artist, string album)
-        {
-            _apiClient.Setup(x => x.SendSearchRequest(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(
-                Result.Success(new DiscogsSearchResult
-                {
-                    results = new List<SearchResult>()
-                }));
 
             var result = await _provider.SearchForAlbum(artist, album);
 

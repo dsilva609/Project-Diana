@@ -17,7 +17,7 @@ namespace Project.Diana.WebApi.Features.Album.SearchDiscogs
         {
             var result = await _discogsProvider.SearchForAlbum(request.Album, request.Artist);
 
-            return result.IsFailure ? throw new Exception("No results found") : result.Value;
+            return result.IsSuccess ? result.Value : throw new Exception(result.Error);
         }
     }
 }

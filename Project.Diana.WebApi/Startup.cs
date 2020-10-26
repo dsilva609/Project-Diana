@@ -42,6 +42,7 @@ namespace Project.Diana.WebApi
             => services
                 .AddAutoMapper(typeof(AlbumMappingProfile))
                 .AddDiscogsProvider(Configuration)
+                .AddGoogleBooksProvider()
                 .AddHttpContextAccessor()
                 .AddMediatR(typeof(Startup).Assembly)
                 .RegisterAuthorization(Configuration)

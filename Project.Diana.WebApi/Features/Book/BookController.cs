@@ -9,6 +9,7 @@ using Project.Diana.WebApi.Features.Book.BookList;
 using Project.Diana.WebApi.Features.Book.BookRemoveFromShowcase;
 using Project.Diana.WebApi.Features.Book.BookSubmission;
 using Project.Diana.WebApi.Features.Book.BookUpdate;
+using Project.Diana.WebApi.Features.Book.SearchGoogleBooks;
 using Project.Diana.WebApi.Helpers;
 
 namespace Project.Diana.WebApi.Features.Book
@@ -79,6 +80,11 @@ namespace Project.Diana.WebApi.Features.Book
         [Route("RemoveFromShowcase/{id}")]
         [Authorize]
         public async Task<IActionResult> RemoveFromShowcase(int id) => Ok(await _mediator.Send(new BookRemoveFromShowcaseRequest(id, await _userService.GetCurrentUser())));
+
+        [HttpGet]
+        [Route("SearchForBook")]
+        [Authorize]
+        public async Task<IActionResult> SearchForBook(string author, string title) => Ok(await _mediator.Send(new SearchGoogleBooksRequest(author, title)));
 
         [HttpPut]
         [Route("UpdateBook")]

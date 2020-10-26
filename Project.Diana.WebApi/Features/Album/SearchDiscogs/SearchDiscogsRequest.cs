@@ -14,7 +14,7 @@ namespace Project.Diana.WebApi.Features.Album.SearchDiscogs
         {
             if (string.IsNullOrWhiteSpace(album) && string.IsNullOrWhiteSpace(artist))
             {
-                throw new ArgumentException("Album and artist are missing", "album, Artist");
+                throw new ArgumentException("Album and artist are missing", $"{nameof(album)}, {nameof(artist)}");
             }
 
             Album = album;
