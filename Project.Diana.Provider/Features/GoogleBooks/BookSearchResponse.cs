@@ -5,7 +5,7 @@
         public string Author { get; set; }
         public string CountryOfOrigin { get; set; }
         public string Genre { get; set; }
-        public string GoogleBookId { get; set; }
+        public string Id { get; set; }
         public string ImageUrl { get; set; }
         public string ISBN10 { get; set; }
         public string ISBN13 { get; set; }

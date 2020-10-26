@@ -29,7 +29,7 @@ namespace Project.Diana.Provider.Features.GoogleBooks
 
             var results = searchResult.Value.Items.Select(v => new BookSearchResponse
             {
-                GoogleBookId = v.Id,
+                Id = v.Id,
                 Author = v.VolumeInfo.Authors != null ? string.Join(", ", v.VolumeInfo.Authors) : string.Empty,
                 CountryOfOrigin = v.SaleInfo?.Country,
                 Genre = v.VolumeInfo.Categories != null ? string.Join(", ", v.VolumeInfo.Categories) : string.Empty,
