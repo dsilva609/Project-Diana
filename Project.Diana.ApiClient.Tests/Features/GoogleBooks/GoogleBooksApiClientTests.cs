@@ -83,5 +83,13 @@ namespace Project.Diana.ApiClient.Tests.Features.GoogleBooks
 
             result.IsFailure.Should().BeTrue();
         }
+
+        [Theory, AutoData]
+        public async Task Client_Search_Separates_Search_Terms_With_Plus_Sign(string author, string title)
+        {
+            await _apiClient.Search(author, title);
+
+            _testListRequest.Q.Should().Be($"{author}+{title}");
+        }
     }
 }
