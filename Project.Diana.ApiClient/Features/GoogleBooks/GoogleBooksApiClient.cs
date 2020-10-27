@@ -32,17 +32,7 @@ namespace Project.Diana.ApiClient.Features.GoogleBooks
 
         public async Task<Result<Volumes>> Search(string author, string title)
         {
-            var query = string.Empty;
-
-            if (!string.IsNullOrWhiteSpace(author))
-            {
-                query += $"inauthor:{author}";
-            }
-
-            if (!string.IsNullOrWhiteSpace(title))
-            {
-                query += $"+intitle:{title}";
-            }
+            var query = $"{author}+{title}".Trim('+');
 
             var searchRequest = _volumesResource.List();
             searchRequest.Q = query;

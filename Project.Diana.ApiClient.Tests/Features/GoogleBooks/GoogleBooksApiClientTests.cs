@@ -49,6 +49,26 @@ namespace Project.Diana.ApiClient.Tests.Features.GoogleBooks
         }
 
         [Theory, AutoData]
+        public async Task Client_Search_Contains_No_Plus_When_Only_Searching_By_Author_In_Query(string author)
+        {
+            await _apiClient.Search(author, string.Empty);
+
+            var query = _testListRequest.Q;
+
+            query.Should().NotEndWith("+");
+        }
+
+        [Theory, AutoData]
+        public async Task Client_Search_Contains_No_Plus_When_Only_Searching_By_Title_In_Query(string title)
+        {
+            await _apiClient.Search(string.Empty, title);
+
+            var query = _testListRequest.Q;
+
+            query.Should().NotStartWith("+");
+        }
+
+        [Theory, AutoData]
         public async Task Client_Search_Gets_List_Request(string author, string title)
         {
             await _apiClient.Search(author, title);
@@ -62,26 +82,6 @@ namespace Project.Diana.ApiClient.Tests.Features.GoogleBooks
             var result = await _apiClient.Search(string.Empty, string.Empty);
 
             result.IsFailure.Should().BeTrue();
-        }
-
-        [Theory, AutoData]
-        public async Task Client_Search_Sets_Author_In_Query(string author, string title)
-        {
-            await _apiClient.Search(author, title);
-
-            var query = _testListRequest.Q;
-
-            query.Should().Contain($"inauthor:{author}");
-        }
-
-        [Theory, AutoData]
-        public async Task Client_Search_Sets_Title_In_Query(string author, string title)
-        {
-            await _apiClient.Search(author, title);
-
-            var query = _testListRequest.Q;
-
-            query.Should().Contain($"intitle:{title}");
         }
     }
 }
