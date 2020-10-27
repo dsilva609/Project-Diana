@@ -12,6 +12,24 @@ namespace Project.Diana.ApiClient.Features.GoogleBooks
 
         public GoogleBooksApiClient(VolumesResource volumesResource) => _volumesResource = volumesResource;
 
+        public async Task<Result<Volume>> GetById(string id)
+        {
+            var getRequest = _volumesResource.Get(id);
+
+            Volume volume;
+
+            try
+            {
+                volume = await getRequest.ExecuteAsync();
+            }
+            catch (Exception e)
+            {
+                return Result.Failure<Volume>($"Error retrieving volume: {e.Message}");
+            }
+
+            return Result.Success(volume);
+        }
+
         public async Task<Result<Volumes>> Search(string author, string title)
         {
             var query = string.Empty;

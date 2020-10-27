@@ -12,7 +12,8 @@ namespace Project.Diana.ApiClient.Tests.Features.GoogleBooks
     public class GoogleBooksApiClientTests
     {
         private readonly IGoogleBooksApiClient _apiClient;
-        private readonly VolumesResource.ListRequest _testRequest;
+        private readonly VolumesResource.GetRequest _testGetRequest;
+        private readonly VolumesResource.ListRequest _testListRequest;
         private readonly Mock<VolumesResource> _volumesResource;
 
         public GoogleBooksApiClientTests()
@@ -21,33 +22,42 @@ namespace Project.Diana.ApiClient.Tests.Features.GoogleBooks
 
             var clientService = fixture.Create<BooksService>();
 
-            _testRequest = new VolumesResource.ListRequest(clientService);
+            _testGetRequest = new VolumesResource.GetRequest(clientService, "test");
+            _testListRequest = new VolumesResource.ListRequest(clientService);
             _volumesResource = new Mock<VolumesResource>(clientService);
 
-            _volumesResource.Setup(x => x.List()).Returns(_testRequest);
+            _volumesResource.Setup(x => x.Get(It.IsAny<string>())).Returns(_testGetRequest);
+            _volumesResource.Setup(x => x.List()).Returns(_testListRequest);
 
             _apiClient = new GoogleBooksApiClient(_volumesResource.Object);
         }
 
         [Theory, AutoData]
-        public async Task Client_Gets_List_Request(string author, string title)
+        public async Task Client_Get_By_Id_Gets_Request(string id)
+        {
+            await _apiClient.GetById(id);
+
+            _volumesResource.Verify(x => x.Get(id), Times.Once);
+        }
+
+        [Fact]
+        public async Task Client_Get_By_Id_Returns_Failure_If_Get_Fails()
+        {
+            var result = await _apiClient.GetById(string.Empty);
+
+            result.IsFailure.Should().BeTrue();
+        }
+
+        [Theory, AutoData]
+        public async Task Client_Search_Gets_List_Request(string author, string title)
         {
             await _apiClient.Search(author, title);
 
             _volumesResource.Verify(x => x.List(), Times.Once);
         }
 
-        [Theory, AutoData]
-        public async Task Client_Returns_Book_Results(string author, string title)
-        {
-            var result = await _apiClient.Search(author, title);
-
-            result.IsSuccess.Should().BeTrue();
-            result.Should().NotBeNull();
-        }
-
         [Fact]
-        public async Task Client_Returns_Failure_If_Search_Fails()
+        public async Task Client_Search_Returns_Failure_If_Search_Fails()
         {
             var result = await _apiClient.Search(string.Empty, string.Empty);
 
@@ -55,21 +65,21 @@ namespace Project.Diana.ApiClient.Tests.Features.GoogleBooks
         }
 
         [Theory, AutoData]
-        public async Task Client_Sets_Author_In_Query(string author, string title)
+        public async Task Client_Search_Sets_Author_In_Query(string author, string title)
         {
             await _apiClient.Search(author, title);
 
-            var query = _testRequest.Q;
+            var query = _testListRequest.Q;
 
             query.Should().Contain($"inauthor:{author}");
         }
 
         [Theory, AutoData]
-        public async Task Client_Sets_Title_In_Query(string author, string title)
+        public async Task Client_Search_Sets_Title_In_Query(string author, string title)
         {
             await _apiClient.Search(author, title);
 
-            var query = _testRequest.Q;
+            var query = _testListRequest.Q;
 
             query.Should().Contain($"intitle:{title}");
         }

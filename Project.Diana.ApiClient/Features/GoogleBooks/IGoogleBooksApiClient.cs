@@ -6,6 +6,8 @@ namespace Project.Diana.ApiClient.Features.GoogleBooks
 {
     public interface IGoogleBooksApiClient
     {
+        Task<Result<Volume>> GetById(string id);
+
         Task<Result<Volumes>> Search(string author, string title);
     }
 }

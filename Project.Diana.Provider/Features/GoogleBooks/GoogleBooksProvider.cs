@@ -13,6 +13,41 @@ namespace Project.Diana.Provider.Features.GoogleBooks
 
         public GoogleBooksProvider(IGoogleBooksApiClient apiClient) => _apiClient = apiClient;
 
+        public async Task<Result<BookSearchResponse>> GetVolumeById(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return Result.Failure<BookSearchResponse>("Volume id is missing");
+            }
+
+            var volumeResult = await _apiClient.GetById(id);
+
+            if (volumeResult.IsFailure)
+            {
+                return Result.Failure<BookSearchResponse>($"Retrieve volume by id failed: {volumeResult.Error}");
+            }
+
+            var result = volumeResult.Value;
+
+            var volume = new BookSearchResponse
+            {
+                Id = result.Id,
+                Author = result.VolumeInfo.Authors != null ? string.Join(", ", result.VolumeInfo.Authors) : string.Empty,
+                CountryOfOrigin = result.SaleInfo?.Country,
+                Genre = result.VolumeInfo.Categories != null ? string.Join(", ", result.VolumeInfo.Categories) : string.Empty,
+                ImageUrl = !string.IsNullOrWhiteSpace(result.VolumeInfo?.ImageLinks?.Medium) ? result.VolumeInfo?.ImageLinks?.Medium?.Replace("http:", "https:") : result.VolumeInfo?.ImageLinks?.SmallThumbnail?.Replace("http:", "https:"),
+                Isbn10 = result.VolumeInfo.IndustryIdentifiers?.FirstOrDefault(x => x.Type == "ISBN_10")?.Identifier,
+                Isbn13 = result.VolumeInfo.IndustryIdentifiers?.FirstOrDefault(x => x.Type == "ISBN_13")?.Identifier,
+                Language = result.VolumeInfo.Language,
+                PageCount = result.VolumeInfo.PageCount.GetValueOrDefault(),
+                Publisher = result.VolumeInfo.Publisher,
+                Title = result.VolumeInfo.Title,
+                YearReleased = string.IsNullOrWhiteSpace(result.VolumeInfo.PublishedDate) ? DateTime.UtcNow.Year : Convert.ToInt32(result.VolumeInfo.PublishedDate.Substring(0, 4))
+            };
+
+            return Result.Success(volume);
+        }
+
         public async Task<Result<IEnumerable<BookSearchResponse>>> Search(string author, string title)
         {
             if (string.IsNullOrWhiteSpace(author) && string.IsNullOrWhiteSpace(title))
