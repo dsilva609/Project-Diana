@@ -9,6 +9,7 @@ using Project.Diana.WebApi.Features.Book.BookList;
 using Project.Diana.WebApi.Features.Book.BookRemoveFromShowcase;
 using Project.Diana.WebApi.Features.Book.BookSubmission;
 using Project.Diana.WebApi.Features.Book.BookUpdate;
+using Project.Diana.WebApi.Features.Book.GetGoogleBookById;
 using Project.Diana.WebApi.Features.Book.SearchGoogleBooks;
 using Project.Diana.WebApi.Helpers;
 
@@ -66,6 +67,11 @@ namespace Project.Diana.WebApi.Features.Book
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetBookById(int id) => Ok(await _mediator.Send(new BookGetByIdRequest(id, await _userService.GetCurrentUser())));
+
+        [HttpGet]
+        [Route("GetBookByVolumeId/{id}")]
+        [Authorize]
+        public async Task<IActionResult> GetBookByVolumeId(string id) => Ok(await _mediator.Send(new GetGoogleBookByIdRequest(id)));
 
         [HttpGet]
         [Route("GetBookList")]
