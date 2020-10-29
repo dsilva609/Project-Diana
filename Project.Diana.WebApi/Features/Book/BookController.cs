@@ -54,6 +54,7 @@ namespace Project.Diana.WebApi.Features.Book
                 submission.IsPhysical,
                 submission.IsReissue,
                 submission.Language,
+                submission.LinkedWishId,
                 submission.LocationPurchased,
                 submission.Notes,
                 submission.PageCount,

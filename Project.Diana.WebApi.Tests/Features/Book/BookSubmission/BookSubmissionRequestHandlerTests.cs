@@ -1,8 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
+using FluentAssertions;
 using Moq;
 using Project.Diana.Data.Features.Book.Commands;
+using Project.Diana.Data.Features.Wish.Commands;
 using Project.Diana.Data.Sql.Bases.Dispatchers;
 using Project.Diana.WebApi.Features.Book.BookSubmission;
 using Xunit;
@@ -31,6 +33,15 @@ namespace Project.Diana.WebApi.Tests.Features.Book.BookSubmission
             await _handler.Handle(_testRequest, CancellationToken.None);
 
             _commandDispatcher.Verify(x => x.Dispatch(It.IsNotNull<BookSubmissionCommand>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task Handler_Calls_Wish_Delete_Command_If_Linked_Wish_Exists()
+        {
+            await _handler.Handle(_testRequest, CancellationToken.None);
+
+            _testRequest.LinkedWishId.Should().BeGreaterThan(0);
+            _commandDispatcher.Verify(x => x.Dispatch(It.Is<WishDeleteCommand>(x => x.Id == _testRequest.LinkedWishId && x.User == _testRequest.User)), Times.Once);
         }
     }
 }

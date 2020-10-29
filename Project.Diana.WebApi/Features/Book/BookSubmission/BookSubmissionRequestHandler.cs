@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using MediatR;
 using Project.Diana.Data.Features.Book.Commands;
+using Project.Diana.Data.Features.Wish.Commands;
 using Project.Diana.Data.Sql.Bases.Dispatchers;
 
 namespace Project.Diana.WebApi.Features.Book.BookSubmission
@@ -12,7 +13,8 @@ namespace Project.Diana.WebApi.Features.Book.BookSubmission
 
         public BookSubmissionRequestHandler(ICommandDispatcher commandDispatcher) => _commandDispatcher = commandDispatcher;
 
-        public async Task<Unit> Handle(BookSubmissionRequest request, CancellationToken cancellationToken) =>
+        public async Task<Unit> Handle(BookSubmissionRequest request, CancellationToken cancellationToken)
+        {
             await _commandDispatcher.Dispatch(new BookSubmissionCommand(
                 request.Author,
                 request.Category,
@@ -39,5 +41,13 @@ namespace Project.Diana.WebApi.Features.Book.BookSubmission
                 request.Type,
                 request.YearReleased,
                 request.User));
+
+            if (request.LinkedWishId > 0)
+            {
+                await _commandDispatcher.Dispatch(new WishDeleteCommand(request.LinkedWishId, request.User));
+            }
+
+            return Unit.Value;
+        }
     }
 }

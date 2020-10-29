@@ -25,6 +25,7 @@ namespace Project.Diana.WebApi.Features.Book.BookSubmission
         public bool IsPhysical { get; }
         public bool IsReissue { get; }
         public string Language { get; }
+        public int LinkedWishId { get; }
         public string LocationPurchased { get; }
         public string Notes { get; }
         public int PageCount { get; }
@@ -52,6 +53,7 @@ namespace Project.Diana.WebApi.Features.Book.BookSubmission
             bool isPhysical,
             bool isReissue,
             string language,
+            int linkedWishId,
             string locationPurchased,
             string notes,
             int pageCount,
@@ -83,6 +85,7 @@ namespace Project.Diana.WebApi.Features.Book.BookSubmission
             IsPhysical = isPhysical;
             IsReissue = isReissue;
             Language = language;
+            LinkedWishId = linkedWishId;
             LocationPurchased = locationPurchased;
             Notes = notes;
             PageCount = pageCount;
