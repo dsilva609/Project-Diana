@@ -23,11 +23,11 @@ namespace Project.Diana.ApiClient.Tests.Features.GoogleBooks
             var clientService = fixture.Create<BooksService>();
 
             _testGetRequest = new VolumesResource.GetRequest(clientService, "test");
-            _testListRequest = new VolumesResource.ListRequest(clientService);
+            _testListRequest = new VolumesResource.ListRequest(clientService, "test");
             _volumesResource = new Mock<VolumesResource>(clientService);
 
             _volumesResource.Setup(x => x.Get(It.IsAny<string>())).Returns(_testGetRequest);
-            _volumesResource.Setup(x => x.List()).Returns(_testListRequest);
+            _volumesResource.Setup(x => x.List("test")).Returns(_testListRequest);
 
             _apiClient = new GoogleBooksApiClient(_volumesResource.Object);
         }
@@ -73,7 +73,7 @@ namespace Project.Diana.ApiClient.Tests.Features.GoogleBooks
         {
             await _apiClient.Search(author, title);
 
-            _volumesResource.Verify(x => x.List(), Times.Once);
+            _volumesResource.Verify(x => x.List(It.IsNotNull<string>()), Times.Once);
         }
 
         [Fact]
@@ -89,7 +89,7 @@ namespace Project.Diana.ApiClient.Tests.Features.GoogleBooks
         {
             await _apiClient.Search(author, title);
 
-            _testListRequest.Q.Should().Be($"{author}+{title}");
+            _volumesResource.Verify(x => x.List(It.Is<string>(y => y == $"{author}+{title}")));
         }
     }
 }

@@ -34,8 +34,7 @@ namespace Project.Diana.ApiClient.Features.GoogleBooks
         {
             var query = $"{author}+{title}".Trim('+');
 
-            var searchRequest = _volumesResource.List();
-            searchRequest.Q = query;
+            var searchRequest = _volumesResource.List(query);
 
             Volumes volumes;
 
