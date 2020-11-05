@@ -40,6 +40,7 @@ namespace Project.Diana.WebApi.Tests.Features.Book.BookSubmission
         {
             await _handler.Handle(_testRequest, CancellationToken.None);
 
+            _testRequest.LinkedWishId.Should().NotBeNull();
             _testRequest.LinkedWishId.Should().BeGreaterThan(0);
             _commandDispatcher.Verify(x => x.Dispatch(It.Is<WishDeleteCommand>(x => x.Id == _testRequest.LinkedWishId && x.User == _testRequest.User)), Times.Once);
         }

@@ -42,9 +42,9 @@ namespace Project.Diana.WebApi.Features.Book.BookSubmission
                 request.YearReleased,
                 request.User));
 
-            if (request.LinkedWishId > 0)
+            if (request.LinkedWishId.HasValue && request.LinkedWishId.GetValueOrDefault() > 0)
             {
-                await _commandDispatcher.Dispatch(new WishDeleteCommand(request.LinkedWishId, request.User));
+                await _commandDispatcher.Dispatch(new WishDeleteCommand(request.LinkedWishId.Value, request.User));
             }
 
             return Unit.Value;

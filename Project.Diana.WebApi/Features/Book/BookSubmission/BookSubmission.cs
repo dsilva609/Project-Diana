@@ -22,7 +22,7 @@ namespace Project.Diana.WebApi.Features.Book.BookSubmission
         public bool IsPhysical { get; set; }
         public bool IsReissue { get; set; }
         public string Language { get; set; }
-        public int LinkedWishId { get; set; }
+        public int? LinkedWishId { get; set; }
         public string LocationPurchased { get; set; }
         public string Notes { get; set; }
         public int PageCount { get; set; }
