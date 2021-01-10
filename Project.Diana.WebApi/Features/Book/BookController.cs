@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Project.Diana.WebApi.Features.Book.BookAddToShowcase;
 using Project.Diana.WebApi.Features.Book.BookById;
+using Project.Diana.WebApi.Features.Book.BookGetLatestAdded;
 using Project.Diana.WebApi.Features.Book.BookIncrementReadCount;
 using Project.Diana.WebApi.Features.Book.BookList;
 using Project.Diana.WebApi.Features.Book.BookRemoveFromShowcase;
@@ -77,6 +78,10 @@ namespace Project.Diana.WebApi.Features.Book
         [HttpGet]
         [Route("GetBookList")]
         public async Task<IActionResult> GetBookList(int itemCount, int page, string searchQuery) => Ok(await _mediator.Send(new BookListGetRequest(itemCount, page, searchQuery, await _userService.GetCurrentUser())));
+
+        [HttpGet]
+        [Route("GetLatestBooks")]
+        public async Task<IActionResult> GetLatestBooks(int itemCount) => Ok(await _mediator.Send(new BookGetLatestAddedRequest(itemCount)));
 
         [HttpPut]
         [Route("IncrementReadCount/{id}")]

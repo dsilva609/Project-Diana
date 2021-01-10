@@ -12,7 +12,7 @@ namespace Project.Diana.WebApi.Features.Album.AlbumGetLatestAdded
 
         public AlbumGetLatestAddedRequestHandler(IQueryDispatcher queryDispatcher) => _queryDispatcher = queryDispatcher;
 
-        public Task<AlbumListResponse> Handle(AlbumGetLatestAddedRequest request, CancellationToken cancellationToken)
-            => _queryDispatcher.Dispatch<AlbumGetLatestAddedQuery, AlbumListResponse>(new AlbumGetLatestAddedQuery(request.ItemCount));
+        public async Task<AlbumListResponse> Handle(AlbumGetLatestAddedRequest request, CancellationToken cancellationToken)
+            => await _queryDispatcher.Dispatch<AlbumGetLatestAddedQuery, AlbumListResponse>(new AlbumGetLatestAddedQuery(request.ItemCount));
     }
 }
