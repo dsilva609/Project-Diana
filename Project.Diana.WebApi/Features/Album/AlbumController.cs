@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Project.Diana.WebApi.Features.Album.AlbumAddToShowcase;
 using Project.Diana.WebApi.Features.Album.AlbumById;
 using Project.Diana.WebApi.Features.Album.AlbumClearShowcase;
+using Project.Diana.WebApi.Features.Album.AlbumGetLatestAdded;
 using Project.Diana.WebApi.Features.Album.AlbumIncrementPlayCount;
 using Project.Diana.WebApi.Features.Album.AlbumList;
 using Project.Diana.WebApi.Features.Album.AlbumRemoveFromShowcase;
@@ -73,6 +74,10 @@ namespace Project.Diana.WebApi.Features.Album
         [HttpGet]
         [Route("GetAlbumList")]
         public async Task<IActionResult> GetAlbumList(int itemCount, int page, string searchQuery) => Ok(await _mediator.Send(new AlbumListGetRequest(itemCount, page, searchQuery, await _userService.GetCurrentUser())));
+
+        [HttpGet]
+        [Route("GetLatestAlbums")]
+        public async Task<IActionResult> GetLatestAlbums(int itemCount) => Ok(await _mediator.Send(new AlbumGetLatestAddedRequest(itemCount)));
 
         [HttpPut]
         [Route("IncrementPlayCount/{id}")]
