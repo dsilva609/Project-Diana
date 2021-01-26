@@ -18,12 +18,12 @@ namespace Project.Diana.WebApi.Features.Album
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AlbumApiController : ControllerBase
+    public class AlbumController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly ICurrentUserService _userService;
 
-        public AlbumApiController(IMediator mediator, ICurrentUserService userService)
+        public AlbumController(IMediator mediator, ICurrentUserService userService)
         {
             _mediator = mediator;
             _userService = userService;

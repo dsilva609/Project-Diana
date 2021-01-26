@@ -13,12 +13,12 @@ namespace Project.Diana.WebApi.Features.Wish
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class WishApiController : ControllerBase
+    public class WishController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly ICurrentUserService _userService;
 
-        public WishApiController(IMediator mediator, ICurrentUserService userService)
+        public WishController(IMediator mediator, ICurrentUserService userService)
         {
             _mediator = mediator;
             _userService = userService;

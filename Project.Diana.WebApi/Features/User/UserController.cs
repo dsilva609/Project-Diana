@@ -8,11 +8,11 @@ namespace Project.Diana.WebApi.Features.User
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserApiController : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public UserApiController(IMediator mediator) => _mediator = mediator;
+        public UserController(IMediator mediator) => _mediator = mediator;
 
         [HttpPost]
         [Route("Login")]

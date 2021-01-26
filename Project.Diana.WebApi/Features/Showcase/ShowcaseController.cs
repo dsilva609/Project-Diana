@@ -7,11 +7,11 @@ namespace Project.Diana.WebApi.Features.Showcase
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ShowcaseApiController : ControllerBase
+    public class ShowcaseController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public ShowcaseApiController(IMediator mediator) => _mediator = mediator;
+        public ShowcaseController(IMediator mediator) => _mediator = mediator;
 
         [HttpGet]
         [Route("GetShowcase")]

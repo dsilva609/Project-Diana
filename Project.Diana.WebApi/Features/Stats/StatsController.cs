@@ -8,12 +8,12 @@ namespace Project.Diana.WebApi.Features.Stats
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StatsApiController : ControllerBase
+    public class StatsController : ControllerBase
     {
         private readonly ICurrentUserService _currentUserService;
         private readonly IMediator _mediator;
 
-        public StatsApiController(ICurrentUserService currentUserService, IMediator mediator)
+        public StatsController(ICurrentUserService currentUserService, IMediator mediator)
         {
             _currentUserService = currentUserService;
             _mediator = mediator;
