@@ -113,6 +113,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
                 .Create();
 
             await _context.AlbumRecords.AddRangeAsync(albums);
+
             await _context.AlbumRecords.AddAsync(notIncludedAlbum);
 
             await _context.SaveChangesAsync();
