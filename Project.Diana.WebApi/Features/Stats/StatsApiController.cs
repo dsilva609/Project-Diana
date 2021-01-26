@@ -1,5 +1,8 @@
-﻿using MediatR;
+﻿using System.Threading.Tasks;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Project.Diana.WebApi.Helpers;
 
 namespace Project.Diana.WebApi.Features.Stats
 {
@@ -7,8 +10,22 @@ namespace Project.Diana.WebApi.Features.Stats
     [ApiController]
     public class StatsApiController : ControllerBase
     {
+        private readonly ICurrentUserService _currentUserService;
         private readonly IMediator _mediator;
 
-        public StatsApiController(IMediator mediator) => _mediator = mediator;
+        public StatsApiController(ICurrentUserService currentUserService, IMediator mediator)
+        {
+            _currentUserService = currentUserService;
+            _mediator = mediator;
+        }
+
+        [HttpGet]
+        [Route("GetGlobalStats")]
+        public async Task<IActionResult> GetGlobalStats() => Ok(await _mediator.Send(new GlobalStatsGetRequest()));
+
+        [HttpGet]
+        [Route("GetUserStats")]
+        [Authorize]
+        public async Task<IActionResult> GetUserStats() => Ok(await _mediator.Send(new UserStatsGetRequest((await _currentUserService.GetCurrentUser()).UserNum)));
     }
 }

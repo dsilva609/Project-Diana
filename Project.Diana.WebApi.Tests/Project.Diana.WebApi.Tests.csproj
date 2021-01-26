@@ -27,8 +27,4 @@
     <ProjectReference Include="..\Project.Diana.Data.Tests\Project.Diana.Data.Tests.csproj" />
     <ProjectReference Include="..\Project.Diana.WebApi\Project.Diana.WebApi.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Features\Stats\" />
-  </ItemGroup>
 </Project>
