@@ -18,12 +18,12 @@ namespace Project.Diana.WebApi.Features.Book
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BookController : ControllerBase
+    public class BookApiController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly ICurrentUserService _userService;
 
-        public BookController(IMediator mediator, ICurrentUserService userService)
+        public BookApiController(IMediator mediator, ICurrentUserService userService)
         {
             _mediator = mediator;
             _userService = userService;
