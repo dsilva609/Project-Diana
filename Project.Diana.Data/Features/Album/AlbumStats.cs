@@ -7,9 +7,9 @@
         public int CompletedAlbums { get; set; }
         public int InProgressAlbums { get; set; }
         public int NotCompletedAlbums { get; set; }
-        public int RPM33RecordCount { get; set; }
-        public int RPM45RecordCount { get; set; }
-        public int RPM78RecordCount { get; set; }
+        public int Rpm33RecordCount { get; set; }
+        public int Rpm45RecordCount { get; set; }
+        public int Rpm78RecordCount { get; set; }
         public int SevenInchRecordCount { get; set; }
         public int TenInchRecordCount { get; set; }
         public int TwelveInchRecordCount { get; set; }

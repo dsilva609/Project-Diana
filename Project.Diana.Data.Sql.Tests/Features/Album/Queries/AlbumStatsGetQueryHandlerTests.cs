@@ -46,7 +46,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
 
             var result = await _handler.Handle(_testQuery);
 
-            result.RPM33RecordCount.Should().BeGreaterThan(0);
+            result.Rpm33RecordCount.Should().BeGreaterThan(0);
         }
 
         [Fact]
@@ -65,7 +65,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
 
             var result = await _handler.Handle(_testQuery);
 
-            result.RPM45RecordCount.Should().BeGreaterThan(0);
+            result.Rpm45RecordCount.Should().BeGreaterThan(0);
         }
 
         [Fact]
@@ -84,7 +84,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
 
             var result = await _handler.Handle(_testQuery);
 
-            result.RPM78RecordCount.Should().BeGreaterThan(0);
+            result.Rpm78RecordCount.Should().BeGreaterThan(0);
         }
 
         [Fact]
