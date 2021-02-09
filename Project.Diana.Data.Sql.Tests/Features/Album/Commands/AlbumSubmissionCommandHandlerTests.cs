@@ -29,6 +29,8 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Commands
             _context = InitializeDatabase();
 
             var config = new MapperConfiguration(x => x.AddProfile<AlbumMappingProfile>());
+            config.AssertConfigurationIsValid();
+
             var mapper = new Mapper(config);
 
             _testCommand = fixture.Create<AlbumSubmissionCommand>();

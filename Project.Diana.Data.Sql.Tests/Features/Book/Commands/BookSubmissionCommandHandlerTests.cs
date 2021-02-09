@@ -29,6 +29,8 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Commands
             _context = InitializeDatabase();
 
             var config = new MapperConfiguration(x => x.AddProfile<BookMappingProfile>());
+            config.AssertConfigurationIsValid();
+
             var mapper = new Mapper(config);
 
             _testCommand = fixture.Create<BookSubmissionCommand>();

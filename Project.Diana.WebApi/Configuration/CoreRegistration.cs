@@ -16,6 +16,7 @@ namespace Project.Diana.WebApi.Configuration
 
             var mappingConfiguration = new MapperConfiguration(config => config.AddMaps(typeof(AlbumMappingProfile).Assembly));
             mappingConfiguration.AssertConfigurationIsValid();
+
             var mapper = new Mapper(mappingConfiguration);
 
             services.AddSingleton<IMapper>(mapper);
