@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoFixture;
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Project.Diana.Data.Features.User;
@@ -9,18 +10,28 @@ namespace Project.Diana.WebApi.Tests.Features.Album.AlbumAddToShowcase
 {
     public class AlbumAddToShowcaseRequestTests
     {
-        [Theory, AutoData]
-        public void Request_Throws_When_Album_Id_Is_Default(ApplicationUser user)
+        private readonly ApplicationUser _testUser;
+
+        public AlbumAddToShowcaseRequestTests()
         {
-            Action createWithDefaultAlbumId = () => new AlbumAddToShowcaseRequest(0, user);
+            var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+
+            _testUser = fixture.Create<ApplicationUser>();
+        }
+
+        [Fact]
+        public void Request_Throws_When_Album_Id_Is_Default()
+        {
+            Action createWithDefaultAlbumId = () => new AlbumAddToShowcaseRequest(0, _testUser);
 
             createWithDefaultAlbumId.Should().Throw<ArgumentException>();
         }
 
-        [Theory, AutoData]
-        public void Request_Throws_When_Album_Id_Is_Negative(ApplicationUser user)
+        [Fact]
+        public void Request_Throws_When_Album_Id_Is_Negative()
         {
-            Action createWithNegativeAlbumId = () => new AlbumAddToShowcaseRequest(-1, user);
+            Action createWithNegativeAlbumId = () => new AlbumAddToShowcaseRequest(-1, _testUser);
 
             createWithNegativeAlbumId.Should().Throw<ArgumentException>();
         }

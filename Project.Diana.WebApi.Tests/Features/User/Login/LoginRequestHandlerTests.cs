@@ -29,6 +29,7 @@ namespace Project.Diana.WebApi.Tests.Features.User.Login
         public LoginRequestHandlerTests()
         {
             var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
             var settings = fixture.Create<GlobalSettings>();
             _queryDispatcher = new Mock<IQueryDispatcher>();

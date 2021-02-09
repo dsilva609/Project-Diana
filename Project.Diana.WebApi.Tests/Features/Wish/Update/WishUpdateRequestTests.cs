@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoFixture;
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Project.Diana.Data.Features.Item;
@@ -10,6 +11,16 @@ namespace Project.Diana.WebApi.Tests.Features.Wish.Update
 {
     public class WishUpdateRequestTests
     {
+        private readonly ApplicationUser _testUser;
+
+        public WishUpdateRequestTests()
+        {
+            var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+
+            _testUser = fixture.Create<ApplicationUser>();
+        }
+
         [Theory, AutoData]
         public void Request_Throws_If_ID_Is_Missing(
             string apiID,
@@ -18,8 +29,7 @@ namespace Project.Diana.WebApi.Tests.Features.Wish.Update
             ItemReference itemType,
             string notes,
             bool owned,
-            string title,
-            ApplicationUser user)
+            string title)
         {
             Action createWithMissingID = ()
                 => new WishUpdateRequest(
@@ -30,7 +40,7 @@ namespace Project.Diana.WebApi.Tests.Features.Wish.Update
                     notes,
                     owned,
                     title,
-                    user,
+                    _testUser,
                     0);
 
             createWithMissingID.Should().Throw<ArgumentException>();
@@ -44,7 +54,6 @@ namespace Project.Diana.WebApi.Tests.Features.Wish.Update
             ItemReference itemType,
             string notes,
             bool owned,
-            ApplicationUser user,
             int wishID)
         {
             Action createWithMissingTitle = ()
@@ -56,7 +65,7 @@ namespace Project.Diana.WebApi.Tests.Features.Wish.Update
                     notes,
                     owned,
                     string.Empty,
-                    user,
+                    _testUser,
                     wishID);
 
             createWithMissingTitle.Should().Throw<ArgumentException>();

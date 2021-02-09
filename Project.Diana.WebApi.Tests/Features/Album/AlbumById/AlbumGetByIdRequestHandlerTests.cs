@@ -20,6 +20,7 @@ namespace Project.Diana.WebApi.Tests.Features.Album.AlbumById
         public AlbumGetByIdRequestHandlerTests()
         {
             var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
             _queryDispatcher = new Mock<IQueryDispatcher>();
             _testRequest = fixture.Create<AlbumGetByIdRequest>();

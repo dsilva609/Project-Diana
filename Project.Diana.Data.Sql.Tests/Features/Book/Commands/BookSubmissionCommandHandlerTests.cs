@@ -24,6 +24,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Commands
         public BookSubmissionCommandHandlerTests()
         {
             var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
             _context = InitializeDatabase();
 

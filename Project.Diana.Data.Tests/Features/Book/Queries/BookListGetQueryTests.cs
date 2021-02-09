@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoFixture;
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Project.Diana.Data.Features.Book.Queries;
@@ -9,18 +10,28 @@ namespace Project.Diana.Data.Tests.Features.Book.Queries
 {
     public class BookListGetQueryTests
     {
-        [Theory, AutoData]
-        public void Query_Throws_If_Item_Count_Is_Negative(string searchQuery, ApplicationUser user)
+        private readonly ApplicationUser _testUser;
+
+        public BookListGetQueryTests()
         {
-            Action createWithNegativeItemCount = () => new BookListGetQuery(-1, 0, searchQuery, user);
+            var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+
+            _testUser = fixture.Create<ApplicationUser>();
+        }
+
+        [Theory, AutoData]
+        public void Query_Throws_If_Item_Count_Is_Negative(string searchQuery)
+        {
+            Action createWithNegativeItemCount = () => new BookListGetQuery(-1, 0, searchQuery, _testUser);
 
             createWithNegativeItemCount.Should().Throw<ArgumentException>();
         }
 
         [Theory, AutoData]
-        public void Query_Throws_If_Page_Is_Negative(int itemCount, string searchQuery, ApplicationUser user)
+        public void Query_Throws_If_Page_Is_Negative(int itemCount, string searchQuery)
         {
-            Action createWithNegativePage = () => new BookListGetQuery(itemCount, -1, searchQuery, user);
+            Action createWithNegativePage = () => new BookListGetQuery(itemCount, -1, searchQuery, _testUser);
 
             createWithNegativePage.Should().Throw<ArgumentException>();
         }

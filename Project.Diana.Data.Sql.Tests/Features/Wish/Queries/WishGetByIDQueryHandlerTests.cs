@@ -22,6 +22,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Wish.Queries
         public WishGetByIDQueryHandlerTests()
         {
             var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
             _projectDianaContext = InitializeDatabase();
             _testUser = fixture.Create<ApplicationUser>();

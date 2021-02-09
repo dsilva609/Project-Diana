@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoFixture;
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Project.Diana.Data.Features.Book.Commands;
@@ -9,18 +10,28 @@ namespace Project.Diana.Data.Tests.Features.Book.Commands
 {
     public class BookAddToShowcaseCommandTests
     {
-        [Theory, AutoData]
-        public void Command_Throws_If_Book_Id_Is_Default(ApplicationUser user)
+        private readonly ApplicationUser _testUser;
+
+        public BookAddToShowcaseCommandTests()
         {
-            Action createWithDefaultBookId = () => new BookAddToShowcaseCommand(0, user);
+            var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+
+            _testUser = fixture.Create<ApplicationUser>();
+        }
+
+        [Fact]
+        public void Command_Throws_If_Book_Id_Is_Default()
+        {
+            Action createWithDefaultBookId = () => new BookAddToShowcaseCommand(0, _testUser);
 
             createWithDefaultBookId.Should().Throw<ArgumentException>();
         }
 
-        [Theory, AutoData]
-        public void Command_Throws_If_Book_Id_Is_Negative(ApplicationUser user)
+        [Fact]
+        public void Command_Throws_If_Book_Id_Is_Negative()
         {
-            Action createWithNegativeBookId = () => new BookAddToShowcaseCommand(-1, user);
+            Action createWithNegativeBookId = () => new BookAddToShowcaseCommand(-1, _testUser);
 
             createWithNegativeBookId.Should().Throw<ArgumentException>();
         }

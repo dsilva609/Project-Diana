@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoFixture;
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Project.Diana.Data.Features.Album;
@@ -10,8 +11,17 @@ using Xunit;
 namespace Project.Diana.Data.Tests.Features.Album.Commands
 {
     public class AlbumSubmissionCommandTests
-
     {
+        private readonly ApplicationUser _testUser;
+
+        public AlbumSubmissionCommandTests()
+        {
+            var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+
+            _testUser = fixture.Create<ApplicationUser>();
+        }
+
         [Theory, AutoData]
         public void Command_Throws_If_Artist_Is_Missing(
             string category,
@@ -33,8 +43,7 @@ namespace Project.Diana.Data.Tests.Features.Album.Commands
             string style,
             int timesCompleted,
             string title,
-            int yearReleased,
-                ApplicationUser user)
+            int yearReleased)
         {
             Action createWithMissingArtist = () => new AlbumSubmissionCommand(
                 string.Empty,
@@ -58,7 +67,7 @@ namespace Project.Diana.Data.Tests.Features.Album.Commands
                 timesCompleted,
                 title,
                 yearReleased,
-                user);
+                _testUser);
 
             createWithMissingArtist.Should().Throw<ArgumentException>();
         }
@@ -84,8 +93,7 @@ namespace Project.Diana.Data.Tests.Features.Album.Commands
             SpeedReference speed,
             string style,
             int timesCompleted,
-            int yearReleased,
-            ApplicationUser user)
+            int yearReleased)
         {
             Action createWithMissingTitle = () => new AlbumSubmissionCommand(
                 artist,
@@ -109,7 +117,7 @@ namespace Project.Diana.Data.Tests.Features.Album.Commands
                 timesCompleted,
                 string.Empty,
                 yearReleased,
-                user);
+                _testUser);
 
             createWithMissingTitle.Should().Throw<ArgumentException>();
         }

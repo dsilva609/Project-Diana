@@ -24,6 +24,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Commands
         public AlbumSubmissionCommandHandlerTests()
         {
             var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
             _context = InitializeDatabase();
 

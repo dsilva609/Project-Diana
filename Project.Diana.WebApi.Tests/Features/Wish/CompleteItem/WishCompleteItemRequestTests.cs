@@ -1,8 +1,8 @@
 ﻿using System;
+using AutoFixture;
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Project.Diana.Data.Features.User;
-using Project.Diana.WebApi.Features.Wish;
 using Project.Diana.WebApi.Features.Wish.CompleteItem;
 using Xunit;
 
@@ -28,10 +28,15 @@ namespace Project.Diana.WebApi.Tests.Features.Wish.CompleteItem
             createWithUserMissingUserID.Should().Throw<ArgumentException>();
         }
 
-        [Theory, AutoData]
-        public void Request_Throws_If_WishID_Is_Default(ApplicationUser user)
+        [Fact]
+        public void Request_Throws_If_WishID_Is_Default()
         {
-            Action createWithDefaultWishID = () => new WishCompleteItemRequest(user, 0);
+            var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+
+            var testUser = fixture.Create<ApplicationUser>();
+
+            Action createWithDefaultWishID = () => new WishCompleteItemRequest(testUser, 0);
 
             createWithDefaultWishID.Should().Throw<ArgumentException>();
         }

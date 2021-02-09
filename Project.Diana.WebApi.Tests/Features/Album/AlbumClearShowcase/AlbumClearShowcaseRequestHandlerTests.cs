@@ -18,6 +18,7 @@ namespace Project.Diana.WebApi.Tests.Features.Album.AlbumClearShowcase
         public AlbumClearShowcaseRequestHandlerTests()
         {
             var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
             _commandDispatcher = new Mock<ICommandDispatcher>();
             _testRequest = fixture.Create<AlbumClearShowcaseRequest>();

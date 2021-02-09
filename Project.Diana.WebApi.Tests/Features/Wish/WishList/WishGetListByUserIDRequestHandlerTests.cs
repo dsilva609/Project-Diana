@@ -8,7 +8,6 @@ using Project.Diana.Data.Features.Item;
 using Project.Diana.Data.Features.Wish;
 using Project.Diana.Data.Features.Wish.Queries;
 using Project.Diana.Data.Sql.Bases.Dispatchers;
-using Project.Diana.WebApi.Features.Wish;
 using Project.Diana.WebApi.Features.Wish.WishList;
 using Xunit;
 
@@ -23,6 +22,7 @@ namespace Project.Diana.WebApi.Tests.Features.Wish.WishList
         public WishGetListByUserIDRequestHandlerTests()
         {
             var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
             _queryDispatcher = new Mock<IQueryDispatcher>();
             _testRequest = fixture.Create<WishGetListByUserIDRequest>();

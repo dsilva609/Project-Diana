@@ -26,6 +26,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
         public BookListGetQueryHandlerTests()
         {
             _fixture = new Fixture();
+            _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
             _context = InitializeDatabase();
 

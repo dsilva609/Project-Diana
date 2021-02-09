@@ -1,5 +1,5 @@
 ﻿using System;
-using AutoFixture.Xunit2;
+using AutoFixture;
 using FluentAssertions;
 using Project.Diana.Data.Features.User;
 using Project.Diana.WebApi.Features.Book.BookById;
@@ -9,18 +9,28 @@ namespace Project.Diana.WebApi.Tests.Features.Book.BookById
 {
     public class BookGetByIdRequestTests
     {
-        [Theory, AutoData]
-        public void Request_Throws_If_Id_Is_Default(ApplicationUser user)
+        private readonly ApplicationUser _testUser;
+
+        public BookGetByIdRequestTests()
         {
-            Action createWithDefaultId = () => new BookGetByIdRequest(0, user);
+            var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+
+            _testUser = fixture.Create<ApplicationUser>();
+        }
+
+        [Fact]
+        public void Request_Throws_If_Id_Is_Default()
+        {
+            Action createWithDefaultId = () => new BookGetByIdRequest(0, _testUser);
 
             createWithDefaultId.Should().Throw<ArgumentException>();
         }
 
-        [Theory, AutoData]
-        public void Request_Throws_If_Id_Is_Negative(ApplicationUser user)
+        [Fact]
+        public void Request_Throws_If_Id_Is_Negative()
         {
-            Action createWithDefaultId = () => new BookGetByIdRequest(-1, user);
+            Action createWithDefaultId = () => new BookGetByIdRequest(-1, _testUser);
 
             createWithDefaultId.Should().Throw<ArgumentException>();
         }

@@ -19,6 +19,7 @@ namespace Project.Diana.WebApi.Tests.Features.Book.BookList
         public BookListGetRequestHandlerTests()
         {
             var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
             _queryDispatcher = new Mock<IQueryDispatcher>();
             _testRequest = fixture.Create<BookListGetRequest>();

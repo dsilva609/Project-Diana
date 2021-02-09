@@ -1,5 +1,5 @@
 ﻿using System;
-using AutoFixture.Xunit2;
+using AutoFixture;
 using FluentAssertions;
 using Project.Diana.Data.Features.Album.Queries;
 using Project.Diana.Data.Features.User;
@@ -9,18 +9,28 @@ namespace Project.Diana.Data.Tests.Features.Album.Queries
 {
     public class AlbumGetByIdQueryTests
     {
-        [Theory, AutoData]
-        public void Query_Throws_If_Id_Is_Default(ApplicationUser user)
+        private readonly ApplicationUser _testUser;
+
+        public AlbumGetByIdQueryTests()
         {
-            Action createWithDefaultId = () => new AlbumGetByIdQuery(0, user);
+            var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+
+            _testUser = fixture.Create<ApplicationUser>();
+        }
+
+        [Fact]
+        public void Query_Throws_If_Id_Is_Default()
+        {
+            Action createWithDefaultId = () => new AlbumGetByIdQuery(0, _testUser);
 
             createWithDefaultId.Should().Throw<ArgumentException>();
         }
 
-        [Theory, AutoData]
-        public void Query_Throws_If_Id_Is_Negative(ApplicationUser user)
+        [Fact]
+        public void Query_Throws_If_Id_Is_Negative()
         {
-            Action createWithDefaultId = () => new AlbumGetByIdQuery(-1, user);
+            Action createWithDefaultId = () => new AlbumGetByIdQuery(-1, _testUser);
 
             createWithDefaultId.Should().Throw<ArgumentException>();
         }

@@ -22,6 +22,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Wish.Commands
         public WishDeleteCommandHandlerTests()
         {
             var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
             _context = InitializeDatabase();
 

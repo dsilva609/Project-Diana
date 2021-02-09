@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoFixture;
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Project.Diana.Data.Features.Album;
@@ -11,6 +12,16 @@ namespace Project.Diana.WebApi.Tests.Features.Album.AlbumUpdate
 {
     public class AlbumUpdateRequestTests
     {
+        private readonly ApplicationUser _testUser;
+
+        public AlbumUpdateRequestTests()
+        {
+            var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+
+            _testUser = fixture.Create<ApplicationUser>();
+        }
+
         [Theory, AutoData]
         public void Request_Throws_If_Artist_Is_Missing(
             int albumId,
@@ -33,8 +44,7 @@ namespace Project.Diana.WebApi.Tests.Features.Album.AlbumUpdate
               string style,
               int timesCompleted,
               string title,
-              int yearReleased,
-              ApplicationUser user)
+              int yearReleased)
         {
             Action createWithMissingArtist = () => new AlbumUpdateRequest(
                 albumId,
@@ -59,7 +69,7 @@ namespace Project.Diana.WebApi.Tests.Features.Album.AlbumUpdate
                 timesCompleted,
                 title,
                 yearReleased,
-                user);
+                _testUser);
 
             createWithMissingArtist.Should().Throw<ArgumentException>();
         }
@@ -86,8 +96,7 @@ namespace Project.Diana.WebApi.Tests.Features.Album.AlbumUpdate
             string style,
             int timesCompleted,
             string title,
-            int yearReleased,
-            ApplicationUser user)
+            int yearReleased)
         {
             Action createWithMissingArtist = () => new AlbumUpdateRequest(
                 0,
@@ -112,7 +121,7 @@ namespace Project.Diana.WebApi.Tests.Features.Album.AlbumUpdate
                 timesCompleted,
                 title,
                 yearReleased,
-                user);
+                _testUser);
 
             createWithMissingArtist.Should().Throw<ArgumentException>();
         }
@@ -139,8 +148,7 @@ namespace Project.Diana.WebApi.Tests.Features.Album.AlbumUpdate
             string style,
             int timesCompleted,
             string title,
-            int yearReleased,
-            ApplicationUser user)
+            int yearReleased)
         {
             Action createWithMissingArtist = () => new AlbumUpdateRequest(
                 -1,
@@ -165,7 +173,7 @@ namespace Project.Diana.WebApi.Tests.Features.Album.AlbumUpdate
                 timesCompleted,
                 title,
                 yearReleased,
-                user);
+                _testUser);
 
             createWithMissingArtist.Should().Throw<ArgumentException>();
         }
@@ -192,8 +200,7 @@ namespace Project.Diana.WebApi.Tests.Features.Album.AlbumUpdate
             SpeedReference speed,
             string style,
             int timesCompleted,
-            int yearReleased,
-            ApplicationUser user)
+            int yearReleased)
         {
             Action createWithMissingTitle = () => new AlbumUpdateRequest(
                 albumId,
@@ -218,7 +225,7 @@ namespace Project.Diana.WebApi.Tests.Features.Album.AlbumUpdate
                 timesCompleted,
                 string.Empty,
                 yearReleased,
-                user);
+                _testUser);
 
             createWithMissingTitle.Should().Throw<ArgumentException>();
         }
@@ -246,8 +253,7 @@ namespace Project.Diana.WebApi.Tests.Features.Album.AlbumUpdate
             string style,
             int timesCompleted,
             string title,
-            int yearReleased
-            )
+            int yearReleased)
         {
             Action createWithMissingUserId = () => new AlbumUpdateRequest(
                 albumId,

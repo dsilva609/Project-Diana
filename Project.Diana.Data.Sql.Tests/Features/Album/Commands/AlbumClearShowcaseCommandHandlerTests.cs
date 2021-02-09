@@ -24,6 +24,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Commands
         public AlbumClearShowcaseCommandHandlerTests()
         {
             _fixture = new Fixture();
+            _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
             _context = InitializeDatabase();
 

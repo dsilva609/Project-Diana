@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoFixture;
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Project.Diana.Data.Features.User;
@@ -9,18 +10,28 @@ namespace Project.Diana.WebApi.Tests.Features.Album.AlbumList
 {
     public class AlbumListGetRequestTests
     {
-        [Theory, AutoData]
-        public void Request_Throws_If_Item_Count_Is_Less_Than_Zero(string searchQuery, ApplicationUser user)
+        private readonly ApplicationUser _testUser;
+
+        public AlbumListGetRequestTests()
         {
-            Action createWithItemCountLessThanZero = () => new AlbumListGetRequest(-1, 0, searchQuery, user);
+            var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+
+            _testUser = fixture.Create<ApplicationUser>();
+        }
+
+        [Theory, AutoData]
+        public void Request_Throws_If_Item_Count_Is_Less_Than_Zero(string searchQuery)
+        {
+            Action createWithItemCountLessThanZero = () => new AlbumListGetRequest(-1, 0, searchQuery, _testUser);
 
             createWithItemCountLessThanZero.Should().Throw<ArgumentException>();
         }
 
         [Theory, AutoData]
-        public void Request_Throws_If_Page_Is_Negative(int itemCount, string searchQuery, ApplicationUser user)
+        public void Request_Throws_If_Page_Is_Negative(int itemCount, string searchQuery)
         {
-            Action createWithNegativePage = () => new AlbumListGetRequest(itemCount, -1, searchQuery, user);
+            Action createWithNegativePage = () => new AlbumListGetRequest(itemCount, -1, searchQuery, _testUser);
 
             createWithNegativePage.Should().Throw<ArgumentException>();
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoFixture;
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Project.Diana.Data.Features.Album;
@@ -11,6 +12,16 @@ namespace Project.Diana.WebApi.Tests.Features.Album.Submission
 {
     public class AlbumSubmissionRequestTests
     {
+        private readonly ApplicationUser _testUser;
+
+        public AlbumSubmissionRequestTests()
+        {
+            var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+
+            _testUser = fixture.Create<ApplicationUser>();
+        }
+
         [Theory, AutoData]
         public void Request_Throws_If_Artist_Is_Missing(
             string category,
@@ -32,8 +43,7 @@ namespace Project.Diana.WebApi.Tests.Features.Album.Submission
             string style,
             int timesCompleted,
             string title,
-            int yearReleased,
-            ApplicationUser user)
+            int yearReleased)
         {
             Action createWithMissingArtist = () => new AlbumSubmissionRequest(
                 string.Empty,
@@ -57,7 +67,7 @@ namespace Project.Diana.WebApi.Tests.Features.Album.Submission
                 timesCompleted,
                 title,
                 yearReleased,
-                user);
+                _testUser);
 
             createWithMissingArtist.Should().Throw<ArgumentException>();
         }
@@ -83,8 +93,7 @@ namespace Project.Diana.WebApi.Tests.Features.Album.Submission
             SpeedReference speed,
             string style,
             int timesCompleted,
-            int yearReleased,
-            ApplicationUser user)
+            int yearReleased)
         {
             Action createWithMissingTitle = () => new AlbumSubmissionRequest(
                 artist,
@@ -108,7 +117,7 @@ namespace Project.Diana.WebApi.Tests.Features.Album.Submission
                 timesCompleted,
                 string.Empty,
                 yearReleased,
-                user);
+                _testUser);
 
             createWithMissingTitle.Should().Throw<ArgumentException>();
         }
@@ -135,8 +144,7 @@ namespace Project.Diana.WebApi.Tests.Features.Album.Submission
             string style,
             int timesCompleted,
             string title,
-            int yearReleased
-            )
+            int yearReleased)
         {
             Action createWithMissingUserId = () => new AlbumSubmissionRequest(
                 artist,

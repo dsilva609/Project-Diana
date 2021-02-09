@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoFixture;
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Project.Diana.Data.Features.User;
@@ -9,18 +10,28 @@ namespace Project.Diana.Data.Tests.Features.Wish.Commands
 {
     public class WishDeleteCommandTests
     {
-        [Theory, AutoData]
-        public void Command_Throws_If_Id_Is_Default(ApplicationUser user)
+        private readonly ApplicationUser _testUser;
+
+        public WishDeleteCommandTests()
         {
-            Action createWithDefaultId = () => new WishDeleteCommand(0, user);
+            var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+
+            _testUser = fixture.Create<ApplicationUser>();
+        }
+
+        [Fact]
+        public void Command_Throws_If_Id_Is_Default()
+        {
+            Action createWithDefaultId = () => new WishDeleteCommand(0, _testUser);
 
             createWithDefaultId.Should().Throw<ArgumentException>();
         }
 
-        [Theory, AutoData]
-        public void Command_Throws_If_Id_Is_Negative(ApplicationUser user)
+        [Fact]
+        public void Command_Throws_If_Id_Is_Negative()
         {
-            Action createWithNegativeId = () => new WishDeleteCommand(-1, user);
+            Action createWithNegativeId = () => new WishDeleteCommand(-1, _testUser);
 
             createWithNegativeId.Should().Throw<ArgumentException>();
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoFixture;
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Project.Diana.Data.Features.Book;
@@ -11,6 +12,16 @@ namespace Project.Diana.WebApi.Tests.Features.Book.BookSubmission
 {
     public class BookSubmissionRequestTests
     {
+        private readonly ApplicationUser _testUser;
+
+        public BookSubmissionRequestTests()
+        {
+            var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+
+            _testUser = fixture.Create<ApplicationUser>();
+        }
+
         [Theory, AutoData]
         public void Request_Throws_If_Author_Is_Missing(
             string category,
@@ -36,8 +47,7 @@ namespace Project.Diana.WebApi.Tests.Features.Book.BookSubmission
             int timesCompleted,
             string title,
             BookTypeReference type,
-            int yearReleased,
-            ApplicationUser user)
+            int yearReleased)
         {
             Action createWithMissingAuthor = () => new BookSubmissionRequest(
                 string.Empty,
@@ -65,7 +75,7 @@ namespace Project.Diana.WebApi.Tests.Features.Book.BookSubmission
                 title,
                 type,
                 yearReleased,
-                user);
+                _testUser);
 
             createWithMissingAuthor.Should().Throw<ArgumentException>();
         }
@@ -95,9 +105,7 @@ namespace Project.Diana.WebApi.Tests.Features.Book.BookSubmission
             string publisher,
             int timesCompleted,
             BookTypeReference type,
-            int yearReleased,
-            ApplicationUser user
-            )
+            int yearReleased)
         {
             Action createWithMissingTitle = () => new BookSubmissionRequest(
                 author,
@@ -125,8 +133,7 @@ namespace Project.Diana.WebApi.Tests.Features.Book.BookSubmission
                 string.Empty,
                 type,
                 yearReleased,
-                user
-                );
+                _testUser);
 
             createWithMissingTitle.Should().Throw<ArgumentException>();
         }
@@ -244,8 +251,7 @@ namespace Project.Diana.WebApi.Tests.Features.Book.BookSubmission
                 title,
                 type,
                 yearReleased,
-                null
-                );
+                null);
 
             createWithNullUser.Should().Throw<ArgumentException>();
         }

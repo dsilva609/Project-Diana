@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoFixture;
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Project.Diana.Data.Features.Book;
@@ -11,6 +12,16 @@ namespace Project.Diana.Data.Tests.Features.Book.Commands
 {
     public class BookUpdateCommandTests
     {
+        private readonly ApplicationUser _testUser;
+
+        public BookUpdateCommandTests()
+        {
+            var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+
+            _testUser = fixture.Create<ApplicationUser>();
+        }
+
         [Theory, AutoData]
         public void Command_Throws_If_Author_Is_Missing(
                int bookId,
@@ -36,8 +47,7 @@ namespace Project.Diana.Data.Tests.Features.Book.Commands
                int timesCompleted,
                string title,
                BookTypeReference type,
-               int yearReleased,
-               ApplicationUser user)
+               int yearReleased)
         {
             Action createWithMissingAuthor = () => new BookUpdateCommand(
                 string.Empty,
@@ -65,7 +75,7 @@ namespace Project.Diana.Data.Tests.Features.Book.Commands
                 title,
                 type,
                 yearReleased,
-                user);
+                _testUser);
 
             createWithMissingAuthor.Should().Throw<ArgumentException>();
         }
@@ -95,8 +105,7 @@ namespace Project.Diana.Data.Tests.Features.Book.Commands
             int timesCompleted,
             string title,
             BookTypeReference type,
-            int yearReleased,
-            ApplicationUser user)
+            int yearReleased)
         {
             Action createWithMissingAuthor = () => new BookUpdateCommand(
                 author,
@@ -124,7 +133,7 @@ namespace Project.Diana.Data.Tests.Features.Book.Commands
                 title,
                 type,
                 yearReleased,
-                user);
+                _testUser);
 
             createWithMissingAuthor.Should().Throw<ArgumentException>();
         }
@@ -154,8 +163,7 @@ namespace Project.Diana.Data.Tests.Features.Book.Commands
             int timesCompleted,
             string title,
             BookTypeReference type,
-            int yearReleased,
-            ApplicationUser user)
+            int yearReleased)
         {
             Action createWithMissingAuthor = () => new BookUpdateCommand(
                 author,
@@ -183,7 +191,7 @@ namespace Project.Diana.Data.Tests.Features.Book.Commands
                 title,
                 type,
                 yearReleased,
-                user);
+                _testUser);
 
             createWithMissingAuthor.Should().Throw<ArgumentException>();
         }
@@ -213,9 +221,7 @@ namespace Project.Diana.Data.Tests.Features.Book.Commands
             string publisher,
             int timesCompleted,
             BookTypeReference type,
-            int yearReleased,
-            ApplicationUser user
-            )
+            int yearReleased)
         {
             Action createWithMissingTitle = () => new BookUpdateCommand(
                 author,
@@ -243,8 +249,7 @@ namespace Project.Diana.Data.Tests.Features.Book.Commands
                 string.Empty,
                 type,
                 yearReleased,
-                user
-                );
+                _testUser);
 
             createWithMissingTitle.Should().Throw<ArgumentException>();
         }
@@ -362,8 +367,7 @@ namespace Project.Diana.Data.Tests.Features.Book.Commands
                 title,
                 type,
                 yearReleased,
-                null
-                );
+                null);
 
             createWithNullUser.Should().Throw<ArgumentException>();
         }

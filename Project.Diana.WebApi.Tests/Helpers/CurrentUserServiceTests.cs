@@ -19,6 +19,7 @@ namespace Project.Diana.WebApi.Tests.Helpers
         public CurrentUserServiceTests()
         {
             var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
             var httpContextAccessor = new Mock<IHttpContextAccessor>();
             _userManager = GetMockUserManager();
