@@ -35,26 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Diana.Provider.Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Diana.Provider", "Project.Diana.Provider\Project.Diana.Provider.csproj", "{4A5BC45F-5703-4CE6-993C-A207D6B9EEA7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{562BE320-C95B-4FF4-B7D2-5F76DCFA138B}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Databases", "Databases", "{156DF0C5-6757-41C7-A226-25F809200602}"
-	ProjectSection(SolutionItems) = preProject
-		Sql\Databases\0001-DB-Create.sql = Sql\Databases\0001-DB-Create.sql
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tables", "Tables", "{EE297B40-878B-42B7-86E2-F81C3AEFCEAC}"
-	ProjectSection(SolutionItems) = preProject
-		Sql\Tables\0001-AspNetRoles-Create.sql = Sql\Tables\0001-AspNetRoles-Create.sql
-		Sql\Tables\0002-AspNetUserRoles-Create.sql = Sql\Tables\0002-AspNetUserRoles-Create.sql
-		Sql\Tables\0003-AspNetUsers-Create.sql = Sql\Tables\0003-AspNetUsers-Create.sql
-		Sql\Tables\0004-Albums-Create.sql = Sql\Tables\0004-Albums-Create.sql
-		Sql\Tables\0005-Books.Create.sql = Sql\Tables\0005-Books.Create.sql
-		Sql\Tables\0006-Games-Create.sql = Sql\Tables\0006-Games-Create.sql
-		Sql\Tables\0007-Movies-Create.sql = Sql\Tables\0007-Movies-Create.sql
-		Sql\Tables\0008-Pops-Create.sql = Sql\Tables\0008-Pops-Create.sql
-		Sql\Tables\0009-Tracks-Create.sql = Sql\Tables\0009-Tracks-Create.sql
-		Sql\Tables\0010-Wishes-Create.sql = Sql\Tables\0010-Wishes-Create.sql
-	EndProjectSection
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Project.Diana.Sql", "Project.Diana.Sql\Project.Diana.Sql.sqlproj", "{AA74B517-30EE-44D1-8DE5-B9BBB6D7B18D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -106,6 +87,12 @@ Global
 		{4A5BC45F-5703-4CE6-993C-A207D6B9EEA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A5BC45F-5703-4CE6-993C-A207D6B9EEA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A5BC45F-5703-4CE6-993C-A207D6B9EEA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA74B517-30EE-44D1-8DE5-B9BBB6D7B18D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA74B517-30EE-44D1-8DE5-B9BBB6D7B18D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA74B517-30EE-44D1-8DE5-B9BBB6D7B18D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{AA74B517-30EE-44D1-8DE5-B9BBB6D7B18D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA74B517-30EE-44D1-8DE5-B9BBB6D7B18D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA74B517-30EE-44D1-8DE5-B9BBB6D7B18D}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -122,9 +109,7 @@ Global
 		{26CECF02-8923-4E3A-AFA0-ED93F5B7C920} = {296F7507-4669-47BF-9E34-C57C0710C90A}
 		{190939A7-B313-4846-9358-8A945915B0BE} = {6EE52200-E15C-4719-965F-A23C49FEABE4}
 		{4A5BC45F-5703-4CE6-993C-A207D6B9EEA7} = {296F7507-4669-47BF-9E34-C57C0710C90A}
-		{562BE320-C95B-4FF4-B7D2-5F76DCFA138B} = {296F7507-4669-47BF-9E34-C57C0710C90A}
-		{156DF0C5-6757-41C7-A226-25F809200602} = {562BE320-C95B-4FF4-B7D2-5F76DCFA138B}
-		{EE297B40-878B-42B7-86E2-F81C3AEFCEAC} = {562BE320-C95B-4FF4-B7D2-5F76DCFA138B}
+		{AA74B517-30EE-44D1-8DE5-B9BBB6D7B18D} = {296F7507-4669-47BF-9E34-C57C0710C90A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FD871E70-A9EF-4440-869E-F375CAB2AD44}
