@@ -1,0 +1,10 @@
+﻿CREATE TABLE [dbo].[RefreshTokens]
+(
+    [Id] UNIQUEIDENTIFIER NOT NULL,
+    [CreatedOn] DATETIMEOFFSET NOT NULL,
+    [ExpiresOn] DATETIMEOFFSET NOT NULL,
+    [Token] NVARCHAR (256) NOT NULL,
+    [UserId] NVARCHAR (450) NOT NULL
+    CONSTRAINT PK_RefreshToken PRIMARY KEY ([Id])
+)
+GO

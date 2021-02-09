@@ -1,5 +1,7 @@
-﻿using FluentValidation.AspNetCore;
+﻿using AutoMapper;
+using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
+using Project.Diana.Data.Features.Album;
 using Project.Diana.Data.Features.Settings;
 using RestSharp;
 
@@ -11,6 +13,12 @@ namespace Project.Diana.WebApi.Configuration
         {
             services.AddHealthChecks();
             services.AddScoped<IRestClient, RestClient>();
+
+            var mappingConfiguration = new MapperConfiguration(config => config.AddMaps(typeof(AlbumMappingProfile).Assembly));
+            mappingConfiguration.AssertConfigurationIsValid();
+            var mapper = new Mapper(mappingConfiguration);
+
+            services.AddSingleton<IMapper>(mapper);
 
             services
                 .AddMvc()
