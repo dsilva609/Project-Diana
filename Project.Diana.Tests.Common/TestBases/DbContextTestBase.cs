@@ -8,8 +8,10 @@ namespace Project.Diana.Tests.Common.TestBases
     {
         public TContext InitializeDatabase()
         {
-            var connection = new SqliteConnection("DataSource=:memory:");
+            var connection = new SqliteConnection("DataSource=:memory:;Foreign Keys=false;");
             connection.Open();
+
+            var builder = new DbContextOptionsBuilder<TContext>();
 
             var options = new DbContextOptionsBuilder<TContext>().UseSqlite(connection).Options;
 

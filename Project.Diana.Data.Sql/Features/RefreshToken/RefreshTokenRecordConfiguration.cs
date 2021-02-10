@@ -12,7 +12,11 @@ namespace Project.Diana.Data.Sql.Features.RefreshToken
                 .ToTable("RefreshTokens")
                 .HasKey(key => key.Id);
 
-            builder.Property(p => p.UserId);
+            builder
+                .HasOne(x => x.User)
+                .WithMany(user => user.RefreshTokens)
+                .HasPrincipalKey(pk => pk.Id)
+                .HasForeignKey(fk => fk.UserId);
         }
     }
 }

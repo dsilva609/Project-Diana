@@ -6,6 +6,7 @@ namespace Project.Diana.Data.Features.Settings
     {
         public string Issuer { get; set; }
         public string JwtKey { get; set; }
+        public int RefreshTokenExpirationDays { get; set; }
         public int TokenExpirationMinutes { get; set; }
     }
 
@@ -15,6 +16,7 @@ namespace Project.Diana.Data.Features.Settings
         {
             RuleFor(s => s.Issuer).NotEmpty();
             RuleFor(s => s.JwtKey).NotEmpty();
+            RuleFor(s => s.RefreshTokenExpirationDays).GreaterThan(0);
             RuleFor(s => s.TokenExpirationMinutes).GreaterThan(0);
         }
     }

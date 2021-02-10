@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
+using Project.Diana.Data.Features.RefreshTokens.Commands;
 using Project.Diana.Data.Features.Settings;
 using Project.Diana.Data.Features.User;
 using Project.Diana.Data.Features.User.Queries;
@@ -20,6 +21,7 @@ namespace Project.Diana.WebApi.Tests.Features.User.Login
 {
     public class LoginRequestHandlerTests
     {
+        private readonly Mock<ICommandDispatcher> _commandDispatcher;
         private readonly LoginRequestHandler _handler;
         private readonly Mock<IQueryDispatcher> _queryDispatcher;
         private readonly Mock<SignInManager<ApplicationUser>> _signInManager;
@@ -32,6 +34,7 @@ namespace Project.Diana.WebApi.Tests.Features.User.Login
             fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
             var settings = fixture.Create<GlobalSettings>();
+            _commandDispatcher = new Mock<ICommandDispatcher>();
             _queryDispatcher = new Mock<IQueryDispatcher>();
             _signInManager = GetMockSignInManager();
             _testLoginRequest = fixture.Create<LoginRequest>();
@@ -45,7 +48,7 @@ namespace Project.Diana.WebApi.Tests.Features.User.Login
                 .Setup(x => x.PasswordSignInAsync(It.IsNotNull<string>(), It.IsNotNull<string>(), true, false))
                 .ReturnsAsync(SignInResult.Success);
 
-            _handler = new LoginRequestHandler(_queryDispatcher.Object, settings, _signInManager.Object);
+            _handler = new LoginRequestHandler(_commandDispatcher.Object, _queryDispatcher.Object, settings, _signInManager.Object);
         }
 
         [Fact]
@@ -87,6 +90,14 @@ namespace Project.Diana.WebApi.Tests.Features.User.Login
             userResponse.Token.Should().NotBeNullOrWhiteSpace();
             userResponse.UserId.Should().Be(_testUser.Id);
             userResponse.UserNum.Should().Be(_testUser.UserNum);
+        }
+
+        [Fact]
+        public async Task Handler_Saves_Refresh_Token()
+        {
+            await _handler.Handle(_testLoginRequest, CancellationToken.None);
+
+            _commandDispatcher.Verify(x => x.Dispatch(It.Is<RefreshTokenCreateCommand>(c => c != null)), Times.Once);
         }
 
         private Mock<SignInManager<ApplicationUser>> GetMockSignInManager()
