@@ -20,6 +20,7 @@ namespace Project.Diana.WebApi.Tests.Features.User.RefreshToken
     public class RefreshTokenRequestHandlerTests
     {
         private readonly Mock<ICommandDispatcher> _commandDispatcher;
+        private readonly RefreshTokenRecord _existingRefreshToken;
         private readonly IFixture _fixture;
         private readonly RefreshTokenRequestHandler _handler;
         private readonly Mock<IQueryDispatcher> _queryDispatcher;
@@ -37,7 +38,7 @@ namespace Project.Diana.WebApi.Tests.Features.User.RefreshToken
 
             _testRequest = _fixture.Create<RefreshTokenRequest>();
 
-            var refreshToken = _fixture
+            _existingRefreshToken = _fixture
                  .Build<RefreshTokenRecord>()
                  .With(t => t.ExpiresOn, DateTimeOffset.UtcNow.AddDays(1))
                  .With(t => t.Token, _testRequest.RefreshToken)
@@ -45,7 +46,7 @@ namespace Project.Diana.WebApi.Tests.Features.User.RefreshToken
 
             var user = _fixture
                 .Build<ApplicationUser>()
-                .With(u => u.RefreshTokens, new[] { refreshToken })
+                .With(u => u.RefreshTokens, new[] { _existingRefreshToken })
                 .Create();
 
             _queryDispatcher
@@ -61,6 +62,14 @@ namespace Project.Diana.WebApi.Tests.Features.User.RefreshToken
                 .Returns(_fixture.Create<RefreshTokenRecord>());
 
             _handler = new RefreshTokenRequestHandler(_commandDispatcher.Object, _queryDispatcher.Object, _tokenService.Object);
+        }
+
+        [Fact]
+        public async Task Handler_Clears_Expired_Tokens_For_User()
+        {
+            await _handler.Handle(_testRequest, CancellationToken.None);
+
+            _commandDispatcher.Verify(x => x.Dispatch(It.Is<RefreshTokenClearExpiredForUserCommand>(c => c != null && c.ActiveTokenForExpiration == _existingRefreshToken.Token && c.UserId == _existingRefreshToken.UserId)), Times.Once());
         }
 
         [Fact]

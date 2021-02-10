@@ -49,6 +49,8 @@ namespace Project.Diana.WebApi.Features.User.RefreshToken
 
             await _commandDispatcher.Dispatch(new RefreshTokenCreateCommand(refreshToken.ExpiresOn, refreshToken.Token, refreshToken.UserId));
 
+            await _commandDispatcher.Dispatch(new RefreshTokenClearExpiredForUserCommand(existingRefreshToken.Token, existingRefreshToken.UserId));
+
             var loginResponse = new LoginResponse
             {
                 DisplayName = user.DisplayName,
