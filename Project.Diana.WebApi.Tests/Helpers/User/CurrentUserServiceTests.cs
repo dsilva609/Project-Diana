@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Moq;
 using Project.Diana.Data.Features.User;
-using Project.Diana.WebApi.Helpers;
+using Project.Diana.WebApi.Helpers.User;
 using Xunit;
 
-namespace Project.Diana.WebApi.Tests.Helpers
+namespace Project.Diana.WebApi.Tests.Helpers.User
 {
     public class CurrentUserServiceTests
     {

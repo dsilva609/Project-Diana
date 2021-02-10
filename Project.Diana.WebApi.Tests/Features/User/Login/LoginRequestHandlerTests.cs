@@ -8,12 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
+using Project.Diana.Data.Features.RefreshTokens;
 using Project.Diana.Data.Features.RefreshTokens.Commands;
-using Project.Diana.Data.Features.Settings;
 using Project.Diana.Data.Features.User;
 using Project.Diana.Data.Features.User.Queries;
 using Project.Diana.Data.Sql.Bases.Dispatchers;
 using Project.Diana.WebApi.Features.User.Login;
+using Project.Diana.WebApi.Helpers.Token;
 using Xunit;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
@@ -27,18 +28,19 @@ namespace Project.Diana.WebApi.Tests.Features.User.Login
         private readonly Mock<SignInManager<ApplicationUser>> _signInManager;
         private readonly LoginRequest _testLoginRequest;
         private readonly ApplicationUser _testUser;
+        private readonly Mock<ITokenService> _tokenService;
 
         public LoginRequestHandlerTests()
         {
             var fixture = new Fixture();
             fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
-            var settings = fixture.Create<GlobalSettings>();
             _commandDispatcher = new Mock<ICommandDispatcher>();
             _queryDispatcher = new Mock<IQueryDispatcher>();
             _signInManager = GetMockSignInManager();
             _testLoginRequest = fixture.Create<LoginRequest>();
             _testUser = fixture.Create<ApplicationUser>();
+            _tokenService = new Mock<ITokenService>();
 
             _queryDispatcher
                 .Setup(x => x.Dispatch<UserGetByUsernameQuery, ApplicationUser>(It.IsNotNull<UserGetByUsernameQuery>()))
@@ -48,7 +50,19 @@ namespace Project.Diana.WebApi.Tests.Features.User.Login
                 .Setup(x => x.PasswordSignInAsync(It.IsNotNull<string>(), It.IsNotNull<string>(), true, false))
                 .ReturnsAsync(SignInResult.Success);
 
-            _handler = new LoginRequestHandler(_commandDispatcher.Object, _queryDispatcher.Object, settings, _signInManager.Object);
+            _tokenService
+                .Setup(x => x.GenerateAccessToken(It.Is<ApplicationUser>(u => u != null)))
+                .Returns("token");
+
+            _tokenService
+                .Setup(x => x.GenerateRefreshToken(It.Is<ApplicationUser>(u => u != null)))
+                .Returns(fixture.Create<RefreshTokenRecord>());
+
+            _handler = new LoginRequestHandler(
+                _commandDispatcher.Object,
+                _queryDispatcher.Object,
+                _signInManager.Object,
+                _tokenService.Object);
         }
 
         [Fact]
@@ -65,6 +79,22 @@ namespace Project.Diana.WebApi.Tests.Features.User.Login
             await _handler.Handle(_testLoginRequest, CancellationToken.None);
 
             _signInManager.Verify(x => x.PasswordSignInAsync(It.IsNotNull<string>(), It.IsNotNull<string>(), true, false), Times.Once);
+        }
+
+        [Fact]
+        public async Task Handler_Generates_Access_Token()
+        {
+            await _handler.Handle(_testLoginRequest, CancellationToken.None);
+
+            _tokenService.Verify(x => x.GenerateAccessToken(It.Is<ApplicationUser>(u => u != null)), Times.Once);
+        }
+
+        [Fact]
+        public async Task Handler_Generates_Refresh_Token()
+        {
+            await _handler.Handle(_testLoginRequest, CancellationToken.None);
+
+            _tokenService.Verify(x => x.GenerateRefreshToken(It.Is<ApplicationUser>(u => u != null)), Times.Once);
         }
 
         [Fact]

@@ -12,7 +12,7 @@ using Project.Diana.WebApi.Features.Book.BookSubmission;
 using Project.Diana.WebApi.Features.Book.BookUpdate;
 using Project.Diana.WebApi.Features.Book.GetGoogleBookById;
 using Project.Diana.WebApi.Features.Book.SearchGoogleBooks;
-using Project.Diana.WebApi.Helpers;
+using Project.Diana.WebApi.Helpers.User;
 
 namespace Project.Diana.WebApi.Features.Book
 {

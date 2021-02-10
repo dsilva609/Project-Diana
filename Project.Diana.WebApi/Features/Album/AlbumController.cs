@@ -12,7 +12,7 @@ using Project.Diana.WebApi.Features.Album.AlbumRemoveFromShowcase;
 using Project.Diana.WebApi.Features.Album.AlbumSubmission;
 using Project.Diana.WebApi.Features.Album.AlbumUpdate;
 using Project.Diana.WebApi.Features.Album.SearchDiscogs;
-using Project.Diana.WebApi.Helpers;
+using Project.Diana.WebApi.Helpers.User;
 
 namespace Project.Diana.WebApi.Features.Album
 {

@@ -7,7 +7,7 @@ using Project.Diana.WebApi.Features.Wish.Retrieve;
 using Project.Diana.WebApi.Features.Wish.Submission;
 using Project.Diana.WebApi.Features.Wish.Update;
 using Project.Diana.WebApi.Features.Wish.WishList;
-using Project.Diana.WebApi.Helpers;
+using Project.Diana.WebApi.Helpers.User;
 
 namespace Project.Diana.WebApi.Features.Wish
 {

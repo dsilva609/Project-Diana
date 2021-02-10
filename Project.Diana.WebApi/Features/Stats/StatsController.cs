@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Project.Diana.WebApi.Helpers;
+using Project.Diana.WebApi.Helpers.User;
 
 namespace Project.Diana.WebApi.Features.Stats
 {
