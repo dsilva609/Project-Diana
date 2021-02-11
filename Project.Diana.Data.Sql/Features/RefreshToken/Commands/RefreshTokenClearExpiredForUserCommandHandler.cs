@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Project.Diana.Data.Features.RefreshTokens.Commands;
@@ -16,12 +15,14 @@ namespace Project.Diana.Data.Sql.Features.RefreshToken.Commands
 
         public async Task Handle(RefreshTokenClearExpiredForUserCommand command)
         {
-            var expiredTokens = _context
-                .RefreshTokens.AsEnumerable()
-                .Where(token => token.UserId == command.UserId && token.ExpiresOn <= DateTimeOffset.UtcNow)
-                .ToList();
+            var refreshTokens = await _context
+                .RefreshTokens
+                .Where(token => token.UserId == command.UserId)
+                .ToListAsync();
 
-            var activeTokenTokenToRemove = await _context.RefreshTokens.FirstOrDefaultAsync(token => token.Token == command.ActiveTokenForExpiration && token.UserId == command.UserId);
+            var expiredTokens = refreshTokens.Where(token => !token.IsActive).ToList();
+
+            var activeTokenTokenToRemove = refreshTokens.FirstOrDefault(token => token.Token == command.ActiveTokenForExpiration);
 
             if (activeTokenTokenToRemove != null)
             {
