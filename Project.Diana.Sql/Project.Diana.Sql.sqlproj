@@ -73,4 +73,7 @@
     <None Include="Tables\0009-Tracks-Create.sql" />
     <None Include="Tables\0010-Wishes-Create.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\0011-RefreshTokens-Create.sql" />
+  </ItemGroup>
 </Project>
