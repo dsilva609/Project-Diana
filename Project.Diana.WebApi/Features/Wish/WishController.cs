@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Project.Diana.WebApi.Features.Wish.CompleteItem;
+using Project.Diana.WebApi.Features.Wish.Delete;
 using Project.Diana.WebApi.Features.Wish.Retrieve;
 using Project.Diana.WebApi.Features.Wish.Submission;
 using Project.Diana.WebApi.Features.Wish.Update;
@@ -42,6 +43,11 @@ namespace Project.Diana.WebApi.Features.Wish
                 wishSubmission.Owned,
                 wishSubmission.Title,
                 await _userService.GetCurrentUser())));
+
+        [HttpDelete]
+        [Route("DeleteWish")]
+        [Authorize]
+        public async Task<IActionResult> DeleteWish(int id) => Ok(await _mediator.Send(new WishDeleteRequest(await _userService.GetCurrentUser(), id)));
 
         [HttpGet]
         [Route("GetWish")]
