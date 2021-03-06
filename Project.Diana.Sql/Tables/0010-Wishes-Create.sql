@@ -2,14 +2,14 @@
 SET ANSI_NULLS ON
 GO
 
-SET QUOTED_IDENTIFIER ON
+SET QUOTED_IdENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[Wishes](
-	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](max) NOT NULL,
-	[UserID] [nvarchar](max) NOT NULL,
-	[ApiID] [nvarchar](max) NULL,
+	[UserId] [nvarchar](max) NOT NULL,
+	[ApiId] [nvarchar](max) NULL,
 	[DateAdded] [datetime2](7) NOT NULL,
 	[DateModified] [datetime2](7) NOT NULL,
 	[ItemType] [int] NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE [dbo].[Wishes](
 	[ImageUrl] [nvarchar](max) NULL,
  CONSTRAINT [PK_Wishes] PRIMARY KEY CLUSTERED
 (
-	[ID] ASC
+	[Id] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO

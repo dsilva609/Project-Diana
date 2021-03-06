@@ -45,7 +45,7 @@ namespace Project.Diana.Data.Tests.Features.Wish.Commands
             bool owned,
             string title, int wishId)
         {
-            Action createWithMissingUserID = ()
+            Action createWithMissingUserId = ()
                 => new WishUpdateCommand(
                     apiId,
                     category,
@@ -57,7 +57,7 @@ namespace Project.Diana.Data.Tests.Features.Wish.Commands
                     string.Empty,
                     wishId);
 
-            createWithMissingUserID.Should().Throw<ArgumentException>();
+            createWithMissingUserId.Should().Throw<ArgumentException>();
         }
 
         [Theory, AutoData]

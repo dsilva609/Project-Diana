@@ -6,8 +6,8 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[Movies](
-	[ID] [int] IDENTITY(1,1) NOT NULL,
-	[UserID] [nvarchar](max) NOT NULL,
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[UserId] [nvarchar](max) NOT NULL,
 	[Title] [nvarchar](max) NOT NULL,
 	[UserNum] [int] NOT NULL,
 	[Genre] [nvarchar](max) NULL,
@@ -37,13 +37,11 @@ CREATE TABLE [dbo].[Movies](
 	[Type] [int] NOT NULL,
 	[Distributor] [nvarchar](max) NULL,
 	[Rating] [int] NOT NULL,
-	[TMDBID] [int] NOT NULL,
+	[TMDBId] [int] NOT NULL,
 	[SeasonNumber] [int] NOT NULL,
- CONSTRAINT [PK_Movies] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_Movies] PRIMARY KEY CLUSTERED
 (
-	[ID] ASC
+	[Id] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-
-

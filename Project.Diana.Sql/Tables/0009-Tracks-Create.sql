@@ -6,24 +6,22 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[Tracks](
-	[ID] [int] IDENTITY(1,1) NOT NULL,
-	[AlbumID] [int] NOT NULL,
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[AlbumId] [int] NOT NULL,
 	[duration] [nvarchar](max) NULL,
 	[position] [nvarchar](max) NULL,
 	[title] [nvarchar](max) NULL,
- CONSTRAINT [PK_Tracks] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_Tracks] PRIMARY KEY CLUSTERED
 (
-	[ID] ASC
+	[Id] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[Tracks]  WITH CHECK ADD  CONSTRAINT [FK_Tracks_Albums_AlbumID] FOREIGN KEY([AlbumID])
-REFERENCES [dbo].[Albums] ([ID])
+ALTER TABLE [dbo].[Tracks]  WITH CHECK ADD  CONSTRAINT [FK_Tracks_Albums_AlbumId] FOREIGN KEY([AlbumId])
+REFERENCES [dbo].[Albums] ([Id])
 ON DELETE CASCADE
 GO
 
-ALTER TABLE [dbo].[Tracks] CHECK CONSTRAINT [FK_Tracks_Albums_AlbumID]
+ALTER TABLE [dbo].[Tracks] CHECK CONSTRAINT [FK_Tracks_Albums_AlbumId]
 GO
-
-
