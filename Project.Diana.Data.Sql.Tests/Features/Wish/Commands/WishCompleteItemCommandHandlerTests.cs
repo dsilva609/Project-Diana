@@ -24,7 +24,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Wish.Commands
             var fixture = new Fixture();
 
             _testRecord = fixture.Create<WishRecord>();
-            _testCommand = new WishCompleteItemCommand(_testRecord.UserID, _testRecord.ID);
+            _testCommand = new WishCompleteItemCommand(_testRecord.UserId, _testRecord.Id);
 
             _writeContext = InitializeDatabase();
 
@@ -32,27 +32,27 @@ namespace Project.Diana.Data.Sql.Tests.Features.Wish.Commands
         }
 
         [Fact]
-        public async Task Handler_Throws_If_Unable_To_Find_Wish_For_ID()
+        public async Task Handler_Throws_If_Unable_To_Find_Wish_For_Id()
         {
             await InitializeRecords();
 
-            var command = new WishCompleteItemCommand(_testRecord.UserID, _testRecord.ID + 1);
+            var command = new WishCompleteItemCommand(_testRecord.UserId, _testRecord.Id + 1);
 
-            Func<Task> callWithNonMatchingWishID = async () => await _handler.Handle(command);
+            Func<Task> callWithNonMatchingWishId = async () => await _handler.Handle(command);
 
-            await callWithNonMatchingWishID.Should().ThrowAsync<InvalidOperationException>();
+            await callWithNonMatchingWishId.Should().ThrowAsync<InvalidOperationException>();
         }
 
         [Fact]
-        public async Task Handler_Throws_If_Unable_To_Find_Wish_For_UserID()
+        public async Task Handler_Throws_If_Unable_To_Find_Wish_For_UserId()
         {
             await InitializeRecords();
 
-            var command = new WishCompleteItemCommand($"{_testRecord.UserID}1", _testRecord.ID);
+            var command = new WishCompleteItemCommand($"{_testRecord.UserId}1", _testRecord.Id);
 
-            Func<Task> callWithNonMatchingWishID = async () => await _handler.Handle(command);
+            Func<Task> callWithNonMatchingWishId = async () => await _handler.Handle(command);
 
-            await callWithNonMatchingWishID.Should().ThrowAsync<InvalidOperationException>();
+            await callWithNonMatchingWishId.Should().ThrowAsync<InvalidOperationException>();
         }
 
         [Fact]
@@ -64,7 +64,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Wish.Commands
 
             await _handler.Handle(_testCommand);
 
-            var updatedRecord = await _writeContext.Wishes.FirstOrDefaultAsync(w => w.ID == _testRecord.ID && w.UserID == _testCommand.UserID);
+            var updatedRecord = await _writeContext.Wishes.FirstOrDefaultAsync(w => w.Id == _testRecord.Id && w.UserId == _testCommand.UserId);
 
             updatedRecord.Owned.Should().BeTrue();
         }

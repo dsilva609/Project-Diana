@@ -14,7 +14,7 @@ namespace Project.Diana.WebApi.Features.Wish.Submission
 
         public async Task<Unit> Handle(WishSubmissionRequest request, CancellationToken cancellationToken)
             => await _commandDispatcher.Dispatch(new WishCreateCommand(
-                request.ApiID,
+                request.ApiId,
                 request.Category,
                 request.ImageUrl,
                 request.ItemType,

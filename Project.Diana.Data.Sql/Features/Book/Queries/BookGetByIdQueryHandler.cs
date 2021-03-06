@@ -15,7 +15,7 @@ namespace Project.Diana.Data.Sql.Features.Book.Queries
 
         public async Task<BookRecord> Handle(BookGetByIdQuery query)
             => string.IsNullOrWhiteSpace(query.User?.Id)
-                ? await _context.Books.FirstOrDefaultAsync(book => book.ID == query.ID)
-                : await _context.Books.FirstOrDefaultAsync(book => book.ID == query.ID && book.UserID == query.User.Id);
+                ? await _context.Books.FirstOrDefaultAsync(book => book.Id == query.Id)
+                : await _context.Books.FirstOrDefaultAsync(book => book.Id == query.Id && book.UserId == query.User.Id);
     }
 }

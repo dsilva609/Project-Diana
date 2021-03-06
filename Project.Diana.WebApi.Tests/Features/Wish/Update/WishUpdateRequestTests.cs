@@ -22,8 +22,8 @@ namespace Project.Diana.WebApi.Tests.Features.Wish.Update
         }
 
         [Theory, AutoData]
-        public void Request_Throws_If_ID_Is_Missing(
-            string apiID,
+        public void Request_Throws_If_Id_Is_Missing(
+            string apiId,
             string category,
             string imageUrl,
             ItemReference itemType,
@@ -31,9 +31,9 @@ namespace Project.Diana.WebApi.Tests.Features.Wish.Update
             bool owned,
             string title)
         {
-            Action createWithMissingID = ()
+            Action createWithMissingId = ()
                 => new WishUpdateRequest(
-                    apiID,
+                    apiId,
                     category,
                     imageUrl,
                     itemType,
@@ -43,22 +43,22 @@ namespace Project.Diana.WebApi.Tests.Features.Wish.Update
                     _testUser,
                     0);
 
-            createWithMissingID.Should().Throw<ArgumentException>();
+            createWithMissingId.Should().Throw<ArgumentException>();
         }
 
         [Theory, AutoData]
         public void Request_Throws_If_Title_Is_Missing(
-            string apiID,
+            string apiId,
             string category,
             string imageUrl,
             ItemReference itemType,
             string notes,
             bool owned,
-            int wishID)
+            int wishId)
         {
             Action createWithMissingTitle = ()
                 => new WishUpdateRequest(
-                    apiID,
+                    apiId,
                     category,
                     imageUrl,
                     itemType,
@@ -66,25 +66,25 @@ namespace Project.Diana.WebApi.Tests.Features.Wish.Update
                     owned,
                     string.Empty,
                     _testUser,
-                    wishID);
+                    wishId);
 
             createWithMissingTitle.Should().Throw<ArgumentException>();
         }
 
         [Theory, AutoData]
         public void Request_Throws_If_User_Is_Missing(
-            string apiID,
+            string apiId,
             string category,
             string imageUrl,
             ItemReference itemType,
             string notes,
             bool owned,
             string title,
-            int wishID)
+            int wishId)
         {
             Action createWithMissingUser = ()
                 => new WishUpdateRequest(
-                    apiID,
+                    apiId,
                     category,
                     imageUrl,
                     itemType,
@@ -92,25 +92,25 @@ namespace Project.Diana.WebApi.Tests.Features.Wish.Update
                     owned,
                     title,
                     null,
-                    wishID);
+                    wishId);
 
             createWithMissingUser.Should().Throw<ArgumentException>();
         }
 
         [Theory, AutoData]
-        public void Request_Throws_If_UserID_Is_Missing(
-            string apiID,
+        public void Request_Throws_If_UserId_Is_Missing(
+            string apiId,
             string category,
             string imageUrl,
             ItemReference itemType,
             string notes,
             bool owned,
             string title,
-            int wishID)
+            int wishId)
         {
-            Action createWithMissingUserID =
+            Action createWithMissingUserId =
                 () => new WishUpdateRequest(
-                    apiID,
+                    apiId,
                     category,
                     imageUrl,
                     itemType,
@@ -121,9 +121,9 @@ namespace Project.Diana.WebApi.Tests.Features.Wish.Update
                     {
                         Id = string.Empty
                     },
-                    wishID);
+                    wishId);
 
-            createWithMissingUserID.Should().Throw<ArgumentException>();
+            createWithMissingUserId.Should().Throw<ArgumentException>();
         }
     }
 }

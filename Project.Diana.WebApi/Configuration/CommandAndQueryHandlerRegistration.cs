@@ -11,7 +11,7 @@ namespace Project.Diana.WebApi.Configuration
         public static IServiceCollection RegisterCommandAndQueryHandlers(this IServiceCollection services)
         {
             services.Scan(scan => scan
-                .FromAssemblyOf<WishGetByIDQueryHandler>()
+                .FromAssemblyOf<WishGetByIdQueryHandler>()
                 .AddClasses(c => c.AssignableTo(typeof(ICommandHandler<>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime()

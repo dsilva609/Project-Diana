@@ -18,7 +18,7 @@ namespace Project.Diana.Data.Sql.Features.Album.Commands
         {
             var albums = await _context.Albums.Where(a =>
                 a.IsShowcased
-                && a.UserID == command.User.Id).ToListAsync();
+                && a.UserId == command.User.Id).ToListAsync();
 
             var updateTime = DateTime.UtcNow;
 

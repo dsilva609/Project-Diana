@@ -17,11 +17,11 @@ namespace Project.Diana.Data.Sql.Features.Album.Commands
         public async Task Handle(AlbumUpdateCommand command)
         {
             var sameAlbumExists = await _context.Albums.AnyAsync(a
-                => a.ID != command.AlbumId
+                => a.Id != command.AlbumId
                    && a.Artist.ToUpper() == command.Artist.ToUpper()
                    && a.MediaType == command.MediaType
                    && a.Title.ToUpper() == command.Title.ToUpper()
-                   && a.UserID.ToUpper() == command.User.Id.ToUpper());
+                   && a.UserId.ToUpper() == command.User.Id.ToUpper());
 
             if (sameAlbumExists)
             {
@@ -29,8 +29,8 @@ namespace Project.Diana.Data.Sql.Features.Album.Commands
             }
 
             var existingAlbum = await _context.Albums.FirstOrDefaultAsync(a =>
-                a.ID == command.AlbumId
-                && a.UserID.ToUpper() == command.User.Id.ToUpper());
+                a.Id == command.AlbumId
+                && a.UserId.ToUpper() == command.User.Id.ToUpper());
 
             if (existingAlbum is null)
             {
@@ -45,7 +45,7 @@ namespace Project.Diana.Data.Sql.Features.Album.Commands
             existingAlbum.CountryOfOrigin = command.CountryOfOrigin;
             existingAlbum.CountryPurchased = command.CountryPurchased;
             existingAlbum.DatePurchased = command.DatePurchased;
-            existingAlbum.DiscogsID = command.DiscogsId;
+            existingAlbum.DiscogsId = command.DiscogsId;
             existingAlbum.Genre = command.Genre;
             existingAlbum.ImageUrl = command.ImageUrl;
             existingAlbum.IsNew = command.IsNew;

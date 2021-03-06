@@ -8,33 +8,33 @@ using Xunit;
 
 namespace Project.Diana.WebApi.Tests.Features.Wish.Retrieve
 {
-    public class WishGetByIDRequestTests
+    public class WishGetByIdRequestTests
     {
         [Theory, AutoData]
-        public void Request_Throws_When_User_Is_Missing(int wishID)
+        public void Request_Throws_When_User_Is_Missing(int wishId)
         {
-            Action createWithMissingUser = () => new WishGetByIDRequest(null, wishID);
+            Action createWithMissingUser = () => new WishGetByIdRequest(null, wishId);
 
             createWithMissingUser.Should().Throw<ArgumentException>();
         }
 
         [Theory, AutoData]
-        public void Request_Throws_When_UserID_Is_Missing(int wishID)
+        public void Request_Throws_When_UserId_Is_Missing(int wishId)
         {
-            Action createWithMissingUserID = () => new WishGetByIDRequest(new ApplicationUser { Id = string.Empty }, wishID);
+            Action createWithMissingUserId = () => new WishGetByIdRequest(new ApplicationUser { Id = string.Empty }, wishId);
 
-            createWithMissingUserID.Should().Throw<ArgumentException>();
+            createWithMissingUserId.Should().Throw<ArgumentException>();
         }
 
         [Fact]
-        public void Request_Throws_When_WishID_Is_Default()
+        public void Request_Throws_When_WishId_Is_Default()
         {
             var fixture = new Fixture();
             fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
             var testUser = fixture.Create<ApplicationUser>();
 
-            Action createWithDefaultId = () => new WishGetByIDRequest(testUser, 0);
+            Action createWithDefaultId = () => new WishGetByIdRequest(testUser, 0);
 
             createWithDefaultId.Should().Throw<ArgumentException>();
         }

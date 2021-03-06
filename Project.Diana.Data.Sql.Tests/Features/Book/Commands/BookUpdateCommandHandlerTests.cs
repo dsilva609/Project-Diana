@@ -31,13 +31,13 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Commands
             _testCommand = _fixture.Create<BookUpdateCommand>();
             _testBook = _fixture
                 .Build<BookRecord>()
-                .With(a => a.ID, _testCommand.BookId)
+                .With(a => a.Id, _testCommand.BookId)
                 .With(a => a.Author, _testCommand.Author)
                 .With(a => a.DateUpdated, DateTime.UtcNow)
                 .With(a => a.Type, _testCommand.Type)
                 .With(a => a.TimesCompleted, 1)
                 .With(a => a.Title, _testCommand.Title)
-                .With(a => a.UserID, _testCommand.User.Id)
+                .With(a => a.UserId, _testCommand.User.Id)
                 .Create();
 
             _handler = new BookUpdateCommandHandler(_context);

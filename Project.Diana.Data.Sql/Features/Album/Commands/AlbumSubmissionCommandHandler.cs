@@ -27,7 +27,7 @@ namespace Project.Diana.Data.Sql.Features.Album.Commands
                 => a.Artist.ToUpper() == command.Artist.ToUpper()
                    && a.MediaType == command.MediaType
                    && a.Title.ToUpper() == command.Title.ToUpper()
-                   && a.UserID.ToUpper() == command.User.Id.ToUpper());
+                   && a.UserId.ToUpper() == command.User.Id.ToUpper());
 
             if (albumExists)
             {

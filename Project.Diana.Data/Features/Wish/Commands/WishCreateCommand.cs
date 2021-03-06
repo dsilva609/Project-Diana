@@ -6,36 +6,36 @@ namespace Project.Diana.Data.Features.Wish.Commands
 {
     public class WishCreateCommand : ICommand
     {
-        public string ApiID { get; }
+        public string ApiId { get; }
         public string Category { get; }
         public string ImageUrl { get; }
         public ItemReference ItemType { get; }
         public string Notes { get; }
         public bool Owned { get; }
         public string Title { get; }
-        public string UserID { get; }
+        public string UserId { get; }
 
         public WishCreateCommand(
-            string apiID,
+            string apiId,
             string category,
             string imageUrl,
             ItemReference itemType,
             string notes,
             bool owned,
             string title,
-            string userID)
+            string userId)
         {
             Guard.Against.NullOrWhiteSpace(title, nameof(title));
-            Guard.Against.NullOrWhiteSpace(userID, nameof(userID));
+            Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
-            ApiID = apiID;
+            ApiId = apiId;
             Category = category;
             ImageUrl = imageUrl;
             ItemType = itemType;
             Notes = notes;
             Owned = owned;
             Title = title;
-            UserID = userID;
+            UserId = userId;
         }
     }
 }

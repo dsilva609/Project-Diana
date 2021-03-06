@@ -15,6 +15,6 @@ namespace Project.Diana.WebApi.Features.Showcase.ShowcaseList
 
         public async Task<ShowcaseListResponse> Handle(ShowcaseGetListRequest request, CancellationToken cancellationToken)
             => await _queryDispatcher.Dispatch<ShowcaseGetListQuery, ShowcaseListResponse>(
-                new ShowcaseGetListQuery(request.UserID));
+                new ShowcaseGetListQuery(request.UserId));
     }
 }

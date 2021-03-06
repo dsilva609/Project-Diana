@@ -34,8 +34,8 @@ namespace Project.Diana.Data.Sql.Tests.Features.Wish.Commands
                 "note",
                 true,
             "title",
-                _testRecord.UserID,
-                _testRecord.ID);
+                _testRecord.UserId,
+                _testRecord.Id);
 
             _writeContext = InitializeDatabase();
 
@@ -59,7 +59,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Wish.Commands
 
             await _handler.Handle(_testCommand);
 
-            var updatedRecord = await _writeContext.Wishes.FirstOrDefaultAsync(w => w.ID == _testRecord.ID);
+            var updatedRecord = await _writeContext.Wishes.FirstOrDefaultAsync(w => w.Id == _testRecord.Id);
 
             updatedRecord.Title.Should().Be(_testCommand.Title);
             updatedRecord.DateModified.Should().Be(_testRecord.DateModified);

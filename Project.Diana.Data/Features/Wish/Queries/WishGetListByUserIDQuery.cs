@@ -4,15 +4,15 @@ using Project.Diana.Data.Bases.Queries;
 
 namespace Project.Diana.Data.Features.Wish.Queries
 {
-    public class WishGetListByUserIDQuery : IQuery<IEnumerable<WishRecord>>
+    public class WishGetListByUserIdQuery : IQuery<IEnumerable<WishRecord>>
     {
-        public string UserID { get; }
+        public string UserId { get; }
 
-        public WishGetListByUserIDQuery(string userID)
+        public WishGetListByUserIdQuery(string userId)
         {
-            Guard.Against.NullOrWhiteSpace(userID, nameof(userID));
+            Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
-            UserID = userID;
+            UserId = userId;
         }
     }
 }

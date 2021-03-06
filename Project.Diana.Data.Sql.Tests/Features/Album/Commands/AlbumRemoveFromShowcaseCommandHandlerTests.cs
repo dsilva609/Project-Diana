@@ -29,10 +29,10 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Commands
             _testCommand = fixture.Create<AlbumRemoveFromShowcaseCommand>();
             _testAlbum = fixture
                 .Build<AlbumRecord>()
-                .With(a => a.ID, _testCommand.AlbumId)
+                .With(a => a.Id, _testCommand.AlbumId)
                 .With(a => a.DateUpdated, DateTime.UtcNow)
                 .With(a => a.IsShowcased, true)
-                .With(a => a.UserID, _testCommand.User.Id)
+                .With(a => a.UserId, _testCommand.User.Id)
                 .Create();
 
             _handler = new AlbumRemoveFromShowcaseCommandHandler(_context);
@@ -42,7 +42,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Commands
         public async Task Handler_Does_Not_Update_Album_For_Non_Matching_User_Id()
         {
             var lastModifiedTime = _testAlbum.DateUpdated;
-            _testAlbum.UserID = $"{_testCommand.User.Id}not matching";
+            _testAlbum.UserId = $"{_testCommand.User.Id}not matching";
 
             await InitializeRecords();
 
@@ -55,7 +55,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Commands
         public async Task Handler_Does_Not_Update_Album_With_Non_Matching_AlbumId()
         {
             var lastModifiedTime = _testAlbum.DateUpdated;
-            _testAlbum.ID = _testCommand.AlbumId + 1;
+            _testAlbum.Id = _testCommand.AlbumId + 1;
 
             await InitializeRecords();
 
@@ -96,7 +96,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Commands
 
             await _handler.Handle(_testCommand);
 
-            var album = await _context.Albums.FirstOrDefaultAsync(a => a.ID == _testCommand.AlbumId);
+            var album = await _context.Albums.FirstOrDefaultAsync(a => a.Id == _testCommand.AlbumId);
 
             album.DateUpdated.Should().BeAfter(lastModifiedTime);
         }

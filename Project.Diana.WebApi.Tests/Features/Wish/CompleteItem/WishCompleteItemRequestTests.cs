@@ -11,34 +11,34 @@ namespace Project.Diana.WebApi.Tests.Features.Wish.CompleteItem
     public class WishCompleteItemRequestTests
     {
         [Theory, AutoData]
-        public void Request_Throws_If_User_Is_Missing(int wishID)
+        public void Request_Throws_If_User_Is_Missing(int wishId)
         {
-            Action createWithMissingUser = () => new WishCompleteItemRequest(null, wishID);
+            Action createWithMissingUser = () => new WishCompleteItemRequest(null, wishId);
 
             createWithMissingUser.Should().Throw<ArgumentException>();
         }
 
         [Theory, AutoData]
-        public void Request_Throws_If_UserID_Is_Missing(int wishID)
+        public void Request_Throws_If_UserId_Is_Missing(int wishId)
         {
             var user = new ApplicationUser { Id = string.Empty };
 
-            Action createWithUserMissingUserID = () => new WishCompleteItemRequest(user, wishID);
+            Action createWithUserMissingUserId = () => new WishCompleteItemRequest(user, wishId);
 
-            createWithUserMissingUserID.Should().Throw<ArgumentException>();
+            createWithUserMissingUserId.Should().Throw<ArgumentException>();
         }
 
         [Fact]
-        public void Request_Throws_If_WishID_Is_Default()
+        public void Request_Throws_If_WishId_Is_Default()
         {
             var fixture = new Fixture();
             fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
             var testUser = fixture.Create<ApplicationUser>();
 
-            Action createWithDefaultWishID = () => new WishCompleteItemRequest(testUser, 0);
+            Action createWithDefaultWishId = () => new WishCompleteItemRequest(testUser, 0);
 
-            createWithDefaultWishID.Should().Throw<ArgumentException>();
+            createWithDefaultWishId.Should().Throw<ArgumentException>();
         }
     }
 }

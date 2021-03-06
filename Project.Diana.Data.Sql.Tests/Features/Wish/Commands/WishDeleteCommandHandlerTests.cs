@@ -29,8 +29,8 @@ namespace Project.Diana.Data.Sql.Tests.Features.Wish.Commands
             _testCommand = fixture.Create<WishDeleteCommand>();
             _testRecord = fixture
                 .Build<WishRecord>()
-                .With(w => w.ID, _testCommand.Id)
-                .With(w => w.UserID, _testCommand.User.Id)
+                .With(w => w.Id, _testCommand.Id)
+                .With(w => w.UserId, _testCommand.User.Id)
                 .Create();
 
             _handler = new WishDeleteCommandHandler(_context);
@@ -45,7 +45,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Wish.Commands
 
             await _handler.Handle(command);
 
-            var exists = await _context.Wishes.AnyAsync(w => w.ID == _testCommand.Id);
+            var exists = await _context.Wishes.AnyAsync(w => w.Id == _testCommand.Id);
 
             exists.Should().BeTrue();
         }
@@ -59,7 +59,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Wish.Commands
 
             await _handler.Handle(command);
 
-            var exists = await _context.Wishes.AnyAsync(w => w.ID == _testCommand.Id);
+            var exists = await _context.Wishes.AnyAsync(w => w.Id == _testCommand.Id);
 
             exists.Should().BeTrue();
         }
@@ -71,7 +71,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Wish.Commands
 
             await _handler.Handle(_testCommand);
 
-            var exists = await _context.Wishes.AnyAsync(w => w.ID == _testCommand.Id);
+            var exists = await _context.Wishes.AnyAsync(w => w.Id == _testCommand.Id);
 
             exists.Should().BeFalse();
         }

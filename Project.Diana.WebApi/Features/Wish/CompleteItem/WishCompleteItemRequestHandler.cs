@@ -13,6 +13,6 @@ namespace Project.Diana.WebApi.Features.Wish.CompleteItem
         public WishCompleteItemRequestHandler(ICommandDispatcher commandDispatcher) => _commandDispatcher = commandDispatcher;
 
         public async Task<Unit> Handle(WishCompleteItemRequest request, CancellationToken cancellationToken)
-            => await _commandDispatcher.Dispatch(new WishCompleteItemCommand(request.User.Id, request.WishID));
+            => await _commandDispatcher.Dispatch(new WishCompleteItemCommand(request.User.Id, request.WishId));
     }
 }

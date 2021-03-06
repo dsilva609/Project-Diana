@@ -10,16 +10,16 @@ using Project.Diana.Data.Sql.Bases.Dispatchers;
 
 namespace Project.Diana.WebApi.Features.Wish.WishList
 {
-    public class WishGetListByUserIDRequestHandler : IRequestHandler<WishGetListByUserIDRequest, WishListResponse>
+    public class WishGetListByUserIdRequestHandler : IRequestHandler<WishGetListByUserIdRequest, WishListResponse>
     {
         private readonly IQueryDispatcher _queryDispatcher;
 
-        public WishGetListByUserIDRequestHandler(IQueryDispatcher queryDispatcher) => _queryDispatcher = queryDispatcher;
+        public WishGetListByUserIdRequestHandler(IQueryDispatcher queryDispatcher) => _queryDispatcher = queryDispatcher;
 
-        public async Task<WishListResponse> Handle(WishGetListByUserIDRequest request, CancellationToken cancellationToken)
+        public async Task<WishListResponse> Handle(WishGetListByUserIdRequest request, CancellationToken cancellationToken)
         {
-            var wishes = await _queryDispatcher.Dispatch<WishGetListByUserIDQuery, IEnumerable<WishRecord>>(
-                new WishGetListByUserIDQuery(request.User.Id));
+            var wishes = await _queryDispatcher.Dispatch<WishGetListByUserIdQuery, IEnumerable<WishRecord>>(
+                new WishGetListByUserIdQuery(request.User.Id));
 
             var response = new WishListResponse
             {

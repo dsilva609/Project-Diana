@@ -12,7 +12,7 @@ namespace Project.Diana.Data.Features.Album
                 .ForMember(m => m.DateCompleted, dest => dest.Ignore())
                 .ForMember(m => m.DateStarted, dest => dest.Ignore())
                 .ForMember(m => m.DateUpdated, dest => dest.Ignore())
-                .ForMember(m => m.ID, dest => dest.Ignore())
+                .ForMember(m => m.Id, dest => dest.Ignore())
                 .ForMember(m => m.IsQueued, dest => dest.Ignore())
                 .ForMember(m => m.IsShowcased, dest => dest.Ignore())
                 .ForMember(m => m.Language, dest => dest.Ignore())

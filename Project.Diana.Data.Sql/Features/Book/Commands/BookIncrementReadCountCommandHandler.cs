@@ -17,8 +17,8 @@ namespace Project.Diana.Data.Sql.Features.Book.Commands
         public async Task Handle(BookIncrementReadCountCommand command)
         {
             var book = await _context.Books.FirstOrDefaultAsync(b
-                => b.ID == command.BookId
-                   && b.UserID == command.User.Id);
+                => b.Id == command.BookId
+                   && b.UserId == command.User.Id);
 
             if (book is null)
             {

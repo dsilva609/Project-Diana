@@ -19,7 +19,7 @@ namespace Project.Diana.Data.Sql.Features.Wish.Commands
 
             var newWish = new WishRecord
             {
-                ApiID = command.ApiID,
+                ApiId = command.ApiId,
                 Category = command.Category,
                 DateAdded = createdDate,
                 DateModified = createdDate,
@@ -27,7 +27,7 @@ namespace Project.Diana.Data.Sql.Features.Wish.Commands
                 ItemType = command.ItemType,
                 Notes = command.Notes,
                 Title = command.Title,
-                UserID = command.UserID
+                UserId = command.UserId
             };
 
             await _context.Wishes.AddAsync(newWish);

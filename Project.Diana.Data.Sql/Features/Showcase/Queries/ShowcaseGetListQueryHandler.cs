@@ -18,10 +18,10 @@ namespace Project.Diana.Data.Sql.Features.Showcase.Queries
         {
             var response = new ShowcaseListResponse();
 
-            var showcasedAlbums = await _context.Albums.Where(album => album.IsShowcased && album.UserNum == query.UserID).ToListAsync();
+            var showcasedAlbums = await _context.Albums.Where(album => album.IsShowcased && album.UserNum == query.UserId).ToListAsync();
             response.ShowcasedAlbums = showcasedAlbums;
 
-            var showcasedBooks = await _context.Books.Where(book => book.IsShowcased && book.UserNum == query.UserID).ToListAsync();
+            var showcasedBooks = await _context.Books.Where(book => book.IsShowcased && book.UserNum == query.UserId).ToListAsync();
             response.ShowcasedBooks = showcasedBooks;
 
             return response;

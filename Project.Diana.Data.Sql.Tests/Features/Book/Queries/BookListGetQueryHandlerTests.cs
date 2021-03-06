@@ -34,7 +34,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
             _testQuery = new BookListGetQuery(69, 0, string.Empty, _fixture.Create<ApplicationUser>());
             _testRecord = _fixture
                 .Build<BookRecord>()
-                .With(book => book.UserID, _testQuery.User.Id)
+                .With(book => book.UserId, _testQuery.User.Id)
                 .Create();
 
             _handler = new BookListGetQueryHandler(_context);
@@ -47,14 +47,14 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
                 .Build<BookRecord>()
                 .With(book => book.Author, "Rucka")
                 .With(book => book.Title, "Wonder Woman")
-                .With(book => book.UserID, _testQuery.User.Id)
+                .With(book => book.UserId, _testQuery.User.Id)
                 .Create();
 
             var unexpectedBook = _fixture
                 .Build<BookRecord>()
                 .With(book => book.Author, "Rucka")
                 .With(book => book.Title, "Old Guard")
-                .With(book => book.UserID, _testQuery.User.Id)
+                .With(book => book.UserId, _testQuery.User.Id)
                 .Create();
 
             await _context.BookRecords.AddAsync(unexpectedBook);
@@ -69,7 +69,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
         }
 
         [Fact]
-        public async Task Handler_Returns_Book_For_UserID()
+        public async Task Handler_Returns_Book_For_UserId()
         {
             await _context.BookRecords.AddAsync(_testRecord);
 
@@ -78,7 +78,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
             var result = await _handler.Handle(_testQuery);
 
             result.Books.Should().NotBeNullOrEmpty();
-            result.Books.All(b => b.UserID == _testQuery.User.Id).Should().BeTrue();
+            result.Books.All(b => b.UserId == _testQuery.User.Id).Should().BeTrue();
         }
 
         [Fact]
@@ -139,7 +139,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
             var records = _fixture
                 .Build<BookRecord>()
                 .With(b => b.Title, _testQuery.SearchQuery)
-                .With(b => b.UserID, _testQuery.User.Id)
+                .With(b => b.UserId, _testQuery.User.Id)
                 .CreateMany();
 
             await _context.BookRecords.AddRangeAsync(records);
@@ -149,7 +149,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
             var result = await _handler.Handle(_testQuery);
 
             result.Books.Should().NotBeEmpty();
-            result.Books.All(b => b.UserID == _testQuery.User.Id).Should().BeTrue();
+            result.Books.All(b => b.UserId == _testQuery.User.Id).Should().BeTrue();
         }
 
         [Fact]
@@ -167,7 +167,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
         }
 
         [Fact]
-        public async Task Handler_Returns_Records_When_There_Is_No_UserID()
+        public async Task Handler_Returns_Records_When_There_Is_No_UserId()
         {
             _testQuery.User.Id = string.Empty;
 
@@ -176,7 +176,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
             var result = await _handler.Handle(_testQuery);
 
             result.Books.Should().NotBeNullOrEmpty();
-            result.Books.Should().Contain(x => x.UserID != _testQuery.User.Id);
+            result.Books.Should().Contain(x => x.UserId != _testQuery.User.Id);
         }
 
         [Fact]
@@ -212,12 +212,12 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
         {
             var unexpectedBook = _fixture
                 .Build<BookRecord>()
-                .With(b => b.UserID, "not this user")
+                .With(b => b.UserId, "not this user")
                 .Create();
 
             await InitializeRecords();
 
-            var count = await _context.Books.CountAsync(b => b.UserID == _testQuery.User.Id);
+            var count = await _context.Books.CountAsync(b => b.UserId == _testQuery.User.Id);
 
             var result = await _handler.Handle(_testQuery);
 
@@ -230,13 +230,13 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
             var unexpectedBook = _fixture
                 .Build<BookRecord>()
                 .With(book => book.Author, "Bendis")
-                .With(book => book.UserID, _testQuery.User.Id)
+                .With(book => book.UserId, _testQuery.User.Id)
                 .Create();
 
             var expectedBook = _fixture
                 .Build<BookRecord>()
                 .With(book => book.Author, "Archibald")
-                .With(book => book.UserID, _testQuery.User.Id)
+                .With(book => book.UserId, _testQuery.User.Id)
                 .Create();
 
             await _context.BookRecords.AddAsync(unexpectedBook);
@@ -255,14 +255,14 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
                 .Build<BookRecord>()
                 .With(book => book.Author, "Rucka")
                 .With(book => book.Title, "Wonder Woman")
-                .With(book => book.UserID, _testQuery.User.Id)
+                .With(book => book.UserId, _testQuery.User.Id)
                 .Create();
 
             var expectedBook = _fixture
                 .Build<BookRecord>()
                 .With(book => book.Author, "Rucka")
                 .With(book => book.Title, "Old Guard")
-                .With(book => book.UserID, _testQuery.User.Id)
+                .With(book => book.UserId, _testQuery.User.Id)
                 .Create();
 
             await _context.BookRecords.AddAsync(unexpectedBook);

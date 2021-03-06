@@ -9,6 +9,6 @@ namespace Project.Diana.Data.Sql.Features.Book
         public void Configure(EntityTypeBuilder<BookRecord> builder)
             => builder
                 .ToTable("Books")
-                .HasKey(book => book.ID);
+                .HasKey(book => book.Id);
     }
 }

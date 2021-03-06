@@ -9,6 +9,6 @@ namespace Project.Diana.Data.Sql.Features.Album
         public void Configure(EntityTypeBuilder<AlbumRecord> builder)
             => builder
                 .ToTable("Albums")
-                .HasKey(album => album.ID);
+                .HasKey(album => album.Id);
     }
 }

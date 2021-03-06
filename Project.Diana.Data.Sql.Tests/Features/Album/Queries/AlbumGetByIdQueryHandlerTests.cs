@@ -44,8 +44,8 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
         {
             var album = _fixture
                 .Build<AlbumRecord>()
-                .With(a => a.ID, _testQuery.Id)
-                .With(a => a.UserID, _testQuery.User.Id)
+                .With(a => a.Id, _testQuery.Id)
+                .With(a => a.UserId, _testQuery.User.Id)
                 .Create();
 
             await _context.AlbumRecords.AddAsync(album);
@@ -55,7 +55,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
             var result = await _handler.Handle(_testQuery);
 
             result.Should().NotBeNull();
-            result.UserID.Should().Be(_testQuery.User.Id);
+            result.UserId.Should().Be(_testQuery.User.Id);
         }
 
         [Fact]
@@ -74,8 +74,8 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
         {
             var album = _fixture
                 .Build<AlbumRecord>()
-                .With(a => a.ID, _testQuery.Id)
-                .With(a => a.UserID, _testQuery.User.Id)
+                .With(a => a.Id, _testQuery.Id)
+                .With(a => a.UserId, _testQuery.User.Id)
                 .Create();
 
             await _context.AlbumRecords.AddAsync(album);

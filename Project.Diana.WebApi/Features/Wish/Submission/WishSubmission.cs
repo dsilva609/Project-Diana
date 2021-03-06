@@ -4,7 +4,7 @@ namespace Project.Diana.WebApi.Features.Wish.Submission
 {
     public class WishSubmission
     {
-        public string ApiID { get; set; }
+        public string ApiId { get; set; }
         public string Category { get; set; }
         public string ImageUrl { get; set; }
         public ItemReference ItemType { get; set; }

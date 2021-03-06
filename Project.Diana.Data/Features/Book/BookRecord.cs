@@ -17,9 +17,9 @@ namespace Project.Diana.Data.Features.Book
         public DateTime DateStarted { get; set; }
         public DateTime DateUpdated { get; set; }
         public string Genre { get; set; }
-        public string GoogleBookID { get; set; }
+        public string GoogleBookId { get; set; }
         public bool Hardcover { get; set; }
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string ImageUrl { get; set; }
         public string ISBN10 { get; set; }
         public string ISBN13 { get; set; }
@@ -39,7 +39,7 @@ namespace Project.Diana.Data.Features.Book
         public int TimesCompleted { get; set; }
         public string Title { get; set; }
         public BookTypeReference Type { get; set; }
-        public string UserID { get; set; }
+        public string UserId { get; set; }
         public int UserNum { get; set; }
         public int YearReleased { get; set; }
     }

@@ -27,7 +27,7 @@ namespace Project.Diana.Data.Sql.Features.Book.Commands
                 => b.Author.ToUpper() == command.Author.ToUpper()
                 && b.Type == command.Type
                 && b.Title.ToUpper() == command.Title.ToUpper()
-                && b.UserID.ToUpper() == command.User.Id.ToUpper());
+                && b.UserId.ToUpper() == command.User.Id.ToUpper());
 
             if (bookExists)
             {

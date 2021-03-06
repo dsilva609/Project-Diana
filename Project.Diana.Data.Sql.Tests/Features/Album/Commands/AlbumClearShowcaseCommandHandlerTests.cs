@@ -33,7 +33,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Commands
                 .Build<AlbumRecord>()
                 .With(a => a.DateUpdated, DateTime.UtcNow)
                 .With(a => a.IsShowcased, true)
-                .With(a => a.UserID, _testCommand.User.Id)
+                .With(a => a.UserId, _testCommand.User.Id)
                 .CreateMany();
 
             _handler = new AlbumClearShowcaseCommandHandler(_context);
@@ -45,7 +45,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Commands
             var testAlbum = _fixture
                 .Build<AlbumRecord>()
                 .With(a => a.IsShowcased, true)
-                .With(a => a.UserID, $"{_testCommand.User.Id}not matching")
+                .With(a => a.UserId, $"{_testCommand.User.Id}not matching")
                 .Create();
 
             await _context.Albums.AddAsync(testAlbum);
@@ -63,7 +63,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Commands
             var testAlbum = _fixture
                 .Build<AlbumRecord>()
                 .With(a => a.IsShowcased, false)
-                .With(a => a.UserID, _testCommand.User.Id)
+                .With(a => a.UserId, _testCommand.User.Id)
                 .Create();
 
             await _context.Albums.AddAsync(testAlbum);

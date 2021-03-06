@@ -6,22 +6,22 @@ using Xunit;
 
 namespace Project.Diana.Data.Tests.Features.Wish.Queries
 {
-    public class WishGetByIDQueryTests
+    public class WishGetByIdQueryTests
     {
         [Theory, AutoData]
-        public void Query_Throws_When_UserID_Is_Missing(int wishID)
+        public void Query_Throws_When_UserId_Is_Missing(int wishId)
         {
-            Action createWithDefaultUserID = () => new WishGetByIDQuery(string.Empty, wishID);
+            Action createWithDefaultUserId = () => new WishGetByIdQuery(string.Empty, wishId);
 
-            createWithDefaultUserID.Should().Throw<ArgumentException>();
+            createWithDefaultUserId.Should().Throw<ArgumentException>();
         }
 
         [Theory, AutoData]
-        public void Query_Throws_When_WishID_Is_Default(string userID)
+        public void Query_Throws_When_WishId_Is_Default(string userId)
         {
-            Action createWithDefaultWishID = () => new WishGetByIDQuery(userID, 0);
+            Action createWithDefaultWishId = () => new WishGetByIdQuery(userId, 0);
 
-            createWithDefaultWishID.Should().Throw<ArgumentException>();
+            createWithDefaultWishId.Should().Throw<ArgumentException>();
         }
     }
 }

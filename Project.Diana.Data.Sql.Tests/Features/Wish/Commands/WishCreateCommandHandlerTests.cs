@@ -34,7 +34,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Wish.Commands
             var wish = await _writeContext.Wishes.FirstOrDefaultAsync(wish => wish.Title == _testCommand.Title);
 
             wish.Should().NotBeNull();
-            wish.UserID.Should().Be(_testCommand.UserID);
+            wish.UserId.Should().Be(_testCommand.UserId);
         }
     }
 }

@@ -3,18 +3,18 @@ using Project.Diana.Data.Bases.Queries;
 
 namespace Project.Diana.Data.Features.Wish.Queries
 {
-    public class WishGetByIDQuery : IQuery<WishRecord>
+    public class WishGetByIdQuery : IQuery<WishRecord>
     {
-        public string UserID { get; }
-        public int WishID { get; }
+        public string UserId { get; }
+        public int WishId { get; }
 
-        public WishGetByIDQuery(string userID, int wishID)
+        public WishGetByIdQuery(string userId, int wishId)
         {
-            Guard.Against.NullOrWhiteSpace(userID, nameof(userID));
-            Guard.Against.Default(wishID, nameof(wishID));
+            Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
+            Guard.Against.Default(wishId, nameof(wishId));
 
-            UserID = userID;
-            WishID = wishID;
+            UserId = userId;
+            WishId = wishId;
         }
     }
 }

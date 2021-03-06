@@ -6,13 +6,13 @@ namespace Project.Diana.WebApi.Features.Showcase.ShowcaseList
 {
     public class ShowcaseGetListRequest : IRequest<ShowcaseListResponse>
     {
-        public int UserID { get; }
+        public int UserId { get; }
 
-        public ShowcaseGetListRequest(int userID)
+        public ShowcaseGetListRequest(int userId)
         {
-            Guard.Against.Default(userID, nameof(userID));
+            Guard.Against.Default(userId, nameof(userId));
 
-            UserID = userID;
+            UserId = userId;
         }
     }
 }

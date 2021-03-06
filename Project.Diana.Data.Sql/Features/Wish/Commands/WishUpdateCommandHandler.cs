@@ -15,14 +15,14 @@ namespace Project.Diana.Data.Sql.Features.Wish.Commands
 
         public async Task Handle(WishUpdateCommand command)
         {
-            var existingRecord = await _context.Wishes.FirstOrDefaultAsync(w => w.ID == command.WishID && w.UserID == command.UserID);
+            var existingRecord = await _context.Wishes.FirstOrDefaultAsync(w => w.Id == command.WishId && w.UserId == command.UserId);
 
             if (existingRecord is null)
             {
                 throw new InvalidOperationException("Unable to find wish record for update");
             }
 
-            existingRecord.ApiID = command.ApiID;
+            existingRecord.ApiId = command.ApiId;
             existingRecord.Category = command.Category;
             existingRecord.ImageUrl = command.ImageUrl;
             existingRecord.ItemType = command.ItemType;

@@ -17,11 +17,11 @@ namespace Project.Diana.Data.Sql.Features.Book.Commands
         public async Task Handle(BookUpdateCommand command)
         {
             var sameBookExists = await _context.Books.AnyAsync(b
-                => b.ID != command.BookId
+                => b.Id != command.BookId
                 && b.Author.ToUpper() == command.Author.ToUpper()
                 && b.Type == command.Type
                 && b.Title.ToUpper() == command.Title.ToUpper()
-                && b.UserID.ToUpper() == command.User.Id.ToUpper());
+                && b.UserId.ToUpper() == command.User.Id.ToUpper());
 
             if (sameBookExists)
             {
@@ -29,8 +29,8 @@ namespace Project.Diana.Data.Sql.Features.Book.Commands
             }
 
             var existingBook = await _context.Books.FirstOrDefaultAsync(b
-                => b.ID == command.BookId
-                 && b.UserID.ToUpper() == command.User.Id.ToUpper());
+                => b.Id == command.BookId
+                 && b.UserId.ToUpper() == command.User.Id.ToUpper());
 
             if (existingBook is null)
             {

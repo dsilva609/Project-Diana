@@ -5,19 +5,19 @@ using Project.Diana.Data.Features.Wish;
 
 namespace Project.Diana.WebApi.Features.Wish.Retrieve
 {
-    public class WishGetByIDRequest : IRequest<WishRecord>
+    public class WishGetByIdRequest : IRequest<WishRecord>
     {
         public ApplicationUser User { get; }
-        public int WishID { get; }
+        public int WishId { get; }
 
-        public WishGetByIDRequest(ApplicationUser user, int wishID)
+        public WishGetByIdRequest(ApplicationUser user, int wishId)
         {
             Guard.Against.Null(user, nameof(user));
             Guard.Against.NullOrWhiteSpace(user.Id, nameof(user.Id));
-            Guard.Against.Default(wishID, nameof(wishID));
+            Guard.Against.Default(wishId, nameof(wishId));
 
             User = user;
-            WishID = wishID;
+            WishId = wishId;
         }
     }
 }

@@ -54,7 +54,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Commands
                 Author = _testCommand.Author,
                 Type = _testCommand.Type,
                 Title = _testCommand.Title,
-                UserID = _testCommand.User.Id
+                UserId = _testCommand.User.Id
             };
 
             await _context.Books.AddAsync(existingBook);
@@ -67,7 +67,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Commands
                 => a.Author == _testCommand.Author
                    && a.Type == _testCommand.Type
                    && a.Title == _testCommand.Title
-                   && a.UserID == _testCommand.User.Id);
+                   && a.UserId == _testCommand.User.Id);
 
             Book.Should().Be(1);
         }
@@ -147,7 +147,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Commands
 
             var Book = await _context.Books.FirstOrDefaultAsync(a => a.Author == _testCommand.Author && a.Title == _testCommand.Title);
 
-            Book.UserID.Should().Be(_testCommand.User.Id);
+            Book.UserId.Should().Be(_testCommand.User.Id);
         }
 
         [Fact]

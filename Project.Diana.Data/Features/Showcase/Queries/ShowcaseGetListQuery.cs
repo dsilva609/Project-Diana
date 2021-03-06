@@ -6,13 +6,13 @@ namespace Project.Diana.Data.Features.Showcase.Queries
 {
     public class ShowcaseGetListQuery : IQuery<ShowcaseListResponse>
     {
-        public int UserID { get; }
+        public int UserId { get; }
 
-        public ShowcaseGetListQuery(int userID)
+        public ShowcaseGetListQuery(int userId)
         {
-            Guard.Against.Default(userID, nameof(userID));
+            Guard.Against.Default(userId, nameof(userId));
 
-            UserID = userID;
+            UserId = userId;
         }
     }
 }

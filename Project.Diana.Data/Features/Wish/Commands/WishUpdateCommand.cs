@@ -6,40 +6,40 @@ namespace Project.Diana.Data.Features.Wish.Commands
 {
     public class WishUpdateCommand : ICommand
     {
-        public string ApiID { get; set; }
+        public string ApiId { get; set; }
         public string Category { get; set; }
         public string ImageUrl { get; set; }
         public ItemReference ItemType { get; set; }
         public string Notes { get; set; }
         public bool Owned { get; set; }
         public string Title { get; }
-        public string UserID { get; }
-        public int WishID { get; }
+        public string UserId { get; }
+        public int WishId { get; }
 
         public WishUpdateCommand(
-            string apiID,
+            string apiId,
             string category,
             string imageUrl,
             ItemReference itemType,
             string notes,
             bool owned,
             string title,
-            string userID,
-            int wishID)
+            string userId,
+            int wishId)
         {
             Guard.Against.NullOrWhiteSpace(title, nameof(title));
-            Guard.Against.NullOrWhiteSpace(userID, nameof(userID));
-            Guard.Against.Default(wishID, nameof(wishID));
+            Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
+            Guard.Against.Default(wishId, nameof(wishId));
 
-            ApiID = apiID;
+            ApiId = apiId;
             Category = category;
             ImageUrl = imageUrl;
             ItemType = itemType;
             Notes = notes;
             Owned = owned;
             Title = title;
-            UserID = userID;
-            WishID = wishID;
+            UserId = userId;
+            WishId = wishId;
         }
     }
 }

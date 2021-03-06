@@ -15,7 +15,7 @@ namespace Project.Diana.Data.Sql.Features.Album.Queries
 
         public async Task<AlbumRecord> Handle(AlbumGetByIdQuery query)
             => string.IsNullOrWhiteSpace(query.User?.Id)
-                ? await _context.Albums.FirstOrDefaultAsync(album => album.ID == query.Id)
-                : await _context.Albums.FirstOrDefaultAsync(album => album.ID == query.Id && album.UserID == query.User.Id);
+                ? await _context.Albums.FirstOrDefaultAsync(album => album.Id == query.Id)
+                : await _context.Albums.FirstOrDefaultAsync(album => album.Id == query.Id && album.UserId == query.User.Id);
     }
 }

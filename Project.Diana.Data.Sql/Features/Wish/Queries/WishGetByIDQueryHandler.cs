@@ -7,15 +7,15 @@ using Project.Diana.Data.Sql.Context;
 
 namespace Project.Diana.Data.Sql.Features.Wish.Queries
 {
-    public class WishGetByIDQueryHandler : IQueryHandler<WishGetByIDQuery, WishRecord>
+    public class WishGetByIdQueryHandler : IQueryHandler<WishGetByIdQuery, WishRecord>
     {
         private readonly IProjectDianaReadonlyContext _projectDianaContext;
 
-        public WishGetByIDQueryHandler(IProjectDianaReadonlyContext projectDianaContext) => _projectDianaContext = projectDianaContext;
+        public WishGetByIdQueryHandler(IProjectDianaReadonlyContext projectDianaContext) => _projectDianaContext = projectDianaContext;
 
-        public async Task<WishRecord> Handle(WishGetByIDQuery query)
+        public async Task<WishRecord> Handle(WishGetByIdQuery query)
             => await _projectDianaContext.Wishes.FirstOrDefaultAsync(wish =>
-                wish.UserID == query.UserID
-                && wish.ID == query.WishID);
+                wish.UserId == query.UserId
+                && wish.Id == query.WishId);
     }
 }

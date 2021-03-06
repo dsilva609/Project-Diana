@@ -11,15 +11,15 @@ using Xunit;
 
 namespace Project.Diana.Data.Sql.Tests.Features.Wish.Queries
 {
-    public class WishGetByIDQueryHandlerTests : DbContextTestBase<ProjectDianaReadonlyContext>
+    public class WishGetByIdQueryHandlerTests : DbContextTestBase<ProjectDianaReadonlyContext>
     {
-        private readonly WishGetByIDQueryHandler _handler;
+        private readonly WishGetByIdQueryHandler _handler;
         private readonly ProjectDianaReadonlyContext _projectDianaContext;
-        private readonly WishGetByIDQuery _testQuery;
+        private readonly WishGetByIdQuery _testQuery;
         private readonly ApplicationUser _testUser;
         private readonly WishRecord _testWishRecord;
 
-        public WishGetByIDQueryHandlerTests()
+        public WishGetByIdQueryHandlerTests()
         {
             var fixture = new Fixture();
             fixture.Behaviors.Add(new OmitOnRecursionBehavior());
@@ -28,13 +28,13 @@ namespace Project.Diana.Data.Sql.Tests.Features.Wish.Queries
             _testUser = fixture.Create<ApplicationUser>();
 
             _testWishRecord = fixture.Create<WishRecord>();
-            _testWishRecord.UserID = _testUser.Id;
+            _testWishRecord.UserId = _testUser.Id;
 
-            _testQuery = new WishGetByIDQuery(_testUser.Id, _testWishRecord.ID);
+            _testQuery = new WishGetByIdQuery(_testUser.Id, _testWishRecord.Id);
 
             InitializeDatabase();
 
-            _handler = new WishGetByIDQueryHandler(_projectDianaContext);
+            _handler = new WishGetByIdQueryHandler(_projectDianaContext);
         }
 
         [Fact]
@@ -48,13 +48,13 @@ namespace Project.Diana.Data.Sql.Tests.Features.Wish.Queries
         }
 
         [Fact]
-        public async Task Handler_Returns_Wish_With_Matching_UserID()
+        public async Task Handler_Returns_Wish_With_Matching_UserId()
         {
             await InitializeRecords();
 
             var result = await _handler.Handle(_testQuery);
 
-            result.UserID.Should().Be(_testQuery.UserID);
+            result.UserId.Should().Be(_testQuery.UserId);
         }
 
         private async Task InitializeRecords()

@@ -8,11 +8,11 @@ namespace Project.Diana.WebApi.Tests.Features.Showcase.ShowcaseList
     public class ShowcaseGetListRequestTests
     {
         [Fact]
-        public void Request_Throws_If_User_ID_Is_Default()
+        public void Request_Throws_If_UserId_Is_Default()
         {
-            Action createWithDefaultUserID = () => new ShowcaseGetListRequest(0);
+            Action createWithDefaultUserId = () => new ShowcaseGetListRequest(0);
 
-            createWithDefaultUserID.Should().Throw<ArgumentException>();
+            createWithDefaultUserId.Should().Throw<ArgumentException>();
         }
     }
 }

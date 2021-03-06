@@ -15,7 +15,7 @@ namespace Project.Diana.Data.Features.Item
         public DateTime DateStarted { get; set; }
         public DateTime DateUpdated { get; set; }
         public string Genre { get; set; }
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string ImageUrl { get; set; }
         public bool IsNew { get; set; }
         public bool IsPhysical { get; set; }
@@ -28,7 +28,7 @@ namespace Project.Diana.Data.Features.Item
         public int QueueRank { get; set; }
         public int TimesCompleted { get; set; }
         public string Title { get; set; }
-        public string UserID { get; set; }
+        public string UserId { get; set; }
         public int UserNum { get; set; }
         public int YearReleased { get; set; }
     }

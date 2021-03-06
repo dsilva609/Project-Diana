@@ -34,14 +34,14 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
             _testQuery = new AlbumListGetQuery(13, 0, string.Empty, _fixture.Create<ApplicationUser>());
             _testRecord = _fixture
                 .Build<AlbumRecord>()
-                .With(album => album.UserID, _testQuery.User.Id)
+                .With(album => album.UserId, _testQuery.User.Id)
                 .Create();
 
             _handler = new AlbumListGetQueryHandler(_context);
         }
 
         [Fact]
-        public async Task Handler_Returns_Album_For_UserID()
+        public async Task Handler_Returns_Album_For_UserId()
         {
             await _context.AlbumRecords.AddAsync(_testRecord);
 
@@ -50,7 +50,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
             var result = await _handler.Handle(_testQuery);
 
             result.Albums.Should().NotBeNullOrEmpty();
-            result.Albums.All(a => a.UserID == _testQuery.User.Id).Should().BeTrue();
+            result.Albums.All(a => a.UserId == _testQuery.User.Id).Should().BeTrue();
         }
 
         [Fact]
@@ -72,14 +72,14 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
                 .Build<AlbumRecord>()
                 .With(album => album.Artist, "Black Sabbath")
                 .With(album => album.Title, "Mob Rules")
-                .With(album => album.UserID, _testQuery.User.Id)
+                .With(album => album.UserId, _testQuery.User.Id)
                 .Create();
 
             var unexpectedAlbum = _fixture
                 .Build<AlbumRecord>()
                 .With(album => album.Artist, "Black Sabbath")
                 .With(album => album.Title, "Heaven and Hell")
-                .With(album => album.UserID, _testQuery.User.Id)
+                .With(album => album.UserId, _testQuery.User.Id)
                 .Create();
 
             await _context.AlbumRecords.AddAsync(unexpectedAlbum);
@@ -139,7 +139,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
             var records = _fixture
                 .Build<AlbumRecord>()
                 .With(a => a.Title, _testQuery.SearchQuery)
-                .With(a => a.UserID, _testQuery.User.Id)
+                .With(a => a.UserId, _testQuery.User.Id)
                 .CreateMany();
 
             await _context.AlbumRecords.AddRangeAsync(records);
@@ -149,7 +149,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
             var result = await _handler.Handle(_testQuery);
 
             result.Albums.Should().NotBeEmpty();
-            result.Albums.All(a => a.UserID == _testQuery.User.Id).Should().BeTrue();
+            result.Albums.All(a => a.UserId == _testQuery.User.Id).Should().BeTrue();
         }
 
         [Fact]
@@ -167,7 +167,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
         }
 
         [Fact]
-        public async Task Handler_Returns_Records_When_There_Is_No_UserID()
+        public async Task Handler_Returns_Records_When_There_Is_No_UserId()
         {
             _testQuery.User.Id = string.Empty;
 
@@ -176,7 +176,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
             var result = await _handler.Handle(_testQuery);
 
             result.Albums.Should().NotBeNullOrEmpty();
-            result.Albums.Should().Contain(x => x.UserID != _testQuery.User.Id);
+            result.Albums.Should().Contain(x => x.UserId != _testQuery.User.Id);
         }
 
         [Fact]
@@ -212,14 +212,14 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
         {
             var unexpectedAlbum = _fixture
                 .Build<AlbumRecord>()
-                .With(a => a.UserID, "not this user")
+                .With(a => a.UserId, "not this user")
                 .Create();
 
             await _context.AlbumRecords.AddAsync(unexpectedAlbum);
 
             await InitializeRecords();
 
-            var count = await _context.Albums.CountAsync(album => album.UserID == _testQuery.User.Id);
+            var count = await _context.Albums.CountAsync(album => album.UserId == _testQuery.User.Id);
 
             var result = await _handler.Handle(_testQuery);
 
@@ -233,13 +233,13 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
             var unexpectedAlbum = _fixture
                 .Build<AlbumRecord>()
                 .With(album => album.Artist, "Megadeth")
-                .With(album => album.UserID, _testQuery.User.Id)
+                .With(album => album.UserId, _testQuery.User.Id)
                 .Create();
 
             var expectedAlbum = _fixture
                .Build<AlbumRecord>()
                .With(album => album.Artist, "Dio")
-               .With(album => album.UserID, _testQuery.User.Id)
+               .With(album => album.UserId, _testQuery.User.Id)
                .Create();
 
             await _context.AlbumRecords.AddAsync(unexpectedAlbum);
@@ -258,14 +258,14 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Queries
                 .Build<AlbumRecord>()
                 .With(album => album.Artist, "Black Sabbath")
                 .With(album => album.Title, "Mob Rules")
-                .With(album => album.UserID, _testQuery.User.Id)
+                .With(album => album.UserId, _testQuery.User.Id)
                 .Create();
 
             var expectedAlbum = _fixture
                 .Build<AlbumRecord>()
                 .With(album => album.Artist, "Black Sabbath")
                 .With(album => album.Title, "Heaven and Hell")
-                .With(album => album.UserID, _testQuery.User.Id)
+                .With(album => album.UserId, _testQuery.User.Id)
                 .Create();
 
             await _context.AlbumRecords.AddAsync(unexpectedAlbum);

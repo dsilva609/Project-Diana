@@ -26,13 +26,13 @@ namespace Project.Diana.Data.Sql.Features.Album.Queries
 
             var totalCount = string.IsNullOrWhiteSpace(query.User?.Id)
                 ? await albumQuery.CountAsync()
-                : await albumQuery.CountAsync(album => album.UserID == query.User.Id);
+                : await albumQuery.CountAsync(album => album.UserId == query.User.Id);
 
             albumQuery = albumQuery.OrderBy(album => album.Artist).ThenBy(album => album.Title).Skip(query.ItemCount * query.Page);
 
             var albums = string.IsNullOrWhiteSpace(query.User?.Id)
                 ? await albumQuery.Take(query.ItemCount).ToListAsync()
-                : await albumQuery.Where(a => a.UserID == query.User.Id).Take(query.ItemCount).ToListAsync();
+                : await albumQuery.Where(a => a.UserId == query.User.Id).Take(query.ItemCount).ToListAsync();
 
             return new AlbumListResponse
             {

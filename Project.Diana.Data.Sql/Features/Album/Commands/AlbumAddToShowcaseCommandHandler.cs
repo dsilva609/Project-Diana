@@ -16,8 +16,8 @@ namespace Project.Diana.Data.Sql.Features.Album.Commands
         public async Task Handle(AlbumAddToShowcaseCommand command)
         {
             var album = await _context.Albums.FirstOrDefaultAsync(a
-                => a.ID == command.AlbumId
-                   && a.UserID == command.User.Id);
+                => a.Id == command.AlbumId
+                   && a.UserId == command.User.Id);
 
             if (album is null)
             {

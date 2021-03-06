@@ -11,43 +11,43 @@ namespace Project.Diana.Data.Tests.Features.Wish.Commands
     {
         [Theory, AutoData]
         public void Command_Throws_If_Title_Is_Missing(
-            string apiID,
+            string apiId,
             string category,
             string imageUrl,
             ItemReference itemType,
             string notes,
             bool owned,
-            string userID,
-            int wishID)
+            string userId,
+            int wishId)
         {
             Action createWithMissingTitle = ()
                 => new WishUpdateCommand(
-                    apiID,
+                    apiId,
                     category,
                     imageUrl,
                     itemType,
                     notes,
                     owned,
                     string.Empty,
-                    userID,
-                    wishID);
+                    userId,
+                    wishId);
 
             createWithMissingTitle.Should().Throw<ArgumentException>();
         }
 
         [Theory, AutoData]
-        public void Command_Throws_If_UserID_Is_Missing(
-            string apiID,
+        public void Command_Throws_If_UserId_Is_Missing(
+            string apiId,
             string category,
             string imageUrl,
             ItemReference itemType,
             string notes,
             bool owned,
-            string title, int wishID)
+            string title, int wishId)
         {
             Action createWithMissingUserID = ()
                 => new WishUpdateCommand(
-                    apiID,
+                    apiId,
                     category,
                     imageUrl,
                     itemType,
@@ -55,35 +55,35 @@ namespace Project.Diana.Data.Tests.Features.Wish.Commands
                     owned,
                     title,
                     string.Empty,
-                    wishID);
+                    wishId);
 
             createWithMissingUserID.Should().Throw<ArgumentException>();
         }
 
         [Theory, AutoData]
-        public void Command_Throws_If_WishID_Is_Default(
-            string apiID,
+        public void Command_Throws_If_WishId_Is_Default(
+            string apiId,
             string category,
             string imageUrl,
             ItemReference itemType,
             string notes,
             bool owned,
             string title,
-            string userID)
+            string userId)
         {
-            Action createWithDefaultWishID = ()
+            Action createWithDefaultWishId = ()
                 => new WishUpdateCommand(
-                    apiID,
+                    apiId,
                     category,
                     imageUrl,
                     itemType,
                     notes,
                     owned,
                     title,
-                    userID,
+                    userId,
                     0);
 
-            createWithDefaultWishID.Should().Throw<ArgumentException>();
+            createWithDefaultWishId.Should().Throw<ArgumentException>();
         }
     }
 }

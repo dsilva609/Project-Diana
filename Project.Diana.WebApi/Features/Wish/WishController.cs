@@ -35,7 +35,7 @@ namespace Project.Diana.WebApi.Features.Wish
         [Authorize]
         public async Task<IActionResult> CreateWish(WishSubmission wishSubmission)
             => Ok(await _mediator.Send(new WishSubmissionRequest(
-                wishSubmission.ApiID,
+                wishSubmission.ApiId,
                 wishSubmission.Category,
                 wishSubmission.ImageUrl,
                 wishSubmission.ItemType,
@@ -52,19 +52,19 @@ namespace Project.Diana.WebApi.Features.Wish
         [HttpGet]
         [Route("GetWish")]
         [Authorize]
-        public async Task<IActionResult> GetWish(int id) => Ok(await _mediator.Send(new WishGetByIDRequest(await _userService.GetCurrentUser(), id)));
+        public async Task<IActionResult> GetWish(int id) => Ok(await _mediator.Send(new WishGetByIdRequest(await _userService.GetCurrentUser(), id)));
 
         [HttpGet]
         [Route("GetWishList")]
         [Authorize]
-        public async Task<IActionResult> GetWishList() => Ok(await _mediator.Send(new WishGetListByUserIDRequest(await _userService.GetCurrentUser())));
+        public async Task<IActionResult> GetWishList() => Ok(await _mediator.Send(new WishGetListByUserIdRequest(await _userService.GetCurrentUser())));
 
         [HttpPost]
         [Route("UpdateWish")]
         [Authorize]
         public async Task<IActionResult> UpdateWish(WishUpdate update)
             => Ok(await _mediator.Send(new WishUpdateRequest(
-                update.ApiID,
+                update.ApiId,
                 update.Category,
                 update.ImageUrl,
                 update.ItemType,
@@ -72,6 +72,6 @@ namespace Project.Diana.WebApi.Features.Wish
                 update.Owned,
                 update.Title,
                 await _userService.GetCurrentUser(),
-                update.WishID)));
+                update.WishId)));
     }
 }

@@ -15,7 +15,7 @@ namespace Project.Diana.Data.Sql.Features.Wish.Commands
 
         public async Task Handle(WishCompleteItemCommand command)
         {
-            var existingRecord = await _context.Wishes.FirstOrDefaultAsync(w => w.ID == command.WishID && w.UserID == command.UserID);
+            var existingRecord = await _context.Wishes.FirstOrDefaultAsync(w => w.Id == command.WishId && w.UserId == command.UserId);
 
             if (existingRecord is null)
             {

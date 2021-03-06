@@ -12,34 +12,34 @@ using Xunit;
 
 namespace Project.Diana.Data.Sql.Tests.Features.Wish.Queries
 {
-    public class WishGetListByUserIDQueryHandlerTests : DbContextTestBase<ProjectDianaReadonlyContext>
+    public class WishGetListByUserIdQueryHandlerTests : DbContextTestBase<ProjectDianaReadonlyContext>
     {
         private readonly IFixture _fixture;
-        private readonly WishGetListByUserIDQueryHandler _handler;
+        private readonly WishGetListByUserIdQueryHandler _handler;
         private readonly ProjectDianaReadonlyContext _projectDianaContext;
-        private readonly WishGetListByUserIDQuery _testQuery;
+        private readonly WishGetListByUserIdQuery _testQuery;
         private readonly IEnumerable<WishRecord> _wishRecords;
 
-        public WishGetListByUserIDQueryHandlerTests()
+        public WishGetListByUserIdQueryHandlerTests()
         {
             _fixture = new Fixture();
 
             _projectDianaContext = InitializeDatabase();
-            _testQuery = _fixture.Create<WishGetListByUserIDQuery>();
+            _testQuery = _fixture.Create<WishGetListByUserIdQuery>();
             _wishRecords = CreateWishRecords();
 
-            _handler = new WishGetListByUserIDQueryHandler(_projectDianaContext);
+            _handler = new WishGetListByUserIdQueryHandler(_projectDianaContext);
         }
 
         [Fact]
-        public async Task Handler_Returns_List_For_Requested_UserID()
+        public async Task Handler_Returns_List_For_Requested_UserId()
         {
             await InitializeRecords();
 
             var result = await _handler.Handle(_testQuery);
 
-            result.Should().HaveCount(_wishRecords.Count(w => w.UserID == _testQuery.UserID));
-            result.All(r => r.UserID == _testQuery.UserID).Should().BeTrue();
+            result.Should().HaveCount(_wishRecords.Count(w => w.UserId == _testQuery.UserId));
+            result.All(r => r.UserId == _testQuery.UserId).Should().BeTrue();
         }
 
         [Fact]
@@ -61,7 +61,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Wish.Queries
 
             foreach (var record in records)
             {
-                record.UserID = _testQuery.UserID;
+                record.UserId = _testQuery.UserId;
             }
 
             records.Add(_fixture.Create<WishRecord>());

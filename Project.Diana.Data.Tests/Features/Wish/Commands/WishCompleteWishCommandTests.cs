@@ -9,19 +9,19 @@ namespace Project.Diana.Data.Tests.Features.Wish.Commands
     public class WishCompleteWishCommandTests
     {
         [Theory, AutoData]
-        public void Command_Throws_When_UserID_Is_Missing(int wishID)
+        public void Command_Throws_When_UserId_Is_Missing(int wishId)
         {
-            Action createWithMissingUserID = () => new WishCompleteItemCommand(string.Empty, wishID);
+            Action createWithMissingUserId = () => new WishCompleteItemCommand(string.Empty, wishId);
 
-            createWithMissingUserID.Should().Throw<ArgumentException>();
+            createWithMissingUserId.Should().Throw<ArgumentException>();
         }
 
         [Theory, AutoData]
-        public void Command_Throws_When_WishID_Is_Default(string userID)
+        public void Command_Throws_When_WishId_Is_Default(string userId)
         {
-            Action createWithDefaultWishID = () => new WishCompleteItemCommand(userID, 0);
+            Action createWithDefaultWishId = () => new WishCompleteItemCommand(userId, 0);
 
-            createWithDefaultWishID.Should().Throw<ArgumentException>();
+            createWithDefaultWishId.Should().Throw<ArgumentException>();
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Project.Diana.WebApi.Features.Wish.Submission
 {
     public class WishSubmissionRequest : IRequest, IRequest<bool>
     {
-        public string ApiID { get; }
+        public string ApiId { get; }
         public string Category { get; }
         public string ImageUrl { get; }
         public ItemReference ItemType { get; }
@@ -17,7 +17,7 @@ namespace Project.Diana.WebApi.Features.Wish.Submission
         public ApplicationUser User { get; }
 
         public WishSubmissionRequest(
-            string apiID,
+            string apiId,
             string category,
             string imageUrl,
             ItemReference itemType,
@@ -30,7 +30,7 @@ namespace Project.Diana.WebApi.Features.Wish.Submission
             Guard.Against.Null(user, nameof(user));
             Guard.Against.NullOrWhiteSpace(user.Id, nameof(user.Id));
 
-            ApiID = apiID;
+            ApiId = apiId;
             Category = category;
             ImageUrl = imageUrl;
             ItemType = itemType;

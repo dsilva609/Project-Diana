@@ -15,7 +15,7 @@ namespace Project.Diana.WebApi.Features.Wish.Update
         public async Task<Unit> Handle(WishUpdateRequest request, CancellationToken cancellationToken)
             => await _commandDispatcher.Dispatch(
                 new WishUpdateCommand(
-                    request.ApiID,
+                    request.ApiId,
                     request.Category,
                     request.ImageUrl,
                     request.ItemType,
@@ -23,6 +23,6 @@ namespace Project.Diana.WebApi.Features.Wish.Update
                     request.Owned,
                     request.Title,
                 request.User.Id,
-                request.WishID));
+                request.WishId));
     }
 }

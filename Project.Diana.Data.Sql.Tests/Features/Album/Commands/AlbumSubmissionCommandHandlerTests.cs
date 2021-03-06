@@ -54,7 +54,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Commands
                 Artist = _testCommand.Artist,
                 MediaType = _testCommand.MediaType,
                 Title = _testCommand.Title,
-                UserID = _testCommand.User.Id
+                UserId = _testCommand.User.Id
             };
 
             await _context.Albums.AddAsync(existingAlbum);
@@ -67,7 +67,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Commands
                 => a.Artist == _testCommand.Artist
                    && a.MediaType == _testCommand.MediaType
                    && a.Title == _testCommand.Title
-                   && a.UserID == _testCommand.User.Id);
+                   && a.UserId == _testCommand.User.Id);
 
             album.Should().Be(1);
         }
@@ -144,7 +144,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Commands
 
             var album = await _context.Albums.FirstOrDefaultAsync(a => a.Artist == _testCommand.Artist && a.Title == _testCommand.Title);
 
-            album.UserID.Should().Be(_testCommand.User.Id);
+            album.UserId.Should().Be(_testCommand.User.Id);
         }
 
         [Fact]

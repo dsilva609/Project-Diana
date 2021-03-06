@@ -11,23 +11,23 @@ using Xunit;
 
 namespace Project.Diana.WebApi.Tests.Features.Wish.Retrieve
 {
-    public class WishGetByIDRequestHandlerTests
+    public class WishGetByIdRequestHandlerTests
     {
-        private readonly WishGetByIDRequestHandler _handler;
+        private readonly WishGetByIdRequestHandler _handler;
         private readonly Mock<IQueryDispatcher> _queryDispatcher;
-        private readonly WishGetByIDRequest _testRequest;
+        private readonly WishGetByIdRequest _testRequest;
 
-        public WishGetByIDRequestHandlerTests()
+        public WishGetByIdRequestHandlerTests()
         {
             var fixture = new Fixture();
             fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
             _queryDispatcher = new Mock<IQueryDispatcher>();
-            _testRequest = fixture.Create<WishGetByIDRequest>();
+            _testRequest = fixture.Create<WishGetByIdRequest>();
 
-            _queryDispatcher.Setup(x => x.Dispatch<WishGetByIDQuery, WishRecord>(It.Is<WishGetByIDQuery>(y => y != null))).ReturnsAsync(new WishRecord());
+            _queryDispatcher.Setup(x => x.Dispatch<WishGetByIdQuery, WishRecord>(It.Is<WishGetByIdQuery>(y => y != null))).ReturnsAsync(new WishRecord());
 
-            _handler = new WishGetByIDRequestHandler(_queryDispatcher.Object);
+            _handler = new WishGetByIdRequestHandler(_queryDispatcher.Object);
         }
 
         [Fact]
@@ -35,7 +35,7 @@ namespace Project.Diana.WebApi.Tests.Features.Wish.Retrieve
         {
             await _handler.Handle(_testRequest, CancellationToken.None);
 
-            _queryDispatcher.Verify(x => x.Dispatch<WishGetByIDQuery, WishRecord>(It.Is<WishGetByIDQuery>(q => q != null)), Times.Once);
+            _queryDispatcher.Verify(x => x.Dispatch<WishGetByIdQuery, WishRecord>(It.Is<WishGetByIdQuery>(q => q != null)), Times.Once);
         }
 
         [Fact]

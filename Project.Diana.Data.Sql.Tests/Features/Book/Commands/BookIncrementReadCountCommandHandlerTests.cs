@@ -29,9 +29,9 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Commands
             _testCommand = fixture.Create<BookIncrementReadCountCommand>();
             _testRecord = fixture
                 .Build<BookRecord>()
-                .With(a => a.ID, _testCommand.BookId)
+                .With(a => a.Id, _testCommand.BookId)
                 .With(a => a.DateUpdated, DateTime.UtcNow)
-                .With(a => a.UserID, _testCommand.User.Id)
+                .With(a => a.UserId, _testCommand.User.Id)
                 .Create();
 
             _handler = new BookIncrementReadCountCommandHandler(_context);
@@ -41,7 +41,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Commands
         public async Task Handler_Does_Not_Update_Book_For_Non_Matching_Book_Id()
         {
             var lastModifiedTime = _testRecord.DateUpdated;
-            _testRecord.ID++;
+            _testRecord.Id++;
 
             await InitializeRecords();
 
@@ -54,7 +54,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Commands
         public async Task Handler_Does_Not_Update_Book_For_Non_Matching_User()
         {
             var lastModifiedTime = _testRecord.DateUpdated;
-            _testRecord.UserID = $"{_testCommand.User.Id}non matching";
+            _testRecord.UserId = $"{_testCommand.User.Id}non matching";
 
             await InitializeRecords();
 

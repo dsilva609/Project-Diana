@@ -7,13 +7,13 @@ using Project.Diana.Data.Sql.Bases.Dispatchers;
 
 namespace Project.Diana.WebApi.Features.Wish.Retrieve
 {
-    public class WishGetByIDRequestHandler : IRequestHandler<WishGetByIDRequest, WishRecord>
+    public class WishGetByIdRequestHandler : IRequestHandler<WishGetByIdRequest, WishRecord>
     {
         private readonly IQueryDispatcher _queryDispatcher;
 
-        public WishGetByIDRequestHandler(IQueryDispatcher queryDispatcher) => _queryDispatcher = queryDispatcher;
+        public WishGetByIdRequestHandler(IQueryDispatcher queryDispatcher) => _queryDispatcher = queryDispatcher;
 
-        public async Task<WishRecord> Handle(WishGetByIDRequest request, CancellationToken cancellationToken)
-            => await _queryDispatcher.Dispatch<WishGetByIDQuery, WishRecord>(new WishGetByIDQuery(request.User.Id, request.WishID));
+        public async Task<WishRecord> Handle(WishGetByIdRequest request, CancellationToken cancellationToken)
+            => await _queryDispatcher.Dispatch<WishGetByIdQuery, WishRecord>(new WishGetByIdQuery(request.User.Id, request.WishId));
     }
 }

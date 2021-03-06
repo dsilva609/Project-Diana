@@ -15,8 +15,8 @@ namespace Project.Diana.Data.Sql.Features.Wish.Commands
         public async Task Handle(WishDeleteCommand command)
         {
             var wish = await _context.Wishes.FirstOrDefaultAsync(w
-                => w.ID == command.Id
-                && w.UserID == command.User.Id);
+                => w.Id == command.Id
+                && w.UserId == command.User.Id);
 
             if (wish is null)
             {

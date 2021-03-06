@@ -31,13 +31,13 @@ namespace Project.Diana.Data.Sql.Tests.Features.Album.Commands
             _testCommand = _fixture.Create<AlbumUpdateCommand>();
             _testAlbum = _fixture
                 .Build<AlbumRecord>()
-                .With(a => a.ID, _testCommand.AlbumId)
+                .With(a => a.Id, _testCommand.AlbumId)
                 .With(a => a.Artist, _testCommand.Artist)
                 .With(a => a.DateUpdated, DateTime.UtcNow)
                 .With(a => a.MediaType, _testCommand.MediaType)
                 .With(a => a.TimesCompleted, 1)
                 .With(a => a.Title, _testCommand.Title)
-                .With(a => a.UserID, _testCommand.User.Id)
+                .With(a => a.UserId, _testCommand.User.Id)
                 .Create();
 
             _handler = new AlbumUpdateCommandHandler(_context);

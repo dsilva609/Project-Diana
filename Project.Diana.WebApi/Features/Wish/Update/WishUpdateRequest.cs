@@ -7,7 +7,7 @@ namespace Project.Diana.WebApi.Features.Wish.Update
 {
     public class WishUpdateRequest : IRequest
     {
-        public string ApiID { get; }
+        public string ApiId { get; }
         public string Category { get; }
         public string ImageUrl { get; }
         public ItemReference ItemType { get; }
@@ -15,10 +15,10 @@ namespace Project.Diana.WebApi.Features.Wish.Update
         public bool Owned { get; }
         public string Title { get; }
         public ApplicationUser User { get; }
-        public int WishID { get; }
+        public int WishId { get; }
 
         public WishUpdateRequest(
-            string apiID,
+            string apiId,
             string category,
             string imageUrl,
             ItemReference itemType,
@@ -26,14 +26,14 @@ namespace Project.Diana.WebApi.Features.Wish.Update
             bool owned,
             string title,
             ApplicationUser user,
-            int wishID)
+            int wishId)
         {
             Guard.Against.NullOrWhiteSpace(title, nameof(title));
             Guard.Against.Null(user, nameof(user));
             Guard.Against.NullOrWhiteSpace(user.Id, nameof(user.Id));
-            Guard.Against.Default(wishID, nameof(wishID));
+            Guard.Against.Default(wishId, nameof(wishId));
 
-            ApiID = apiID;
+            ApiId = apiId;
             Category = category;
             ImageUrl = imageUrl;
             ItemType = itemType;
@@ -41,7 +41,7 @@ namespace Project.Diana.WebApi.Features.Wish.Update
             Owned = owned;
             Title = title;
             User = user;
-            WishID = wishID;
+            WishId = wishId;
         }
     }
 }

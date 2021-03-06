@@ -5,14 +5,14 @@ using Xunit;
 
 namespace Project.Diana.Data.Tests.Features.Wish.Queries
 {
-    public class WishGetListByUserIDQueryTests
+    public class WishGetListByUserIdQueryTests
     {
         [Fact]
-        public void Query_Throws_If_UserID_Is_Missing()
+        public void Query_Throws_If_UserId_Is_Missing()
         {
-            Action createWithMissingUserID = () => new WishGetListByUserIDQuery(string.Empty);
+            Action createWithMissingUserId = () => new WishGetListByUserIdQuery(string.Empty);
 
-            createWithMissingUserID.Should().Throw<ArgumentException>();
+            createWithMissingUserId.Should().Throw<ArgumentException>();
         }
     }
 }

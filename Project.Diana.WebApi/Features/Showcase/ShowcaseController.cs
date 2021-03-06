@@ -15,7 +15,7 @@ namespace Project.Diana.WebApi.Features.Showcase
 
         [HttpGet]
         [Route("GetShowcase")]
-        public async Task<IActionResult> GetShowcase(int userID)
-            => Ok(await _mediator.Send(new ShowcaseGetListRequest(userID)));
+        public async Task<IActionResult> GetShowcase(int userId)
+            => Ok(await _mediator.Send(new ShowcaseGetListRequest(userId)));
     }
 }

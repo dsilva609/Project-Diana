@@ -44,8 +44,8 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
         {
             var book = _fixture
                 .Build<BookRecord>()
-                .With(b => b.ID, _testQuery.ID)
-                .With(b => b.UserID, _testQuery.User.Id)
+                .With(b => b.Id, _testQuery.Id)
+                .With(b => b.UserId, _testQuery.User.Id)
                 .Create();
 
             await _context.BookRecords.AddAsync(book);
@@ -55,7 +55,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
             var result = await _handler.Handle(_testQuery);
 
             result.Should().NotBeNull();
-            result.UserID.Should().Be(book.UserID);
+            result.UserId.Should().Be(book.UserId);
         }
 
         [Fact]
@@ -63,7 +63,7 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
         {
             await InitializeRecords();
 
-            var query = new BookGetByIdQuery(_testQuery.ID, null);
+            var query = new BookGetByIdQuery(_testQuery.Id, null);
 
             var result = await _handler.Handle(query);
 
@@ -74,8 +74,8 @@ namespace Project.Diana.Data.Sql.Tests.Features.Book.Queries
         {
             var book = _fixture
                 .Build<BookRecord>()
-                .With(b => b.ID, _testQuery.ID)
-                .With(b => b.UserID, _testQuery.User.Id)
+                .With(b => b.Id, _testQuery.Id)
+                .With(b => b.UserId, _testQuery.User.Id)
                 .Create();
 
             await _context.BookRecords.AddAsync(book);

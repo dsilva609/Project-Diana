@@ -13,23 +13,23 @@ using Xunit;
 
 namespace Project.Diana.WebApi.Tests.Features.Wish.WishList
 {
-    public class WishGetListByUserIDRequestHandlerTests
+    public class WishGetListByUserIdRequestHandlerTests
     {
-        private readonly WishGetListByUserIDRequestHandler _handler;
+        private readonly WishGetListByUserIdRequestHandler _handler;
         private readonly Mock<IQueryDispatcher> _queryDispatcher;
-        private readonly WishGetListByUserIDRequest _testRequest;
+        private readonly WishGetListByUserIdRequest _testRequest;
 
-        public WishGetListByUserIDRequestHandlerTests()
+        public WishGetListByUserIdRequestHandlerTests()
         {
             var fixture = new Fixture();
             fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
             _queryDispatcher = new Mock<IQueryDispatcher>();
-            _testRequest = fixture.Create<WishGetListByUserIDRequest>();
+            _testRequest = fixture.Create<WishGetListByUserIdRequest>();
 
             InitializeHandlerResult();
 
-            _handler = new WishGetListByUserIDRequestHandler(_queryDispatcher.Object);
+            _handler = new WishGetListByUserIdRequestHandler(_queryDispatcher.Object);
         }
 
         [Fact]
@@ -37,7 +37,7 @@ namespace Project.Diana.WebApi.Tests.Features.Wish.WishList
         {
             await _handler.Handle(_testRequest, CancellationToken.None);
 
-            _queryDispatcher.Verify(x => x.Dispatch<WishGetListByUserIDQuery, IEnumerable<WishRecord>>(It.IsNotNull<WishGetListByUserIDQuery>()), Times.Once);
+            _queryDispatcher.Verify(x => x.Dispatch<WishGetListByUserIdQuery, IEnumerable<WishRecord>>(It.IsNotNull<WishGetListByUserIdQuery>()), Times.Once);
         }
 
         [Fact]
@@ -63,8 +63,8 @@ namespace Project.Diana.WebApi.Tests.Features.Wish.WishList
 
             _queryDispatcher
                 .Setup(x =>
-                    x.Dispatch<WishGetListByUserIDQuery, IEnumerable<WishRecord>>(
-                        It.IsNotNull<WishGetListByUserIDQuery>()))
+                    x.Dispatch<WishGetListByUserIdQuery, IEnumerable<WishRecord>>(
+                        It.IsNotNull<WishGetListByUserIdQuery>()))
                 .ReturnsAsync(wishes);
         }
     }

@@ -50,11 +50,11 @@ namespace Project.Diana.Data.Sql.Tests.Features.Showcase.Queries
 
             var result = await _handler.Handle(_testQuery);
 
-            result.ShowcasedAlbums.All(album => album.UserNum == _testQuery.UserID).Should().BeTrue();
-            result.ShowcasedAlbums.Should().NotContain(a => a.ID == albumForOtherUser.ID);
+            result.ShowcasedAlbums.All(album => album.UserNum == _testQuery.UserId).Should().BeTrue();
+            result.ShowcasedAlbums.Should().NotContain(a => a.Id == albumForOtherUser.Id);
 
-            result.ShowcasedBooks.All(book => book.UserNum == _testQuery.UserID).Should().BeTrue();
-            result.ShowcasedBooks.Should().NotContain(b => b.ID == bookForOtherUser.ID);
+            result.ShowcasedBooks.All(book => book.UserNum == _testQuery.UserId).Should().BeTrue();
+            result.ShowcasedBooks.Should().NotContain(b => b.Id == bookForOtherUser.Id);
         }
 
         [Fact]
@@ -75,13 +75,13 @@ namespace Project.Diana.Data.Sql.Tests.Features.Showcase.Queries
             var album = _fixture
                 .Build<AlbumRecord>()
                 .With(a => a.IsShowcased, true)
-                .With(a => a.UserNum, _testQuery.UserID)
+                .With(a => a.UserNum, _testQuery.UserId)
                 .Create();
 
             var book = _fixture
                 .Build<BookRecord>()
                 .With(a => a.IsShowcased, true)
-                .With(a => a.UserNum, _testQuery.UserID)
+                .With(a => a.UserNum, _testQuery.UserId)
                 .Create();
 
             await _context.AlbumRecords.AddAsync(album);
