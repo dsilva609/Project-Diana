@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CSharpFunctionalExtensions" Version="2.15.1" />
+    <PackageReference Include="Google.Apis.Books.v1" Version="1.51.0.2231" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Project.Diana.ApiClient\Project.Diana.ApiClient.csproj" />
   </ItemGroup>
 </Project>
