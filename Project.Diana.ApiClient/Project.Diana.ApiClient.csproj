@@ -7,7 +7,7 @@
   <ItemGroup>
     <PackageReference Include="Ardalis.GuardClauses" Version="3.1.0" />
     <PackageReference Include="CSharpFunctionalExtensions" Version="2.15.1" />
-    <PackageReference Include="FluentValidation" Version="9.5.3" />
+    <PackageReference Include="FluentValidation" Version="10.0.4" />
     <PackageReference Include="Google.Apis.Books.v1" Version="1.51.0.2231" />
     <PackageReference Include="RestSharp" Version="106.11.7" />
   </ItemGroup>
