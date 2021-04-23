@@ -12,8 +12,6 @@ namespace Project.Diana.Provider.Features.Discogs
 
         public DiscogsProvider(IDiscogsApiClient apiClient) => _apiClient = apiClient;
 
-        public void GetReleaseFromId(int releaseId) => throw new System.NotImplementedException();
-
         public async Task<Result<IEnumerable<AlbumSearchResponse>>> SearchForAlbum(string album, string artist)
         {
             if (string.IsNullOrWhiteSpace(album) && string.IsNullOrWhiteSpace(artist))

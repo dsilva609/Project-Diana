@@ -24,7 +24,7 @@ namespace Project.Diana.Provider.Tests.Features.Discogs
         }
 
         [Theory, AutoData]
-        public async Task Provider_Returns_Empty_List_If_Client_Returns_No_Results(string artist, string album)
+        public async Task Provider_Returns_Empty_List_If_Client_Returns_No_Results(string album, string artist)
         {
             _apiClient.Setup(x => x.SendSearchRequest(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(
                 Result.Success(new DiscogsSearchResult
@@ -46,7 +46,7 @@ namespace Project.Diana.Provider.Tests.Features.Discogs
         }
 
         [Theory, AutoData]
-        public async Task Provider_Returns_Failure_If_Client_Returns_Failure(string artist, string album)
+        public async Task Provider_Returns_Failure_If_Client_Returns_Failure(string album, string artist)
         {
             _apiClient.Setup(x => x.SendSearchRequest(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(Result.Failure<DiscogsSearchResult>("failure"));
 
@@ -56,7 +56,7 @@ namespace Project.Diana.Provider.Tests.Features.Discogs
         }
 
         [Theory, AutoData]
-        public async Task Provider_Returns_Successful_Result(string artist, string album)
+        public async Task Provider_Returns_Successful_Result(string album, string artist)
         {
             var fixture = new Fixture();
 
@@ -69,6 +69,21 @@ namespace Project.Diana.Provider.Tests.Features.Discogs
 
             result.IsSuccess.Should().BeTrue();
             result.Value.Should().NotBeEmpty();
+        }
+
+        [Theory, AutoData]
+        public async Task Provider_Sends_Search_Request(string album, string artist)
+        {
+            var fixture = new Fixture();
+
+            var searchResult = fixture.Create<DiscogsSearchResult>();
+
+            _apiClient.Setup(x => x.SendSearchRequest(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(Result.Success(searchResult));
+
+            await _provider.SearchForAlbum(album, artist);
+
+            _apiClient.Verify(x => x.SendSearchRequest(album, artist), Times.Once);
         }
     }
 }
