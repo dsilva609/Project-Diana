@@ -18,8 +18,6 @@ namespace Project.Diana.ApiClient.Features.Discogs
             _restClient.BaseUrl = new Uri(_configuration.BaseUrl);
         }
 
-        public void SendGetReleaseRequest(int releaseId) => throw new NotImplementedException();
-
         public async Task<Result<DiscogsSearchResult>> SendSearchRequest(string album, string artist)
         {
             var request = new RestRequest(_configuration.SearchResource, Method.GET);
@@ -37,12 +35,9 @@ namespace Project.Diana.ApiClient.Features.Discogs
 
             var searchResult = result.Data;
 
-            if (searchResult is null)
-            {
-                return Result.Failure<DiscogsSearchResult>("Response returned no data.");
-            }
-
-            return Result.Success(searchResult);
+            return searchResult is null
+                ? Result.Failure<DiscogsSearchResult>("Response returned no data.")
+                : Result.Success(searchResult);
         }
     }
 }
