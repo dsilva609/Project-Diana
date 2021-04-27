@@ -24,7 +24,53 @@ namespace Project.Diana.Provider.Tests.Features.ComicVine
         }
 
         [Theory, AutoData]
-        public async Task Provider_Returns_Empty_List_If_Client_Returns_No_Results(string title)
+        public async Task Provider_Issue_Details_Returns_Failure_If_Client_Returns_Failure(string issueId)
+        {
+            _apiClient.Setup(x => x.SendIssueDetailsRequest(It.IsAny<string>()))
+                .ReturnsAsync(Result.Failure<ComicVineIssueDetailsResult>("failure"));
+
+            var result = await _provider.GetIssueDetails(issueId);
+
+            result.IsFailure.Should().BeTrue();
+        }
+
+        [Theory, AutoData]
+        public async Task Provider_Issue_Details_Returns_Failure_If_Client_Returns_No_Results(string issueId)
+        {
+            _apiClient.Setup(x => x.SendIssueDetailsRequest(It.IsAny<string>()))
+                .ReturnsAsync(Result.Success(new ComicVineIssueDetailsResult { results = null }));
+
+            var result = await _provider.GetIssueDetails(issueId);
+
+            result.IsFailure.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task Provider_Issue_Details_Returns_Failure_If_Issue_Id_Is_Missing()
+        {
+            var result = await _provider.GetIssueDetails(string.Empty);
+
+            result.IsFailure.Should().BeTrue();
+        }
+
+        [Theory, AutoData]
+        public async Task Provider_Issue_Details_Returns_Successful_Result(string issueId)
+        {
+            var fixture = new Fixture();
+
+            var detailsResult = fixture.Create<ComicVineIssueDetailsResult>();
+
+            _apiClient.Setup(x => x.SendIssueDetailsRequest(It.IsAny<string>()))
+                .ReturnsAsync(Result.Success(detailsResult));
+
+            var result = await _provider.GetIssueDetails(issueId);
+
+            result.IsSuccess.Should().BeTrue();
+            result.Value.Should().NotBeNull();
+        }
+
+        [Theory, AutoData]
+        public async Task Provider_Search_Returns_Empty_List_If_Client_Returns_No_Results(string title)
         {
             _apiClient.Setup(x => x.SendSearchRequest(It.IsAny<string>()))
                 .ReturnsAsync(Result.Success(new ComicVineSearchResult { results = new List<ComicResult>() }));
@@ -35,7 +81,7 @@ namespace Project.Diana.Provider.Tests.Features.ComicVine
         }
 
         [Theory, AutoData]
-        public async Task Provider_Returns_Failure_If_Client_Returns_Failure(string title)
+        public async Task Provider_Search_Returns_Failure_If_Client_Returns_Failure(string title)
         {
             _apiClient.Setup(x => x.SendSearchRequest(It.IsAny<string>()))
                 .ReturnsAsync(Result.Failure<ComicVineSearchResult>("failure"));
@@ -46,7 +92,7 @@ namespace Project.Diana.Provider.Tests.Features.ComicVine
         }
 
         [Fact]
-        public async Task Provider_Returns_Failure_If_Title_Is_Missing()
+        public async Task Provider_Search_Returns_Failure_If_Title_Is_Missing()
         {
             var result = await _provider.SearchForComic(string.Empty);
 
@@ -54,7 +100,7 @@ namespace Project.Diana.Provider.Tests.Features.ComicVine
         }
 
         [Theory, AutoData]
-        public async Task Provider_Returns_Successful_Result(string title)
+        public async Task Provider_Search_Returns_Successful_Result(string title)
         {
             var fixture = new Fixture();
 
@@ -67,6 +113,21 @@ namespace Project.Diana.Provider.Tests.Features.ComicVine
 
             result.IsSuccess.Should().BeTrue();
             result.Value.Should().NotBeEmpty();
+        }
+
+        [Theory, AutoData]
+        public async Task Provider_Sends_Issue_Details_Request(string issueId)
+        {
+            var fixture = new Fixture();
+
+            var searchResult = fixture.Create<ComicVineIssueDetailsResult>();
+
+            _apiClient.Setup(x => x.SendIssueDetailsRequest(It.IsAny<string>()))
+                .ReturnsAsync(Result.Success(searchResult));
+
+            await _provider.GetIssueDetails(issueId);
+
+            _apiClient.Verify(x => x.SendIssueDetailsRequest(issueId), Times.Once);
         }
 
         [Theory, AutoData]

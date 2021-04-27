@@ -31,6 +31,37 @@ namespace Project.Diana.ApiClient.Tests.Features.ComicVine
         }
 
         [Theory, AutoData]
+        public async Task Send_Issue_Details_Request_Returns_Failure_If_Request_Fails(string issueId)
+        {
+            _restClient.Setup(x => x.ExecuteAsync<ComicVineIssueDetailsResult>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new RestResponse<ComicVineIssueDetailsResult>
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    ErrorMessage = "failure"
+                });
+
+            var result = await _apiClient.SendIssueDetailsRequest(issueId);
+
+            result.IsFailure.Should().BeTrue();
+        }
+
+        [Theory, AutoData]
+        public async Task Send_Issue_Details_Request_Returns_Failure_If_Response_Is_Null(string issueId)
+        {
+            _restClient.Setup(x => x.ExecuteAsync<ComicVineIssueDetailsResult>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new RestResponse<ComicVineIssueDetailsResult>
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    ResponseStatus = ResponseStatus.Completed,
+                    Data = null
+                });
+
+            var result = await _apiClient.SendIssueDetailsRequest(issueId);
+
+            result.IsFailure.Should().BeTrue();
+        }
+
+        [Theory, AutoData]
         public async Task Send_Search_Request_Returns_Failure_If_Request_Fails(string title)
         {
             _restClient.Setup(x => x.ExecuteAsync<ComicVineSearchResult>(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))

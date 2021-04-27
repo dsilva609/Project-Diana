@@ -7,6 +7,7 @@ namespace Project.Diana.ApiClient.Features.ComicVine
         public string ApiKey { get; set; }
         public string BaseUrl { get; set; }
         public string Format { get; set; }
+        public string IssueResource { get; set; }
         public int Limit { get; set; }
         public string ResourceType { get; set; }
         public string SearchResource { get; set; }
@@ -19,6 +20,7 @@ namespace Project.Diana.ApiClient.Features.ComicVine
             RuleFor(r => r.BaseUrl).NotEmpty();
             RuleFor(r => r.ApiKey).NotEmpty();
             RuleFor(r => r.Format).NotEmpty();
+            RuleFor(r => r.IssueResource).NotEmpty();
             RuleFor(r => r.Limit).GreaterThan(0);
             RuleFor(r => r.ResourceType).NotEmpty();
             RuleFor(r => r.SearchResource).NotEmpty();

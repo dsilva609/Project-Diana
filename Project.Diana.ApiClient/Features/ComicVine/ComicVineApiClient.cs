@@ -18,6 +18,27 @@ namespace Project.Diana.ApiClient.Features.ComicVine
             _restClient.BaseUrl = new Uri(_configuration.BaseUrl);
         }
 
+        public async Task<Result<ComicVineIssueDetailsResult>> SendIssueDetailsRequest(string issueId)
+        {
+            var request = new RestRequest(_configuration.IssueResource, Method.GET);
+
+            request.AddQueryParameter("api_key", _configuration.ApiKey);
+            request.AddQueryParameter("format", _configuration.Format);
+
+            var result = await _restClient.ExecuteAsync<ComicVineIssueDetailsResult>(request);
+
+            if (!result.IsSuccessful)
+            {
+                return Result.Failure<ComicVineIssueDetailsResult>(result.ErrorMessage);
+            }
+
+            var issueDetailsResult = result.Data;
+
+            return issueDetailsResult is null
+                ? Result.Failure<ComicVineIssueDetailsResult>("Response returned no data")
+                : Result.Success(issueDetailsResult);
+        }
+
         public async Task<Result<ComicVineSearchResult>> SendSearchRequest(string title)
         {
             var request = new RestRequest(_configuration.SearchResource, Method.GET);

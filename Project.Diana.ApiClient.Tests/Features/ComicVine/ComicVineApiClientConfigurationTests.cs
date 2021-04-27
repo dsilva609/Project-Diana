@@ -51,6 +51,16 @@ namespace Project.Diana.ApiClient.Tests.Features.ComicVine
             createWithMissingFormat.Should().Throw<ValidationException>();
         }
 
+        [Fact]
+        public void Configuration_Throws_If_Issue_Resource_Is_Missing()
+        {
+            _configuration.IssueResource = string.Empty;
+
+            Action createWithMissingIssueResource = () => _validator.ValidateAndThrow(_configuration);
+
+            createWithMissingIssueResource.Should().Throw<ValidationException>();
+        }
+
         [Theory]
         [InlineData(0)]
         [InlineData(-1)]

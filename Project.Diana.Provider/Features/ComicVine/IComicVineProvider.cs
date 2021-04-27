@@ -7,6 +7,8 @@ namespace Project.Diana.Provider.Features.ComicVine
 {
     public interface IComicVineProvider
     {
+        Task<Result<BookSearchResponse>> GetIssueDetails(string issueId);
+
         Task<Result<IEnumerable<BookSearchResponse>>> SearchForComic(string title);
     }
 }
