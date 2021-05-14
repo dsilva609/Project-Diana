@@ -66,7 +66,7 @@
     <None Include="Tables\0002-AspNetUserRoles-Create.sql" />
     <None Include="Tables\0003-AspNetUsers-Create.sql" />
     <None Include="Tables\0004-Albums-Create.sql" />
-    <None Include="Tables\0005-Books.Create.sql" />
+    <None Include="Tables\0005-Books-Create.sql" />
     <None Include="Tables\0006-Games-Create.sql" />
     <None Include="Tables\0007-Movies-Create.sql" />
     <None Include="Tables\0008-Pops-Create.sql" />

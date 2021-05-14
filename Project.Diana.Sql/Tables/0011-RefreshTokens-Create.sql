@@ -1,7 +1,12 @@
 ﻿SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
+
+USE [CinderellaCore]
+GO
+
 CREATE TABLE [dbo].[RefreshTokens](
 	[Id] [uniqueidentifier] NOT NULL,
 	[CreatedOn] [datetimeoffset](7) NOT NULL,

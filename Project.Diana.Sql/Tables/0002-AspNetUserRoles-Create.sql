@@ -5,10 +5,13 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+USE [CinderellaCore]
+GO
+
 CREATE TABLE [dbo].[AspNetUserRoles](
 	[UserId] [nvarchar](450) NOT NULL,
 	[RoleId] [nvarchar](450) NOT NULL,
- CONSTRAINT [PK_AspNetUserRoles] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_AspNetUserRoles] PRIMARY KEY CLUSTERED
 (
 	[UserId] ASC,
 	[RoleId] ASC
@@ -31,5 +34,3 @@ GO
 
 ALTER TABLE [dbo].[AspNetUserRoles] CHECK CONSTRAINT [FK_AspNetUserRoles_AspNetUsers_UserId]
 GO
-
-

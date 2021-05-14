@@ -5,6 +5,9 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+USE [CinderellaCore]
+GO
+
 CREATE TABLE [dbo].[Tracks](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[AlbumId] [int] NOT NULL,

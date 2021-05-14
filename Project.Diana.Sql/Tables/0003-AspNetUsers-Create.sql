@@ -5,6 +5,9 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+USE [CinderellaCore]
+GO
+
 CREATE TABLE [dbo].[AspNetUsers](
 	[Id] [nvarchar](450) NOT NULL,
 	[UserName] [nvarchar](256) NULL,
@@ -24,7 +27,7 @@ CREATE TABLE [dbo].[AspNetUsers](
 	[UserNum] [int] NOT NULL,
 	[EnableImport] [bit] NOT NULL,
 	[DisplayName] [nvarchar](max) NULL,
- CONSTRAINT [PK_AspNetUsers] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_AspNetUsers] PRIMARY KEY CLUSTERED
 (
 	[Id] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
@@ -36,5 +39,3 @@ GO
 
 ALTER TABLE [dbo].[AspNetUsers] ADD  DEFAULT ((0)) FOR [EnableImport]
 GO
-
-

@@ -5,6 +5,9 @@ GO
 SET QUOTED_IdENTIFIER ON
 GO
 
+USE [CinderellaCore]
+GO
+
 CREATE TABLE [dbo].[Wishes](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](max) NOT NULL,
