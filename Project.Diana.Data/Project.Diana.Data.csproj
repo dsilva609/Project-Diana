@@ -8,8 +8,8 @@
     <PackageReference Include="Ardalis.GuardClauses" Version="3.2.0" />
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="CSharpFunctionalExtensions" Version="2.15.3" />
-    <PackageReference Include="FluentValidation" Version="10.2.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.6" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="5.0.6" />
+    <PackageReference Include="FluentValidation" Version="10.2.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="5.0.7" />
   </ItemGroup>
 </Project>
